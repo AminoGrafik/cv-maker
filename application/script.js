@@ -72,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
     };
 
+    // --- ALL 'generate...' HELPER FUNCTIONS (FULL CODE) ---
     const generateHeader = (personal) => {
         const username = personal.linkedin.trim();
         let linkedInHtml = username ? `<a href="https://www.linkedin.com/in/${username}" target="_blank" rel="noopener noreferrer">in/${username}</a>` : '';
@@ -83,22 +84,14 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const generateWorkExperience = exps => generateSection('Work Experience', exps.map(exp => `<div class="cv-item"><div class="cv-item-header"><span class="cv-item-title">${exp.title}</span><span class="cv-item-date">${exp.date}</span></div><div class="cv-item-company">${exp.company}</div><div class="cv-item-description">${exp.description}</div></div>`).join(''));
     
-    // UPDATED: generateProjects function
     const generateProjects = projs => generateSection('Projects', projs.map(proj => {
         let projectLink = '';
         if (proj.link) {
             const trimmedLink = proj.link.trim();
-            // Automatically add protocol if missing for a valid external link
             const fullUrl = trimmedLink.startsWith('http') ? trimmedLink : `//${trimmedLink}`;
             projectLink = `<a href="${fullUrl}" target="_blank" rel="noopener noreferrer" class="cv-item-date">View Project</a>`;
         }
-        return `<div class="cv-item">
-                    <div class="cv-item-header">
-                        <span class="cv-item-title">${proj.name}</span>
-                        ${projectLink}
-                    </div>
-                    <div class="cv-item-description">${proj.description}</div>
-                </div>`;
+        return `<div class="cv-item"><div class="cv-item-header"><span class="cv-item-title">${proj.name}</span>${projectLink}</div><div class="cv-item-description">${proj.description}</div></div>`;
     }).join(''));
 
     const generateEducation = edus => generateSection('Education', edus.map(edu => `<div class="cv-item"><div class="cv-item-header"><span class="cv-item-title">${edu.degree}</span><span class="cv-item-date">${edu.date}</span></div><div class="cv-item-company">${edu.institution}</div></div>`).join(''));
@@ -134,7 +127,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 break;
             case 'projects':
                 count = ++projectsCount; headerText = `Project ${count}`;
-                // UPDATED: Input type is now 'text' for more flexibility
                 fields = `<input type="text" placeholder="Project Name" class="proj-name"><input type="text" placeholder="Project Link (e.g., myproject.com)" class="proj-link">${createTrixEditor(`proj-desc-${count}`, 'proj-description')}`;
                 break;
             case 'education':
@@ -174,14 +166,64 @@ document.addEventListener('DOMContentLoaded', function() {
         generateCV();
     };
     
-    const debouncedGenerateCV = debounce(generateCV, 300);
-    
-    // --- PDF EXPORT, NOTIFICATIONS, OTHER FUNCTIONS ---
-    // (These are all correct and unchanged)
-    const downloadPdf = () => { /* ... */ };
-    const showNotification = (message, type) => { /* ... */ };
+    // --- PDF EXPORT (FULL CODE) ---
+    const downloadPdf = () => {
+        const { jsPDF } = window.jspdf;
+        const cvElement = document.getElementById('cvPreview');
+        const fullName = document.getElementById('fullName').value || 'cv';
+        
+        showNotification('Generating PDF...', 'info');
+
+        const options = {
+            scale: 1.5,
+            logging: false,
+            useCORS: true,
+            scrollX: -window.scrollX,
+            scrollY: -window.scrollY,
+            windowWidth: document.documentElement.offsetWidth,
+            windowHeight: document.documentElement.offsetHeight
+        };
+
+        html2canvas(cvElement, options).then(canvas => {
+            const imgData = canvas.toDataURL('image/jpeg', 0.95);
+            const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+            
+            const margins = { top: 15, bottom: 15, left: 15, right: 15 };
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const contentWidth = pdfWidth - margins.left - margins.right;
+            const scaledImgHeight = canvas.height * contentWidth / canvas.width;
+            let heightLeft = scaledImgHeight;
+            let position = 0;
+
+            pdf.addImage(imgData, 'JPEG', margins.left, margins.top, contentWidth, scaledImgHeight);
+            heightLeft -= (pdf.internal.pageSize.getHeight() - margins.top - margins.bottom);
+            
+            while (heightLeft > 0) {
+                position = heightLeft - scaledImgHeight;
+                pdf.addPage();
+                pdf.addImage(imgData, 'JPEG', margins.left, position + margins.top, contentWidth, scaledImgHeight);
+                heightLeft -= (pdf.internal.pageSize.getHeight() - margins.top - margins.bottom);
+            }
+
+            pdf.save(`${fullName.replace(/\s/g, '_')}_CV.pdf`);
+        }).catch(err => {
+            showNotification('Error generating PDF.', 'error');
+            console.error(err);
+        });
+    };
+
+    // --- NOTIFICATIONS (FULL CODE) ---
+    const showNotification = (message, type) => {
+        const notification = document.createElement('div');
+        notification.style.cssText = `position:fixed; top:20px; right:20px; padding:15px; border-radius:8px; color:white; z-index:1001; background-color:${type === 'info' ? '#3498db' : type === 'error' ? '#e74c3c' : '#27ae60'};`;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 3000);
+    };
 
     // --- EVENT LISTENERS ---
+    const debouncedGenerateCV = debounce(generateCV, 300);
+
     document.querySelectorAll('.editor-panel input, .editor-panel textarea, .editor-panel trix-editor').forEach(el => {
         el.addEventListener('input', debouncedGenerateCV);
     });
