@@ -5,8 +5,6 @@ document.addEventListener('DOMContentLoaded', function() {
         publicationsCount = 0, volunteerCount = 0;
 
     // --- NEW: Debounce Utility ---
-    // This function prevents a function from running too often.
-    // It will wait for the user to stop typing for 300ms before updating the preview.
     const debounce = (func, delay) => {
         let timeoutId;
         return (...args) => {
@@ -17,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     };
 
-    // --- DATA COLLECTION --- (Unchanged)
+    // --- DATA COLLECTION ---
     const collectData = () => ({
         personal: {
             fullName: document.getElementById('fullName').value,
@@ -60,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })),
     });
 
-    // --- CV PREVIEW GENERATION --- (Unchanged)
+    // --- CV PREVIEW GENERATION ---
     const generateCV = () => {
         const data = collectData();
         const preview = document.getElementById('cvPreview');
@@ -78,21 +76,22 @@ document.addEventListener('DOMContentLoaded', function() {
             ${data.skills ? generateSkills(data.skills) : ''}
         `;
     };
+    
+    // All 'generate...' functions for the preview pane
+    const generateHeader = (personal) => { /* ... unchanged ... */ };
+    const generateSection = (title, content) => { /* ... unchanged ... */ };
+    const generateWorkExperience = (exps) => { /* ... unchanged ... */ };
+    const generateProjects = (projs) => { /* ... unchanged ... */ };
+    const generateEducation = (edus) => { /* ... unchanged ... */ };
+    const generateAwards = (awds) => { /* ... unchanged ... */ };
+    const generatePublications = (pubs) => { /* ... unchanged ... */ };
+    const generateVolunteer = (vols) => { /* ... unchanged ... */ };
+    const generateCertifications = (certs) => { /* ... unchanged ... */ };
+    const generateLanguages = (langs) => { /* ... unchanged ... */ };
+    const generateSkills = (skills) => { /* ... unchanged ... */ };
 
-    // --- All 'generate...' functions are unchanged ---
-    const generateHeader = (personal) => { /* ... */ };
-    const generateSection = (title, content) => { /* ... */ };
-    const generateWorkExperience = exps => { /* ... */ };
-    const generateProjects = projs => { /* ... */ };
-    const generateEducation = edus => { /* ... */ };
-    const generateAwards = awds => { /* ... */ };
-    const generatePublications = pubs => { /* ... */ };
-    const generateVolunteer = vols => { /* ... */ };
-    const generateCertifications = certs => { /* ... */ };
-    const generateLanguages = langs => { /* ... */ };
-    const generateSkills = skills => { /* ... */ };
 
-    // --- DYNAMIC SECTION MANAGEMENT ---
+    // --- DYNAMIC SECTION MANAGEMENT (THIS IS THE FIX) ---
     const addSection = (type) => {
         const container = document.getElementById(type);
         const div = document.createElement('div');
@@ -101,20 +100,50 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const createTrixEditor = (id, inputClass) => `<input id="${id}" type="hidden" class="${inputClass}"><trix-editor input="${id}" class="trix-content"></trix-editor>`;
 
+        // THIS LOGIC WAS MISSING AND HAS BEEN RESTORED
         switch(type) {
-            // ... cases for all section types (unchanged)
+            case 'workExperience':
+                count = ++workExperienceCount; headerText = `Experience ${count}`;
+                fields = `<input type="text" placeholder="Job Title" class="work-title"><input type="text" placeholder="Company" class="work-company"><input type="text" placeholder="Date" class="work-date">${createTrixEditor(`work-desc-${count}`, 'work-description')}`;
+                break;
+            case 'projects':
+                count = ++projectsCount; headerText = `Project ${count}`;
+                fields = `<input type="text" placeholder="Project Name" class="proj-name"><input type="url" placeholder="Project Link" class="proj-link">${createTrixEditor(`proj-desc-${count}`, 'proj-description')}`;
+                break;
+            case 'education':
+                count = ++educationCount; headerText = `Education ${count}`;
+                fields = `<input type="text" placeholder="Degree" class="edu-degree"><input type="text" placeholder="Institution" class="edu-institution"><input type="text" placeholder="Date" class="edu-date">`;
+                break;
+            case 'awards':
+                count = ++awardsCount; headerText = `Award ${count}`;
+                fields = `<input type="text" placeholder="Award Name (e.g., Dean's List)" class="award-name"><input type="text" placeholder="Date" class="award-date">`;
+                break;
+            case 'publications':
+                count = ++publicationsCount; headerText = `Publication ${count}`;
+                fields = `<input type="text" placeholder="Title of Publication" class="pub-title"><input type="text" placeholder="Journal or Conference" class="pub-journal"><input type="text" placeholder="Date" class="pub-date">`;
+                break;
+            case 'volunteer':
+                count = ++volunteerCount; headerText = `Volunteer Role ${count}`;
+                fields = `<input type="text" placeholder="Role (e.g., Event Coordinator)" class="vol-role"><input type="text" placeholder="Organization" class="vol-org"><input type="text" placeholder="Date" class="vol-date">${createTrixEditor(`vol-desc-${count}`, 'vol-description')}`;
+                break;
+            case 'certifications':
+                count = ++certificationCount; headerText = `Certification ${count}`;
+                fields = `<input type="text" placeholder="Certification Name" class="cert-name"><input type="text" placeholder="Issuing Organization" class="cert-org"><input type="text" placeholder="Date" class="cert-date">`;
+                break;
+            case 'languages':
+                count = ++languagesCount; headerText = `Language ${count}`;
+                fields = `<input type="text" placeholder="Language" class="lang-name"><input type="text" placeholder="Proficiency (e.g., Native)" class="lang-prof">`;
+                break;
         }
 
         div.innerHTML = `<div class="section-header"><h4>${headerText}</h4><button class="btn btn-danger btn-sm remove-btn">Remove</button></div>${fields}`;
         div.querySelector('.remove-btn').onclick = () => { div.remove(); generateCV(); };
         container.appendChild(div);
         
-        // UPDATED: Apply the debounce function to the new fields
         div.querySelectorAll('input:not([type=hidden]), trix-editor').forEach(el => {
             el.addEventListener('input', debounce(generateCV, 300));
         });
         
-        // We still call generateCV once immediately to show the new empty section
         generateCV();
     };
     
@@ -124,15 +153,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- NOTIFICATIONS --- (Unchanged)
     const showNotification = (message, type) => { /* ... */ };
 
-    // --- EVENT LISTENERS (THIS IS THE FIX) ---
+    // --- EVENT LISTENERS ---
     const debouncedGenerateCV = debounce(generateCV, 300);
 
-    // UPDATED: Apply the debounce function to all existing fields
     document.querySelectorAll('.editor-panel input, .editor-panel textarea, .editor-panel trix-editor').forEach(el => {
         el.addEventListener('input', debouncedGenerateCV);
     });
     
-    // The "Add" buttons still work instantly, only the typing is debounced.
     document.getElementById('addWorkExperienceBtn').addEventListener('click', () => addSection('workExperience'));
     document.getElementById('addProjectBtn').addEventListener('click', () => addSection('projects'));
     document.getElementById('addEducationBtn').addEventListener('click', () => addSection('education'));
