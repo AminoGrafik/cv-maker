@@ -8,88 +8,64 @@
     --primary-accent: #2563eb;
     --primary-accent-hover: #1d4ed8;
 }
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
+* { margin: 0; padding: 0; box-sizing: border-box; }
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background-color: var(--bg-color);
     color: var(--text-primary);
-    overflow: hidden;
+    overflow-y: auto;
 }
 
 /* --- Main Layout --- */
-.main-container {
-    display: flex;
-    gap: 32px;
-    padding: 32px;
-    height: 100vh;
-}
-
+.main-container { display: flex; gap: 32px; padding: 32px; height: 100vh; }
 .editor-panel {
-    /* UPDATED: Adjusted flex-basis */
-    flex: 0 0 55%;
+    flex: 0 0 50%; /* UPDATED: Reduced width */
     overflow-y: auto;
     padding-right: 24px;
 }
-
 .preview-panel {
-    /* UPDATED: Adjusted flex-basis */
-    flex: 0 0 45%;
+    flex: 0 0 50%; /* UPDATED: Increased width */
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-/* --- CV Preview --- */
+/* --- CV Preview Scaling --- */
 .cv-preview-container {
     width: 100%;
-    max-width: 500px;
+    flex-grow: 1; /* Allow container to take available space */
     display: flex;
     justify-content: center;
     align-items: flex-start;
     overflow: hidden;
-    flex-grow: 1;
+    padding-top: 2rem;
 }
-
 .cv-preview {
-    /* UPDATED: This now uses transform to scale down a full-size A4-like preview */
     background-color: var(--panel-bg);
     width: 210mm; /* A4 width */
     min-height: 297mm; /* A4 height */
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
     border: 1px solid var(--border-color);
     transform-origin: top center;
-    transform: scale(0.65); /* Adjust this scale to fit your screen */
-    margin-top: -3cm; /* Adjust margin to compensate for scaling */
-    
-    /* The rest of the styling for content inside the preview */
+    transform: scale(0.6); /* UPDATED: Adjusted scale for better view */
+    transition: transform 0.3s ease;
     font-family: 'Times New Roman', serif;
     color: #111827;
     padding: 2.5cm 2cm;
     line-height: 1.5;
 }
-
-.preview-actions {
-    margin-top: 24px;
-    flex-shrink: 0;
-}
+.preview-actions { margin-top: 24px; flex-shrink: 0; }
 
 /* --- Editor Panel Components --- */
 .form-section { margin-bottom: 48px; }
 .section-header { margin-bottom: 24px; }
-.section-header h2 { font-size: 24px; font-weight: 600; text-transform: uppercase; margin-bottom: 4px; }
+.section-header h2 { font-size: 20px; font-weight: 600; text-transform: uppercase; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
 .section-subtitle { font-size: 14px; color: var(--text-secondary); }
 
-/* --- Dynamic Form Cards --- */
+/* --- Form Cards --- */
 .form-card { background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 16px; overflow: hidden; }
-.form-card-header { display: flex; align-items: center; padding: 12px 16px; cursor: pointer; background-color: var(--panel-bg); transition: background-color 0.2s; }
+.form-card-header { display: flex; align-items: center; padding: 12px 16px; cursor: pointer; background-color: var(--panel-bg); }
 .form-card-header:hover { background-color: #f9fafb; }
-.form-card-header .icon { margin-right: 12px; color: var(--text-secondary); flex-shrink: 0; }
 .form-card-header .title { font-weight: 500; flex-grow: 1; color: var(--text-primary); }
 .form-card-header .chevron { transition: transform 0.2s ease-in-out; margin-left: auto; }
 .form-card.is-open .chevron { transform: rotate(180deg); }
@@ -100,25 +76,39 @@ body {
 /* --- Form Fields --- */
 .form-group label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 6px; }
 input[type="text"], input[type="email"], input[type="tel"] { width: 100%; padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 14px; }
-input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus { outline: 2px solid var(--primary-accent); border-color: var(--primary-accent); }
+input:focus { outline: 2px solid var(--primary-accent); border-color: var(--primary-accent); }
+
+/* --- Trix Editor Customization --- */
+.trix-editor-wrapper { position: relative; }
+trix-toolbar {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(5px);
+    border-radius: 99px;
+    border: 1px solid var(--border-color);
+    z-index: 10;
+}
+trix-toolbar .trix-button-group { border: none; }
+trix-toolbar .trix-button { border: none; border-radius: 99px; }
+trix-editor { border: 1px solid var(--border-color); border-radius: 6px; padding: 8px 12px; min-height: 150px; padding-top: 60px; }
+trix-editor:focus { outline: 2px solid var(--primary-accent); border-color: var(--primary-accent); }
+trix-toolbar .trix-button--icon-strike, trix-toolbar .trix-button--icon-link, trix-toolbar .trix-button--icon-heading-1, trix-toolbar .trix-button--icon-quote, trix-toolbar .trix-button--icon-code, trix-toolbar .trix-button-group--history-tools, trix-toolbar .trix-button-group--file-tools { display: none; }
 
 /* --- Buttons --- */
 .btn-add-section { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; color: var(--primary-accent); background: none; border: none; cursor: pointer; padding: 8px; border-radius: 6px; }
 .btn-add-section:hover { background-color: #e0e7ff; }
-.btn-primary { padding: 10px 20px; border: 1px solid; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: background-color 0.2s, color 0.2s; background-color: var(--primary-accent); border-color: var(--primary-accent); color: white; }
+.btn-primary { padding: 10px 20px; border: 1px solid; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; background-color: var(--primary-accent); border-color: var(--primary-accent); color: white; }
 .btn-primary:hover { background-color: var(--primary-accent-hover); }
 
-/* --- Trix Editor --- */
-trix-toolbar .trix-button-group { border-top-color: var(--border-color); border-bottom-color: var(--border-color); }
-trix-editor { border: 1px solid var(--border-color); border-radius: 6px; padding: 8px 12px; min-height: 120px; }
-trix-editor:focus { outline: 2px solid var(--primary-accent); border-color: var(--primary-accent); }
-trix-toolbar .trix-button--icon-strike, trix-toolbar .trix-button--icon-link, trix-toolbar .trix-button--icon-heading-1, trix-toolbar .trix-button--icon-quote, trix-toolbar .trix-button--icon-code, trix-toolbar .trix-button-group--history-tools, trix-toolbar .trix-button-group--file-tools { display: none; }
-
 /* --- Final ATS-Friendly CV Preview Styles --- */
+/* (This section remains to ensure the structure is correct) */
 .cv-preview .cv-header { text-align: center; margin-bottom: 1cm; padding-bottom: 0.5cm; border-bottom: 1px solid #333; }
-.cv-preview .cv-name { font-size: 2.2em; font-weight: bold; margin-bottom: 4px; }
-.cv-preview .cv-title { font-size: 1.3em; color: var(--text-secondary); margin-bottom: 8px; }
-.cv-preview .cv-contact { font-size: 0.95em; }
+.cv-preview .cv-name { font-size: 1.8em; font-weight: bold; }
+.cv-preview .cv-title { font-size: 1.1em; color: var(--text-secondary); margin-bottom: 8px; }
+.cv-preview .cv-contact { font-size: 0.9em; }
 .cv-preview .cv-section { margin-bottom: 0.8cm; }
 .cv-preview .cv-section-title { font-size: 1.1em; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #ccc; padding-bottom: 2px; margin-bottom: 0.5cm; }
 .cv-preview .cv-item { margin-bottom: 0.6cm; }
@@ -128,3 +118,14 @@ trix-toolbar .trix-button--icon-strike, trix-toolbar .trix-button--icon-link, tr
 .cv-preview .cv-item-description ul, .cv-preview .cv-item-description ol { margin-left: 5mm; padding-left: 5mm; }
 .cv-preview .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
 .cv-preview .skill-item { background-color: #f3f4f6; padding: 4px 8px; border-radius: 4px; text-align: center; font-size: 0.9em; }
+
+/* --- Mobile Friendliness --- */
+@media (max-width: 1024px) {
+    body { overflow-y: auto; }
+    .main-container { flex-direction: column; height: auto; padding: 16px; }
+    .editor-panel { order: 2; padding-right: 0; }
+    .preview-panel { order: 1; }
+    .cv-preview-container { max-width: 100%; }
+    .cv-preview { transform: scale(1); min-height: 0; height: auto; aspect-ratio: 210 / 297; }
+    .form-card-grid-2 { grid-template-columns: 1fr; }
+}
