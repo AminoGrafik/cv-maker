@@ -1,4 +1,14 @@
-/* Reset and Base Styles */
+/* --- Global Styles & Resets --- */
+:root {
+    --bg-color: #f3f4f6;
+    --panel-bg: #ffffff;
+    --border-color: #e5e7eb;
+    --text-primary: #111827;
+    --text-secondary: #6b7280;
+    --primary-accent: #2563eb;
+    --primary-accent-hover: #1d4ed8;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -6,239 +16,192 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #222222;
-    min-height: 100vh;
-    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    background-color: var(--bg-color);
+    color: var(--text-primary);
 }
 
-/* Layout */
-.container {
-    max-width: 1400px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 450px 1fr;
-    gap: 20px;
-    height: calc(100vh - 40px);
+/* --- Main Layout --- */
+.main-container {
+    display: flex;
+    gap: 32px;
+    padding: 32px;
 }
 
-/* Editor & Preview Panels */
-.editor-panel, .preview-panel {
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+.editor-panel {
+    flex-basis: 60%;
+    overflow-y: auto;
+}
+
+.preview-panel {
+    flex-basis: 40%;
     display: flex;
     flex-direction: column;
-}
-.editor-panel {
-    padding: 25px;
-    overflow-y: auto;
-}
-.preview-panel {
-    padding: 0;
-    overflow: hidden;
-}
-.preview-header {
-    background: #f8f9fa;
-    padding: 15px 25px;
-    border-bottom: 1px solid #e9ecef;
-    text-align: center;
-    flex-shrink: 0;
-}
-.preview-content {
-    flex-grow: 1;
-    overflow-y: auto;
-    padding: 25px;
+    align-items: center;
 }
 
-/* Typography */
-h2 {
-    color: #333;
-    font-size: 1.4em;
-    padding-bottom: 8px;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #667eea;
+.cv-preview {
+    background-color: var(--panel-bg);
+    width: 100%;
+    max-width: 450px; /* A4-like aspect ratio */
+    aspect-ratio: 210 / 297;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    border: 1px solid var(--border-color);
+    transform-origin: top center;
+    transition: transform 0.3s ease;
+    overflow: hidden; /* To simulate paper */
 }
-h3 {
-    color: #555;
-    font-size: 1.1em;
-    margin-bottom: 15px;
+.cv-preview:hover {
+    transform: scale(1.02);
+}
+
+.preview-actions {
+    margin-top: 24px;
+    display: flex;
+    gap: 16px;
+}
+
+/* --- Editor Panel Components --- */
+.form-section {
+    margin-bottom: 48px;
+}
+
+.section-header h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.section-subtitle {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+}
+
+/* --- Dynamic Form Cards (New) --- */
+.form-card {
+    background-color: var(--panel-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    margin-bottom: 16px;
+    overflow: hidden;
+}
+
+.form-card-header {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    cursor: pointer;
+    background-color: var(--panel-bg);
+}
+.form-card-header:hover {
+    background-color: #f9fafb;
+}
+.form-card-header .icon {
+    margin-right: 12px;
+    color: var(--text-secondary);
+}
+.form-card-header .title {
+    font-weight: 500;
+    flex-grow: 1;
+}
+.form-card-header .date-range {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-right: 12px;
+}
+.form-card-header .chevron {
+    transition: transform 0.2s ease-in-out;
+}
+.form-card.is-open .chevron {
+    transform: rotate(180deg);
+}
+
+.form-card-body {
+    padding: 16px;
+    border-top: 1px solid var(--border-color);
+    display: grid;
+    gap: 16px;
+}
+.form-card.is-closed .form-card-body {
+    display: none;
+}
+.form-card-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+/* --- Form Fields --- */
+label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+input[type="text"], input[type="email"], input[type="tel"] {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: var(--bg-color);
+}
+input[type="text"]:focus {
+    outline: 2px solid var(--primary-accent);
+    border-color: var(--primary-accent);
+}
+
+/* Trix Editor */
+trix-editor {
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+}
+
+/* --- Buttons --- */
+.btn-add-section {
     display: flex;
     align-items: center;
     gap: 8px;
-}
-h4 {
-    color: #666;
-    font-size: 1em;
-}
-
-/* Form Elements */
-.form-group { margin-bottom: 20px; }
-label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 600;
-    color: #555;
-}
-input, textarea {
-    width: 100%;
-    padding: 12px;
-    border: 2px solid #e9ecef;
-    border-radius: 8px;
     font-size: 14px;
-    transition: all 0.3s ease;
-    margin-bottom: 10px;
-}
-input:focus, textarea:focus {
-    outline: none;
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-}
-input:invalid { border-color: #dc3545; }
-textarea { resize: vertical; min-height: 80px; font-family: inherit; }
-
-/* Trix Editor Styles */
-trix-editor {
-    background-color: white;
-    border-radius: 8px;
-    border: 2px solid #e9ecef;
-    padding: 12px;
-    min-height: 150px;
-    margin-bottom: 10px;
-    width: 100%;
-}
-trix-editor:focus-within {
-    outline: none;
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-}
-
-/* Buttons */
-.btn {
-    background: #222222;
-    color: white;
-    border: 2px solid transparent;
-    padding: 12px 25px;
-    border-radius: 8px;
+    font-weight: 500;
+    color: var(--primary-accent);
+    background: none;
+    border: none;
     cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    font-size: 14px;
+    padding: 8px;
 }
-.btn:hover {
-    transform: translateY(-2px);
-    border-color: white;
+.btn-primary, .btn-secondary {
+    padding: 10px 20px;
+    border: 1px solid;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+.btn-primary {
+    background-color: var(--primary-accent);
+    border-color: var(--primary-accent);
+    color: white;
+}
+.btn-primary:hover {
+    background-color: var(--primary-accent-hover);
 }
 .btn-secondary {
-    background: #222222;
-    border: 2px solid #6c757d;
+    background-color: var(--panel-bg);
+    border-color: var(--border-color);
+    color: var(--text-primary);
 }
-.btn-secondary:hover { border-color: white; }
-.btn-danger { background: #dc3545; border-color: #dc3545; }
-.btn-sm { padding: 5px 10px; font-size: 12px; }
-
-/* Print Instruction Note */
-.print-instruction {
-    font-size: 12px;
-    color: #6c757d;
-    margin-top: 15px;
+.btn-secondary:hover {
+    background-color: var(--bg-color);
 }
 
-/* Dynamic Sections */
-.dynamic-section {
-    border: 1px solid #e9ecef;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 15px;
-    background: #f8f9fa;
-}
-.section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
-.section-header h3 {
-    margin-bottom: 0; 
-}
-
-/* CV Preview Styles */
-.cv-preview { font-family: 'Times New Roman', serif; line-height: 1.6; color: #333; background: white; }
-.cv-header { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #333; }
-.cv-name { font-size: 2.2em; font-weight: bold; color: #2c3e50; margin-bottom: 10px; }
-.cv-title { font-size: 1.3em; color: #7f8c8d; margin-bottom: 15px; }
-.cv-contact { font-size: 0.95em; }
-.cv-section { margin-bottom: 35px; page-break-inside: avoid; }
-.cv-section-title { font-size: 1.2em; font-weight: bold; color: #2c3e50; border-bottom: 1px solid #bdc3c7; padding-bottom: 5px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
-.cv-item { margin-bottom: 15px; page-break-inside: avoid; }
-.cv-item-header { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 5px; }
-.cv-item-title { color: #2c3e50; }
-.cv-item-date { color: #7f8c8d; font-style: italic; font-size: 0.9em; }
-.cv-item-company { color: #3498db; margin-bottom: 5px; font-weight: 500; }
-.cv-item-description { color: #555; font-size: 0.95em; }
-.cv-item-description ul, .cv-item-description ol { margin-left: 20px; padding-left: 5px; }
-.cv-item-description strong { font-weight: bold; }
-.cv-item-description em { font-style: italic; }
-
-/* Skills Grid */
-.skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
-.skill-item { background: #ecf0f1; padding: 8px 12px; border-radius: 4px; text-align: center; font-size: 0.9em; color: #2c3e50; }
-
-/* Responsive */
-@media (max-width: 1024px) { .container { grid-template-columns: 1fr; height: auto; } }
-
-/* --- CORRECTED PRINT STYLES --- */
-@media print {
-    /* Hide the entire editor panel */
-    .editor-panel {
-        display: none;
-    }
-    
-    /* Make the preview panel take up the full screen */
-    .container {
-        display: block !important;
-        grid-template-columns: 1fr !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        padding: 0 !important;
-        margin: 0 !important;
-    }
-    
-    .preview-panel {
-        width: 100% !important;
-        height: auto !important;
-        box-shadow: none !important;
-        border: none !important;
-        margin: 0 !important;
-    }
-
-    /* Hide the preview header */
-    .preview-header {
-        display: none !important;
-    }
-
-    /* Ensure the content uses all available space */
-    .preview-content {
-        padding: 0 !important;
-    }
-
-    /* Set a clean background for printing */
-    body {
-        background: white !important;
-    }
-}
-
-/* Trix Editor Toolbar Customizations */
-trix-toolbar .trix-button--icon-strike,
-trix-toolbar .trix-button--icon-link,
-trix-toolbar .trix-button--icon-heading-1,
-trix-toolbar .trix-button--icon-quote,
-trix-toolbar .trix-button--icon-code,
-trix-toolbar .trix-button-group--history-tools,
-trix-toolbar .trix-button-group--file-tools,
-trix-toolbar .trix-button--icon-decrease-nesting-level,
-trix-toolbar .trix-button--icon-increase-nesting-level {
-    display: none;
+/* --- CV Preview Pane --- */
+/* (We will style this later to match the new design) */
+.cv-preview {
+    padding: 24px;
+    /* ... existing styles for now ... */
 }
