@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const debouncedGenerateCV = debounce(generateCV, 300);
     
-    // --- PDF EXPORT (REWRITTEN WITH 'SLICING' METHOD) ---
+    // --- PDF EXPORT (REWRITTEN TO FIX BUGS) ---
     const downloadPdf = () => {
         const { jsPDF } = window.jspdf;
         const cvElement = document.getElementById('cvPreview');
@@ -176,12 +176,12 @@ document.addEventListener('DOMContentLoaded', function() {
         showNotification('Generating PDF...', 'info');
 
         const options = {
-            scale: 2, // Use a higher scale for better quality source image
+            scale: 2,
             logging: false,
             useCORS: true,
         };
 
-        html2canvas(cvElement, options).then(canvas => {
+        html2canvas(cvElement, options).then(sourceCanvas => {
             const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
             
             const margins = { top: 15, bottom: 15, left: 15, right: 15 };
@@ -190,27 +190,38 @@ document.addEventListener('DOMContentLoaded', function() {
             const contentWidth = pdfWidth - margins.left - margins.right;
             const contentHeight = pdfHeight - margins.top - margins.bottom;
 
-            const totalCanvasHeight = canvas.height;
-            const totalPdfHeight = (totalCanvasHeight * contentWidth) / canvas.width;
+            const canvasWidth = sourceCanvas.width;
+            const canvasHeight = sourceCanvas.height;
+            const totalPdfHeight = (canvasHeight * contentWidth) / canvasWidth;
 
-            let position = 0;
-            while (position < totalPdfHeight) {
-                const sliceHeightCanvas = (contentHeight * canvas.width) / contentWidth;
+            let currentPdfHeight = 0;
+            let page = 1;
+
+            while (currentPdfHeight < totalPdfHeight) {
+                const sliceY = (currentPdfHeight * canvasWidth) / contentWidth;
+                // THIS IS THE FIX: Calculate the height of the slice, ensuring it doesn't go past the end of the canvas
+                const sliceHeight = Math.min(canvasHeight - sliceY, (contentHeight * canvasWidth) / contentWidth);
+                
+                if (sliceHeight <= 0) break;
+
                 const tempCanvas = document.createElement('canvas');
-                tempCanvas.width = canvas.width;
-                tempCanvas.height = sliceHeightCanvas;
+                tempCanvas.width = canvasWidth;
+                tempCanvas.height = sliceHeight;
                 const tempCtx = tempCanvas.getContext('2d');
                 
-                const sourceY = (position * canvas.width) / contentWidth;
-                tempCtx.drawImage(canvas, 0, sourceY, canvas.width, sliceHeightCanvas, 0, 0, canvas.width, sliceHeightCanvas);
+                tempCtx.drawImage(sourceCanvas, 0, sliceY, canvasWidth, sliceHeight, 0, 0, canvasWidth, sliceHeight);
                 
                 const imgData = tempCanvas.toDataURL('image/jpeg', 0.95);
                 
-                if (position > 0) {
+                if (page > 1) {
                     pdf.addPage();
                 }
-                pdf.addImage(imgData, 'JPEG', margins.left, margins.top, contentWidth, contentHeight);
-                position += contentHeight;
+                
+                const slicePdfHeight = (sliceHeight * contentWidth) / canvasWidth;
+                pdf.addImage(imgData, 'JPEG', margins.left, margins.top, contentWidth, slicePdfHeight);
+                
+                currentPdfHeight += contentHeight;
+                page++;
             }
 
             pdf.save(`${fullName.replace(/\s/g, '_')}_CV.pdf`);
