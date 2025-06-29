@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const formatDescription = desc => `<ul>${desc.split('\n').filter(Boolean).map(line => `<li>${line.trim().replace(/^-|^\*|^\•/, '').trim()}</li>`).join('')}</ul>`;
 
-    // --- DYNAMIC SECTION MANAGEMENT (CORRECTED) ---
+    // --- DYNAMIC SECTION MANAGEMENT ---
     const addSection = (type) => {
         const container = document.getElementById(type);
         const div = document.createElement('div');
@@ -130,7 +130,6 @@ document.addEventListener('DOMContentLoaded', function() {
                       <input type="text" placeholder="Date Obtained" class="cert-date">`;
         }
 
-        // This corrected structure separates the header from the fields.
         div.innerHTML = `
             <div class="section-header">
                 <h4>${headerText}</h4>
@@ -142,19 +141,24 @@ document.addEventListener('DOMContentLoaded', function() {
         div.querySelector('.remove-btn').onclick = () => { div.remove(); generateCV(); };
         container.appendChild(div);
         div.querySelectorAll('input, textarea').forEach(el => el.addEventListener('input', generateCV));
-        // Trigger a preview update after adding a new section
         generateCV();
     };
     
-    // --- PDF EXPORT ---
+    // --- PDF EXPORT (UPDATED) ---
     const downloadPdf = () => {
         const { jsPDF } = window.jspdf;
         const cvElement = document.getElementById('cvPreview');
         const fullName = document.getElementById('fullName').value || 'cv';
         
         showNotification('Generating PDF...', 'info');
+        
+        // Temporarily add padding class for export
+        cvElement.classList.add('pdf-export-padding');
 
         html2canvas(cvElement, { scale: 2, logging: false }).then(canvas => {
+            // Remove the padding class immediately after canvas is created
+            cvElement.classList.remove('pdf-export-padding');
+            
             const imgData = canvas.toDataURL('image/png');
             const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
             const pdfWidth = pdf.internal.pageSize.getWidth();
@@ -173,6 +177,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             pdf.save(`${fullName.replace(/\s/g, '_')}_CV.pdf`);
         }).catch(err => {
+            // Ensure class is removed even if there's an error
+            cvElement.classList.remove('pdf-export-padding');
             showNotification('Error generating PDF.', 'error');
             console.error(err);
         });
@@ -180,7 +186,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- NOTIFICATIONS ---
     const showNotification = (message, type) => {
-        // ... (function is unchanged)
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.style.cssText = `position:fixed; top:20px; right:20px; padding:15px; border-radius:8px; color:white; z-index:1001; background-color:${type === 'info' ? '#3498db' : type === 'error' ? '#e74c3c' : '#27ae60'};`;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 3000);
     };
 
     // --- EVENT LISTENERS ---
@@ -189,8 +200,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('addEducationBtn').addEventListener('click', () => addSection('education'));
     document.getElementById('addCertificationBtn').addEventListener('click', () => addSection('certifications'));
     document.getElementById('downloadPdfBtn').addEventListener('click', downloadPdf);
-    // (Save/Load functionality would be added here)
-
+    
     // --- INITIALIZATION ---
     generateCV();
 });
