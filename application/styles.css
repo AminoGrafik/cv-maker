@@ -4,15 +4,12 @@
     padding: 0;
     box-sizing: border-box;
 }
-
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    /* UPDATED BACKGROUND */
     background: #222222;
     min-height: 100vh;
     padding: 20px;
 }
-
 /* Layout */
 .container {
     max-width: 1400px;
@@ -22,8 +19,7 @@ body {
     gap: 20px;
     height: calc(100vh - 40px);
 }
-
-/* Editor & Preview Panels */
+/* Panels */
 .editor-panel, .preview-panel {
     background: white;
     border-radius: 15px;
@@ -51,7 +47,6 @@ body {
     overflow-y: auto;
     padding: 25px;
 }
-
 /* Typography */
 h2 {
     color: #333;
@@ -69,11 +64,8 @@ h4 {
     color: #666;
     font-size: 1em;
 }
-
 /* Form Elements */
-.form-group {
-    margin-bottom: 20px;
-}
+.form-group { margin-bottom: 20px; }
 label {
     display: block;
     margin-bottom: 5px;
@@ -94,18 +86,32 @@ input:focus, textarea:focus {
     border-color: #667eea;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
-input:invalid {
-    border-color: #dc3545;
+input:invalid { border-color: #dc3545; }
+textarea { resize: vertical; min-height: 80px; font-family: inherit; }
+
+/* --- NEW: Trix Editor Styles --- */
+trix-editor {
+    background-color: white;
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    padding: 12px;
+    min-height: 150px;
+    margin-bottom: 10px;
+    width: 100%;
 }
-textarea {
-    resize: vertical;
-    min-height: 80px;
-    font-family: inherit;
+trix-editor:focus-within {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
+/* Hide the Trix "attach file" button */
+.trix-button--icon-attach {
+    display: none;
+}
+/* --- End of Trix Styles --- */
 
 /* Buttons */
 .btn {
-    /* UPDATED BUTTON BACKGROUND */
     background: #222222;
     color: white;
     border: 2px solid transparent;
@@ -119,26 +125,16 @@ textarea {
     font-size: 14px;
 }
 .btn:hover {
-    /* UPDATED HOVER EFFECT */
     transform: translateY(-2px);
     border-color: white;
 }
 .btn-secondary {
-    /* UPDATED SECONDARY BUTTON */
     background: #222222;
     border: 2px solid #6c757d;
 }
-.btn-secondary:hover {
-    border-color: white;
-}
-.btn-danger {
-    background: #dc3545;
-    border-color: #dc3545;
-}
-.btn-sm {
-    padding: 5px 10px;
-    font-size: 12px;
-}
+.btn-secondary:hover { border-color: white; }
+.btn-danger { background: #dc3545; border-color: #dc3545; }
+.btn-sm { padding: 5px 10px; font-size: 12px; }
 
 /* Dynamic Sections */
 .dynamic-section {
@@ -156,94 +152,27 @@ textarea {
 }
 
 /* CV Preview Styles */
-.cv-preview {
-    font-family: 'Times New Roman', serif;
-    line-height: 1.6;
-    color: #333;
-    background: white;
-}
-.cv-header {
-    text-align: center;
-    margin-bottom: 30px;
-    padding-bottom: 20px;
-    border-bottom: 2px solid #333;
-}
-.cv-name {
-    font-size: 2.2em;
-    font-weight: bold;
-    color: #2c3e50;
-    margin-bottom: 10px;
-}
-.cv-title {
-    font-size: 1.3em;
-    color: #7f8c8d;
-    margin-bottom: 15px;
-}
-.cv-contact {
-    font-size: 0.95em;
-}
-.cv-section {
-    margin-bottom: 25px;
-    page-break-inside: avoid;
-}
-.cv-section-title {
-    font-size: 1.2em;
-    font-weight: bold;
-    color: #2c3e50;
-    border-bottom: 1px solid #bdc3c7;
-    padding-bottom: 5px;
-    margin-bottom: 15px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-.cv-item {
-    margin-bottom: 15px;
-    page-break-inside: avoid;
-}
-.cv-item-header {
-    display: flex;
-    justify-content: space-between;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-.cv-item-title {
-    color: #2c3e50;
-}
-.cv-item-date {
-    color: #7f8c8d;
-    font-style: italic;
-    font-size: 0.9em;
-}
-.cv-item-company {
-    color: #3498db;
-    margin-bottom: 5px;
-    font-weight: 500;
-}
-.cv-item-description {
-    margin-left: 15px;
-    color: #555;
-    font-size: 0.95em;
-}
+.cv-preview { font-family: 'Times New Roman', serif; line-height: 1.6; color: #333; background: white; }
+.cv-header { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #333; }
+.cv-name { font-size: 2.2em; font-weight: bold; color: #2c3e50; margin-bottom: 10px; }
+.cv-title { font-size: 1.3em; color: #7f8c8d; margin-bottom: 15px; }
+.cv-contact { font-size: 0.95em; }
+.cv-section { margin-bottom: 25px; page-break-inside: avoid; }
+.cv-section-title { font-size: 1.2em; font-weight: bold; color: #2c3e50; border-bottom: 1px solid #bdc3c7; padding-bottom: 5px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+.cv-item { margin-bottom: 15px; page-break-inside: avoid; }
+.cv-item-header { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 5px; }
+.cv-item-title { color: #2c3e50; }
+.cv-item-date { color: #7f8c8d; font-style: italic; font-size: 0.9em; }
+.cv-item-company { color: #3498db; margin-bottom: 5px; font-weight: 500; }
+.cv-item-description { color: #555; font-size: 0.95em; }
+/* Rich text content needs to inherit list styles */
+.cv-item-description ul, .cv-item-description ol { margin-left: 20px; }
+.cv-item-description strong { font-weight: bold; }
+.cv-item-description em { font-style: italic; }
 
 /* Skills Grid */
-.skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 10px;
-}
-.skill-item {
-    background: #ecf0f1;
-    padding: 8px 12px;
-    border-radius: 4px;
-    text-align: center;
-    font-size: 0.9em;
-    color: #2c3e50;
-}
+.skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.skill-item { background: #ecf0f1; padding: 8px 12px; border-radius: 4px; text-align: center; font-size: 0.9em; color: #2c3e50; }
 
-/* Responsive Styles */
-@media (max-width: 1024px) {
-    .container {
-        grid-template-columns: 1fr;
-        height: auto;
-    }
-}
+/* Responsive */
+@media (max-width: 1024px) { .container { grid-template-columns: 1fr; height: auto; } }
