@@ -165,7 +165,7 @@ trix-toolbar .trix-button-group--file-tools {
     .form-card-grid-2 { grid-template-columns: 1fr; }
 }
 
-/* --- PRINT STYLES (RESTORED AND CORRECTED) --- */
+/* --- PRINT STYLES --- */
 @media print {
     /* Reset body and layout container for printing */
     body, .main-container {
