@@ -79,7 +79,8 @@ body {
 .form-section { 
     margin-bottom: 32px;
     padding-bottom: 32px;
-    border-bottom: 0.75px solid var(--border-color);
+    /* UPDATED: Changed the border color to #222222 */
+    border-bottom: 0.75px solid #222222;
 }
 .form-section:last-of-type {
     border-bottom: none;
@@ -155,7 +156,7 @@ trix-toolbar .trix-button-group--file-tools {
 .cv-preview .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
 .cv-preview .skill-item { background-color: #f3f4f6; padding: 4px 8px; border-radius: 4px; text-align: center; font-size: 0.9em; }
 
-/* --- Mobile Friendliness --- */
+/* --- Mobile Friendliness & Print --- */
 @media (max-width: 1024px) {
     body { overflow-y: auto; height: auto; }
     .main-container { flex-direction: column; height: auto; padding: 0; }
@@ -165,26 +166,12 @@ trix-toolbar .trix-button-group--file-tools {
     .form-card-grid-2 { grid-template-columns: 1fr; }
 }
 
-/* --- PRINT STYLES --- */
 @media print {
-    /* Reset body and layout container for printing */
-    body, .main-container {
-        padding: 0 !important;
-        margin: 0 !important;
-        background: #fff !important;
-        display: block !important;
-        height: auto !important;
-    }
-
-    /* Hide the editor panel and the preview's action buttons */
-    .editor-panel, .preview-actions {
-        display: none !important;
-    }
-
-    /* Ensure the preview panel and its contents take up the full page */
+    body, .main-container { display: block !important; height: auto !important; padding: 0 !important; margin: 0 !important; background: #fff !important; }
+    .editor-panel, .preview-actions { display: none !important; }
     .preview-panel, .cv-preview-container, .cv-preview {
         width: 100% !important;
-        max-width: none !important;
+        max-width: 100% !important;
         height: auto !important;
         flex: none !important;
         position: static !important;
@@ -192,7 +179,7 @@ trix-toolbar .trix-button-group--file-tools {
         margin: 0 !important;
         box-shadow: none !important;
         border: none !important;
-        transform: none !important; /* Reset the scale transform */
+        transform: none !important;
         overflow: visible !important;
     }
 }
