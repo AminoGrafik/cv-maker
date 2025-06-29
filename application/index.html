@@ -11,31 +11,33 @@
 </head>
 <body>
     <div class="container">
-        <!-- Editor Panel -->
         <div class="editor-panel">
             <h2>CV Builder</h2>
             
-            <!-- Personal Information -->
             <div class="form-group">
                 <h3>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
                     <span>Personal Information</span>
                 </h3>
                 <label for="fullName">Full Name</label>
-                <input type="text" id="fullName" placeholder="Enter your full name" required>
+                <input type="text" id="fullName" placeholder="Enter your full name">
+                
                 <label for="jobTitle">Job Title</label>
                 <input type="text" id="jobTitle" placeholder="e.g., Software Engineer">
+                
                 <label for="email">Email</label>
-                <input type="email" id="email" placeholder="your.email@example.com" required>
+                <input type="email" id="email" placeholder="your.email@example.com">
+                
                 <label for="phone">Phone</label>
                 <input type="tel" id="phone" placeholder="+1 (555) 123-4567">
+                
                 <label for="location">Location</label>
                 <input type="text" id="location" placeholder="City, State">
+                
                 <label for="linkedin">LinkedIn Username</label>
                 <input type="text" id="linkedin" placeholder="your-linkedin-username">
             </div>
 
-            <!-- Professional Summary -->
             <div class="form-group">
                 <h3>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg>
@@ -45,7 +47,6 @@
                 <trix-editor input="summary" class="trix-content"></trix-editor>
             </div>
 
-            <!-- Work Experience -->
             <div class="form-group">
                 <div class="section-header">
                     <h3>
@@ -57,7 +58,6 @@
                 <div id="workExperience"></div>
             </div>
 
-            <!-- Projects -->
             <div class="form-group">
                 <div class="section-header">
                     <h3>
@@ -69,7 +69,6 @@
                 <div id="projects"></div>
             </div>
 
-            <!-- Education -->
             <div class="form-group">
                 <div class="section-header">
                     <h3>
@@ -81,7 +80,6 @@
                 <div id="education"></div>
             </div>
             
-            <!-- Awards and Honors -->
             <div class="form-group">
                 <div class="section-header">
                     <h3>
@@ -93,7 +91,6 @@
                 <div id="awards"></div>
             </div>
 
-            <!-- Publications -->
             <div class="form-group">
                 <div class="section-header">
                     <h3>
@@ -105,7 +102,6 @@
                 <div id="publications"></div>
             </div>
 
-            <!-- Volunteer Experience -->
             <div class="form-group">
                 <div class="section-header">
                     <h3>
@@ -117,7 +113,6 @@
                 <div id="volunteer"></div>
             </div>
 
-            <!-- Certifications -->
             <div class="form-group">
                 <div class="section-header">
                     <h3>
@@ -129,7 +124,6 @@
                 <div id="certifications"></div>
             </div>
 
-            <!-- Languages -->
             <div class="form-group">
                 <div class="section-header">
                     <h3>
@@ -141,7 +135,6 @@
                 <div id="languages"></div>
             </div>
 
-            <!-- Skills -->
             <div class="form-group">
                 <h3>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
@@ -150,7 +143,6 @@
                 <textarea id="skills" placeholder="Enter skills separated by commas..."></textarea>
             </div>
             
-            <!-- Actions -->
             <div class="form-group">
                 <button class="btn" id="downloadPdfBtn">Download PDF</button>
                 <button class="btn btn-secondary" id="saveDataBtn">Save Data</button>
@@ -158,20 +150,17 @@
             </div>
         </div>
 
-        <!-- Preview Panel -->
         <div class="preview-panel">
             <div class="preview-header">
                 <h3>CV Preview</h3>
             </div>
             <div class="preview-content">
                 <div id="cvPreview" class="cv-preview">
-                    <!-- CV content is generated by JS -->
-                </div>
+                    </div>
             </div>
         </div>
     </div>
 
-    <!-- Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script type="text/javascript" src="https://unpkg.com/trix@2.0.0/dist/trix.umd.min.js"></script>
