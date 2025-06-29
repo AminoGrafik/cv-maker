@@ -12,10 +12,58 @@
 <body>
     <div class="main-container">
         <div class="editor-panel">
+
+            <div class="form-section">
+                <div class="section-header">
+                    <h2>Personal Details</h2>
+                </div>
+                <div class="form-card">
+                    <div class="form-card-body">
+                        <div class="form-card-grid-2">
+                            <div class="form-group">
+                                <label for="fullName">Full Name</label>
+                                <input type="text" id="fullName" placeholder="Matthew Smith">
+                            </div>
+                            <div class="form-group">
+                                <label for="jobTitle">Job Title</label>
+                                <input type="text" id="jobTitle" placeholder="Service Designer">
+                            </div>
+                        </div>
+                         <div class="form-card-grid-2">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" placeholder="matthew@smith.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone</label>
+                                <input type="tel" id="phone" placeholder="(123) 456-7890">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="location">Location</label>
+                            <input type="text" id="location" placeholder="City, Country">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="section-header">
+                    <h2>Short Bio</h2>
+                    <p class="section-subtitle">Be concise - The harsh reality is that hiring managers only spent an average of 6 seconds on each resume.</p>
+                </div>
+                <div class="form-card">
+                    <div class="form-card-body">
+                        <input id="summary" type="hidden">
+                        <trix-editor input="summary" class="trix-content"></trix-editor>
+                    </div>
+                </div>
+            </div>
+
             <div class="form-section">
                 <div class="section-header">
                     <h2>Your Experience</h2>
-                    <p class="section-subtitle">Include your last 10 years of relevant experience and dates in this section. List your most recent position first.</p>
+                    <p class="section-subtitle">Include your last 10 years of relevant experience. List your most recent position first.</p>
                 </div>
                 <div id="workExperience"></div>
                 <button class="btn-add-section" id="addWorkExperienceBtn">
@@ -23,11 +71,50 @@
                     <span>Add Experience</span>
                 </button>
             </div>
+
+            <div class="form-section">
+                <div class="section-header">
+                    <h2>Projects</h2>
+                </div>
+                <div id="projects"></div>
+                <button class="btn-add-section" id="addProjectBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    <span>Add Project</span>
+                </button>
             </div>
 
-        <div class="preview-panel">
-            <div id="cvPreview" class="cv-preview">
+            <div class="form-section">
+                <div class="section-header">
+                    <h2>Education</h2>
                 </div>
+                <div id="education"></div>
+                <button class="btn-add-section" id="addEducationBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    <span>Add Education</span>
+                </button>
+            </div>
+            
+            <div class="form-section">
+                 <div class="section-header">
+                    <h2>Skills</h2>
+                </div>
+                <div class="form-card">
+                    <div class="form-card-body">
+                        <div class="form-group">
+                            <label for="skills">Skills</label>
+                            <input type="text" id="skills" placeholder="Enter skills separated by commas...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="preview-panel">
+            <div id="cvPreviewContainer" class="cv-preview-container">
+                <div id="cvPreview" class="cv-preview">
+                    </div>
+            </div>
             <div class="preview-actions">
                 <button class="btn-secondary" id="editTemplateBtn">Edit Template</button>
                 <button class="btn-primary" id="downloadPdfBtn">Download CV</button>
