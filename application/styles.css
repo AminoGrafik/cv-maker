@@ -17,7 +17,7 @@ body {
     max-width: 1400px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 400px 1fr;
+    grid-template-columns: 450px 1fr;
     gap: 20px;
     height: calc(100vh - 40px);
 }
@@ -42,9 +42,7 @@ body {
     background: #f8f9fa;
     padding: 15px 25px;
     border-bottom: 1px solid #e9ecef;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    text-align: center;
     flex-shrink: 0;
 }
 .preview-content {
@@ -54,20 +52,20 @@ body {
 }
 
 /* Typography */
-h2, h3, h4 {
-    color: #333;
-}
 h2 {
+    color: #333;
     font-size: 1.4em;
     padding-bottom: 8px;
     margin-bottom: 20px;
     border-bottom: 2px solid #667eea;
 }
 h3 {
+    color: #555;
     font-size: 1.1em;
     margin-bottom: 15px;
 }
 h4 {
+    color: #666;
     font-size: 1em;
     margin-bottom: 10px;
 }
@@ -99,10 +97,6 @@ input:focus, textarea:focus {
 input:invalid {
     border-color: #dc3545;
 }
-input:focus:invalid {
-    border-color: #dc3545;
-    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2);
-}
 textarea {
     resize: vertical;
     min-height: 80px;
@@ -130,14 +124,8 @@ textarea {
 .btn-secondary {
     background: #6c757d;
 }
-.btn-secondary:hover {
-    box-shadow: 0 5px 15px rgba(108, 117, 125, 0.4);
-}
 .btn-danger {
     background: #dc3545;
-}
-.btn-danger:hover {
-    box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
 }
 .btn-sm {
     padding: 5px 10px;
@@ -164,57 +152,34 @@ textarea {
     font-family: 'Times New Roman', serif;
     line-height: 1.6;
     color: #333;
-    max-width: 100%;
     background: white;
 }
 .cv-header {
+    text-align: center;
     margin-bottom: 30px;
     padding-bottom: 20px;
     border-bottom: 2px solid #333;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-.cv-header-info {
-    width: 100%;
-    text-align: center;
-}
-.cv-photo-container {
-    flex-shrink: 0;
-}
-.cv-photo {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid #333;
-}
-.cv-header.has-photo .cv-header-info {
-    text-align: left;
 }
 .cv-name {
-    font-size: 2em;
+    font-size: 2.2em;
     font-weight: bold;
     color: #2c3e50;
     margin-bottom: 10px;
 }
 .cv-title {
-    font-size: 1.2em;
+    font-size: 1.3em;
     color: #7f8c8d;
     margin-bottom: 15px;
 }
 .cv-contact {
-    display: flex;
-    justify-content: inherit;
-    flex-wrap: wrap;
-    gap: 15px;
-    font-size: 0.9em;
+    font-size: 0.95em;
 }
 .cv-section {
     margin-bottom: 25px;
+    page-break-inside: avoid;
 }
 .cv-section-title {
-    font-size: 1.1em;
+    font-size: 1.2em;
     font-weight: bold;
     color: #2c3e50;
     border-bottom: 1px solid #bdc3c7;
@@ -225,13 +190,13 @@ textarea {
 }
 .cv-item {
     margin-bottom: 15px;
+    page-break-inside: avoid;
 }
 .cv-item-header {
     display: flex;
     justify-content: space-between;
     font-weight: bold;
     margin-bottom: 5px;
-    align-items: baseline;
 }
 .cv-item-title {
     color: #2c3e50;
@@ -247,7 +212,7 @@ textarea {
     font-weight: 500;
 }
 .cv-item-description {
-    margin-left: 0;
+    margin-left: 15px;
     color: #555;
     font-size: 0.95em;
 }
@@ -267,46 +232,10 @@ textarea {
     color: #2c3e50;
 }
 
-/* Special class for forcing ATS-friendly styles during PDF export */
-.cv-preview.export-mode .cv-photo-container {
-    display: none;
-}
-.cv-preview.export-mode .cv-header {
-    flex-direction: column;
-}
-.cv-preview.export-mode .cv-header-info {
-    text-align: center;
-}
-
-/* Responsive & Print Styles */
-@media (max-width: 968px) {
+/* Responsive Styles */
+@media (max-width: 1024px) {
     .container {
         grid-template-columns: 1fr;
         height: auto;
-    }
-}
-@media print {
-    body {
-        background: white;
-        padding: 0;
-    }
-    .editor-panel, .preview-header {
-        display: none;
-    }
-    .container, .preview-panel {
-        display: block;
-        max-width: 100%;
-        height: auto;
-        box-shadow: none;
-    }
-    .cv-preview.export-mode .cv-photo-container,
-    .cv-preview .cv-photo-container {
-        display: none !important;
-    }
-    .cv-preview .cv-header {
-        flex-direction: column;
-    }
-    .cv-preview .cv-header-info {
-        text-align: center;
     }
 }
