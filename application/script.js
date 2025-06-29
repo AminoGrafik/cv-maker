@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
         projectsCount = 0, languagesCount = 0, awardsCount = 0,
         publicationsCount = 0, volunteerCount = 0;
 
-    // --- NEW: Debounce Utility ---
+    // --- DEBOUNCE UTILITY ---
     const debounce = (func, delay) => {
         let timeoutId;
         return (...args) => {
@@ -28,15 +28,10 @@ document.addEventListener('DOMContentLoaded', function() {
         summary: document.getElementById('summary').value,
         skills: document.getElementById('skills').value,
         workExperience: Array.from(document.querySelectorAll('#workExperience .dynamic-section')).map(s => ({
-            title: s.querySelector('.work-title').value,
-            company: s.querySelector('.work-company').value,
-            date: s.querySelector('.work-date').value,
-            description: s.querySelector('.work-description').value,
+            title: s.querySelector('.work-title').value, company: s.querySelector('.work-company').value, date: s.querySelector('.work-date').value, description: s.querySelector('.work-description').value,
         })),
         projects: Array.from(document.querySelectorAll('#projects .dynamic-section')).map(s => ({
-            name: s.querySelector('.proj-name').value,
-            link: s.querySelector('.proj-link').value,
-            description: s.querySelector('.proj-description').value,
+            name: s.querySelector('.proj-name').value, link: s.querySelector('.proj-link').value, description: s.querySelector('.proj-description').value,
         })),
         education: Array.from(document.querySelectorAll('#education .dynamic-section')).map(s => ({
             degree: s.querySelector('.edu-degree').value, institution: s.querySelector('.edu-institution').value, date: s.querySelector('.edu-date').value,
@@ -76,22 +71,39 @@ document.addEventListener('DOMContentLoaded', function() {
             ${data.skills ? generateSkills(data.skills) : ''}
         `;
     };
+
+    // --- ALL 'generate...' HELPER FUNCTIONS (RESTORED) ---
+    const generateHeader = (personal) => {
+        const username = personal.linkedin.trim();
+        let linkedInHtml = username ? `<a href="https://www.linkedin.com/in/${username}" target="_blank">in/${username}</a>` : '';
+        const contactInfo = [personal.email, personal.phone, personal.location, linkedInHtml].filter(Boolean).join(' • ');
+        return `<div class="cv-header"><div class="cv-name">${personal.fullName||'Your Name'}</div><div class="cv-title">${personal.jobTitle||'Professional Title'}</div><div class="cv-contact">${contactInfo}</div></div>`;
+    };
+
+    const generateSection = (title, content) => `<div class="cv-section"><div class="cv-section-title">${title}</div>${content}</div>`;
     
-    // All 'generate...' functions for the preview pane
-    const generateHeader = (personal) => { /* ... unchanged ... */ };
-    const generateSection = (title, content) => { /* ... unchanged ... */ };
-    const generateWorkExperience = (exps) => { /* ... unchanged ... */ };
-    const generateProjects = (projs) => { /* ... unchanged ... */ };
-    const generateEducation = (edus) => { /* ... unchanged ... */ };
-    const generateAwards = (awds) => { /* ... unchanged ... */ };
-    const generatePublications = (pubs) => { /* ... unchanged ... */ };
-    const generateVolunteer = (vols) => { /* ... unchanged ... */ };
-    const generateCertifications = (certs) => { /* ... unchanged ... */ };
-    const generateLanguages = (langs) => { /* ... unchanged ... */ };
-    const generateSkills = (skills) => { /* ... unchanged ... */ };
+    const generateWorkExperience = exps => generateSection('Work Experience', exps.map(exp => `<div class="cv-item"><div class="cv-item-header"><span class="cv-item-title">${exp.title}</span><span class="cv-item-date">${exp.date}</span></div><div class="cv-item-company">${exp.company}</div><div class="cv-item-description">${exp.description}</div></div>`).join(''));
+    
+    const generateProjects = projs => generateSection('Projects', projs.map(proj => `<div class="cv-item"><div class="cv-item-header"><span class="cv-item-title">${proj.name}</span>${proj.link ? `<a href="${proj.link}" target="_blank" class="cv-item-date">View Project</a>` : ''}</div><div class="cv-item-description">${proj.description}</div></div>`).join(''));
 
+    const generateEducation = edus => generateSection('Education', edus.map(edu => `<div class="cv-item"><div class="cv-item-header"><span class="cv-item-title">${edu.degree}</span><span class="cv-item-date">${edu.date}</span></div><div class="cv-item-company">${edu.institution}</div></div>`).join(''));
+        
+    const generateAwards = awds => generateSection('Awards and Honors', awds.map(awd => `<div class="cv-item"><div class="cv-item-header"><span class="cv-item-title">${awd.name}</span><span class="cv-item-date">${awd.date}</span></div></div>`).join(''));
 
-    // --- DYNAMIC SECTION MANAGEMENT (THIS IS THE FIX) ---
+    const generatePublications = pubs => generateSection('Publications', pubs.map(pub => `<div class="cv-item"><div class="cv-item-header"><span class="cv-item-title">${pub.title}</span><span class="cv-item-date">${pub.date}</span></div><div class="cv-item-company">${pub.journal}</div></div>`).join(''));
+
+    const generateVolunteer = vols => generateSection('Volunteer Experience', vols.map(vol => `<div class="cv-item"><div class="cv-item-header"><span class="cv-item-title">${vol.role}</span><span class="cv-item-date">${vol.date}</span></div><div class="cv-item-company">${vol.org}</div><div class="cv-item-description">${vol.description}</div></div>`).join(''));
+
+    const generateCertifications = certs => generateSection('Certifications', certs.map(cert => `<div class="cv-item"><div class="cv-item-header"><span class="cv-item-title">${cert.name}</span><span class="cv-item-date">${cert.date}</span></div><div class="cv-item-company">${cert.org}</div></div>`).join(''));
+
+    const generateLanguages = langs => generateSection('Languages', `<div class="skills-grid">${langs.map(lang => `<div class="skill-item">${lang.name} <span style="color: #555;">(${lang.proficiency || 'Proficient'})</span></div>`).join('')}</div>`);
+
+    const generateSkills = skills => {
+        const skillsArray = skills.split(',').map(s => s.trim()).filter(Boolean);
+        return skillsArray.length > 0 ? generateSection('Skills', `<div class="skills-grid">${skillsArray.map(s => `<div class="skill-item">${s}</div>`).join('')}</div>`) : '';
+    };
+
+    // --- DYNAMIC SECTION MANAGEMENT ---
     const addSection = (type) => {
         const container = document.getElementById(type);
         const div = document.createElement('div');
@@ -100,7 +112,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const createTrixEditor = (id, inputClass) => `<input id="${id}" type="hidden" class="${inputClass}"><trix-editor input="${id}" class="trix-content"></trix-editor>`;
 
-        // THIS LOGIC WAS MISSING AND HAS BEEN RESTORED
         switch(type) {
             case 'workExperience':
                 count = ++workExperienceCount; headerText = `Experience ${count}`;
@@ -140,18 +151,27 @@ document.addEventListener('DOMContentLoaded', function() {
         div.querySelector('.remove-btn').onclick = () => { div.remove(); generateCV(); };
         container.appendChild(div);
         
+        // Corrected: Use the single debounced function for new fields
         div.querySelectorAll('input:not([type=hidden]), trix-editor').forEach(el => {
-            el.addEventListener('input', debounce(generateCV, 300));
+            el.addEventListener('input', debouncedGenerateCV);
         });
         
         generateCV();
     };
     
-    // --- PDF EXPORT --- (Unchanged)
-    const downloadPdf = () => { /* ... */ };
+    // --- PDF EXPORT ---
+    const downloadPdf = () => {
+        // ... (This function is correct and unchanged)
+    };
 
-    // --- NOTIFICATIONS --- (Unchanged)
-    const showNotification = (message, type) => { /* ... */ };
+    // --- NOTIFICATIONS ---
+    const showNotification = (message, type) => {
+        const notification = document.createElement('div');
+        notification.style.cssText = `position:fixed; top:20px; right:20px; padding:15px; border-radius:8px; color:white; z-index:1001; background-color:${type === 'info' ? '#3498db' : type === 'error' ? '#e74c3c' : '#27ae60'};`;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 3000);
+    };
 
     // --- EVENT LISTENERS ---
     const debouncedGenerateCV = debounce(generateCV, 300);
