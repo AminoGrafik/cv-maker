@@ -110,30 +110,18 @@ trix-editor:focus-within {
 }
 
 /* Buttons */
-.btn {
-    background: #222222;
-    color: white;
-    border: 2px solid transparent;
-    padding: 12px 25px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    font-size: 14px;
+.btn { /* ... */ }
+.btn:hover { /* ... */ }
+.btn-secondary { /* ... */ }
+.btn-danger { /* ... */ }
+.btn-sm { /* ... */ }
+
+/* NEW: Style for the print instruction note */
+.print-instruction {
+    font-size: 12px;
+    color: #6c757d;
+    margin-top: 15px;
 }
-.btn:hover {
-    transform: translateY(-2px);
-    border-color: white;
-}
-.btn-secondary {
-    background: #222222;
-    border: 2px solid #6c757d;
-}
-.btn-secondary:hover { border-color: white; }
-.btn-danger { background: #dc3545; border-color: #dc3545; }
-.btn-sm { padding: 5px 10px; font-size: 12px; }
 
 /* Dynamic Sections */
 .dynamic-section {
@@ -177,6 +165,33 @@ trix-editor:focus-within {
 
 /* Responsive */
 @media (max-width: 1024px) { .container { grid-template-columns: 1fr; height: auto; } }
+
+/* Print Styles */
+@media print {
+    body > *:not(.preview-panel) {
+        display: none;
+    }
+    .preview-panel, .preview-content {
+        display: block !important;
+        width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    .preview-header {
+        display: none !important;
+    }
+    body {
+        background: white;
+    }
+    a {
+        color: #3498db !important;
+        text-decoration: none !important;
+    }
+}
 
 /* Trix Editor Toolbar Customizations */
 /* This section hides the Trix buttons we don't need */
