@@ -103,9 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
         div.className = 'dynamic-section';
         let count = 0, headerText = '', fields = '';
 
-        const createTrixEditor = (id, inputClass) => {
-            return `<input id="${id}" type="hidden" class="${inputClass}"><trix-editor input="${id}" class="trix-content"></trix-editor>`;
-        };
+        const createTrixEditor = (id, inputClass) => `<input id="${id}" type="hidden" class="${inputClass}"><trix-editor input="${id}" class="trix-content"></trix-editor>`;
 
         switch(type) {
             case 'workExperience':
@@ -148,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function() {
         div.querySelectorAll('input:not([type=hidden]), trix-editor').forEach(el => el.addEventListener('input', generateCV));
     };
     
-    // --- PDF EXPORT (FIXED) ---
+    // --- PDF EXPORT (UPDATED FOR SMALLER FILE SIZE) ---
     const downloadPdf = () => {
         const { jsPDF } = window.jspdf;
         const cvElement = document.getElementById('cvPreview');
@@ -156,10 +154,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         showNotification('Generating PDF...', 'info');
 
-        // This configuration object contains the fix.
-        // It helps html2canvas render complex elements more reliably.
         const options = {
-            scale: 2,
+            // UPDATED: Scale reduced from 2 to 1.5 for smaller image size
+            scale: 1.5,
             logging: false,
             useCORS: true,
             scrollX: -window.scrollX,
@@ -169,7 +166,9 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         html2canvas(cvElement, options).then(canvas => {
-            const imgData = canvas.toDataURL('image/png');
+            // UPDATED: Format changed from 'image/png' to 'image/jpeg' for better compression
+            const imgData = canvas.toDataURL('image/jpeg', 0.95); // 0.95 is a high quality setting
+            
             const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
             
             const margins = { top: 15, bottom: 15, left: 15, right: 15 };
@@ -179,13 +178,13 @@ document.addEventListener('DOMContentLoaded', function() {
             let heightLeft = scaledImgHeight;
             let position = 0;
 
-            pdf.addImage(imgData, 'PNG', margins.left, margins.top, contentWidth, scaledImgHeight);
+            pdf.addImage(imgData, 'JPEG', margins.left, margins.top, contentWidth, scaledImgHeight);
             heightLeft -= (pdf.internal.pageSize.getHeight() - margins.top - margins.bottom);
             
             while (heightLeft > 0) {
                 position = heightLeft - scaledImgHeight;
                 pdf.addPage();
-                pdf.addImage(imgData, 'PNG', margins.left, position + margins.top, contentWidth, scaledImgHeight);
+                pdf.addImage(imgData, 'JPEG', margins.left, position + margins.top, contentWidth, scaledImgHeight);
                 heightLeft -= (pdf.internal.pageSize.getHeight() - margins.top - margins.bottom);
             }
 
