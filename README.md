@@ -50,16 +50,11 @@ This builder supports all the essential sections for a comprehensive, profession
 The project is structured to separate the application from the repository's root files.
 ```
 cv-maker/
-        │
-        ├── application/
-        │
-        ├── index.html         # The main application file
-        │
-        ├── styles.css         # All application styles
-        │
-        │── script.js          # All JavaScript functionality
-        │
-        └── README.md              # This file
+├── application/
+├── index.html         # The main application file
+├── styles.css         # All application styles
+│── script.js          # All JavaScript functionality
+└── README.md          # This file
 ```
 
 ## 🔧 Local Development
