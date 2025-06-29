@@ -79,8 +79,8 @@ body {
 .form-section { 
     margin-bottom: 32px;
     padding-bottom: 32px;
-    /* UPDATED: Changed from 0.75px to 0.5px */
-    border-bottom: 0.5px solid #222222;
+    /* UPDATED: Changed color to #444444 and stroke to 0.35px */
+    border-bottom: 0.35px solid #444444;
 }
 .form-section:last-of-type {
     border-bottom: none;
