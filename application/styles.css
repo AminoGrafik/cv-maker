@@ -189,30 +189,44 @@ trix-editor:focus-within {
 /* Responsive */
 @media (max-width: 1024px) { .container { grid-template-columns: 1fr; height: auto; } }
 
-/* Print Styles */
+/* --- CORRECTED PRINT STYLES --- */
 @media print {
-    body > *:not(.preview-panel) {
+    /* Hide the entire editor panel */
+    .editor-panel {
         display: none;
     }
-    .preview-panel, .preview-content {
+    
+    /* Make the preview panel take up the full screen */
+    .container {
         display: block !important;
+        grid-template-columns: 1fr !important;
         width: 100% !important;
-        height: auto !important;
-        overflow: visible !important;
-        box-shadow: none !important;
-        border: none !important;
+        max-width: 100% !important;
         padding: 0 !important;
         margin: 0 !important;
     }
+    
+    .preview-panel {
+        width: 100% !important;
+        height: auto !important;
+        box-shadow: none !important;
+        border: none !important;
+        margin: 0 !important;
+    }
+
+    /* Hide the preview header */
     .preview-header {
         display: none !important;
     }
-    body {
-        background: white;
+
+    /* Ensure the content uses all available space */
+    .preview-content {
+        padding: 0 !important;
     }
-    a {
-        color: #3498db !important;
-        text-decoration: none !important;
+
+    /* Set a clean background for printing */
+    body {
+        background: white !important;
     }
 }
 
