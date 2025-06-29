@@ -13,15 +13,12 @@
             
             <div class="form-group">
                 <h3>Personal Information</h3>
-                <label for="photoUpload" class="btn">Upload Photo (for preview only)</label>
-                <input type="file" id="photoUpload" accept="image/png, image/jpeg" style="display: none;">
-                <button class="btn btn-danger btn-sm" id="removePhotoBtn" style="display: none;">Remove Photo</button>
                 
                 <label for="fullName">Full Name</label>
                 <input type="text" id="fullName" placeholder="Enter your full name" required>
                 
                 <label for="jobTitle">Job Title</label>
-                <input type="text" id="jobTitle" placeholder="e.g., Flight Attendant">
+                <input type="text" id="jobTitle" placeholder="e.g., Software Engineer">
                 
                 <label for="email">Email</label>
                 <input type="email" id="email" placeholder="your.email@example.com" required>
@@ -32,13 +29,13 @@
                 <label for="location">Location</label>
                 <input type="text" id="location" placeholder="City, State">
                 
-                <label for="linkedin">LinkedIn</label>
-                <input type="text" id="linkedin" placeholder="linkedin.com/in/yourprofile" pattern=".*linkedin\.com/in/.*" title="Please enter a valid LinkedIn profile URL (e.g., linkedin.com/in/yourname)">
+                <label for="linkedin">LinkedIn Username</label>
+                <input type="text" id="linkedin" placeholder="your-linkedin-username">
             </div>
 
             <div class="form-group">
                 <h3>Professional Summary</h3>
-                <textarea id="summary" placeholder="Write a brief summary of your professional background and key strengths..."></textarea>
+                <textarea id="summary" placeholder="Write a brief summary of your professional background..."></textarea>
             </div>
 
             <div class="form-group">
@@ -80,7 +77,6 @@
         <div class="preview-panel">
             <div class="preview-header">
                 <h3>CV Preview</h3>
-                <button class="btn" id="printCvBtn">Print</button>
             </div>
             <div class="preview-content">
                 <div id="cvPreview" class="cv-preview">
