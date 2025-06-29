@@ -23,19 +23,26 @@ body {
 /* --- Main Layout --- */
 .main-container {
     display: flex;
-    align-items: flex-start; /* Align items to the top */
+    align-items: flex-start;
     gap: 32px;
     padding: 32px;
 }
 .editor-panel {
-    flex: 0 0 55%; /* Base width */
+    flex: 0 0 55%;
     min-width: 450px;
+    height: calc(100vh - 64px); /* Full height minus padding */
+    overflow-y: auto;
+    /* --- NEW STYLES FOR THE EDITOR PANEL --- */
+    background-color: var(--panel-bg);
+    padding: 32px;
+    border-radius: 12px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
 }
 .preview-panel {
-    flex: 1 1 45%; /* Take remaining space */
-    position: sticky; /* THIS IS THE KEY FIX */
-    top: 32px; /* Stick 32px from the top */
-    height: calc(100vh - 64px); /* Full viewport height minus padding */
+    flex: 1 1 45%;
+    position: sticky;
+    top: 32px;
+    height: calc(100vh - 64px);
 
     display: flex;
     flex-direction: column;
@@ -143,9 +150,26 @@ trix-toolbar .trix-button-group--file-tools {
 
 /* --- Mobile Friendliness & Print --- */
 @media (max-width: 1024px) {
+    body { overflow-y: auto; height: auto; }
     .main-container { flex-direction: column; height: auto; padding: 16px; }
-    .editor-panel { order: 2; padding-right: 0; }
-    .preview-panel { order: 1; position: static; height: auto; } /* Revert sticky position on mobile */
+    .editor-panel { order: 2; padding: 16px; height: auto; }
+    .preview-panel { order: 1; position: static; height: auto; background-color: transparent; padding: 0;}
     .cv-preview { transform: scale(1); min-height: 0; height: auto; aspect-ratio: 210 / 297; padding: 1.5cm 1cm; }
     .form-card-grid-2 { grid-template-columns: 1fr; }
+}
+
+@media print {
+    body, .main-container { display: block !important; height: auto !important; padding: 0 !important; margin: 0 !important; }
+    .editor-panel, .preview-panel { display: none !important; }
+    .cv-preview-container, .cv-preview {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
 }
