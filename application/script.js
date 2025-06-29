@@ -144,41 +144,56 @@ document.addEventListener('DOMContentLoaded', function() {
         generateCV();
     };
     
-    // --- PDF EXPORT (UPDATED) ---
+    // --- PDF EXPORT (REWRITTEN FOR PADDING) ---
     const downloadPdf = () => {
         const { jsPDF } = window.jspdf;
         const cvElement = document.getElementById('cvPreview');
         const fullName = document.getElementById('fullName').value || 'cv';
         
         showNotification('Generating PDF...', 'info');
-        
-        // Temporarily add padding class for export
-        cvElement.classList.add('pdf-export-padding');
 
         html2canvas(cvElement, { scale: 2, logging: false }).then(canvas => {
-            // Remove the padding class immediately after canvas is created
-            cvElement.classList.remove('pdf-export-padding');
-            
             const imgData = canvas.toDataURL('image/png');
             const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+            
+            // Define margins (in mm)
+            const margins = {
+                top: 15,
+                bottom: 15,
+                left: 15,
+                right: 15
+            };
+
             const pdfWidth = pdf.internal.pageSize.getWidth();
-            const imgHeight = canvas.height * pdfWidth / canvas.width;
-            let heightLeft = imgHeight;
+            const pdfHeight = pdf.internal.pageSize.getHeight();
+            
+            // Calculate content area width and height
+            const contentWidth = pdfWidth - margins.left - margins.right;
+            const contentHeight = pdfHeight - margins.top - margins.bottom;
+
+            const canvasWidth = canvas.width;
+            const canvasHeight = canvas.height;
+            const canvasAspectRatio = canvasWidth / canvasHeight;
+
+            // Calculate the height of the image when scaled to the content width
+            const scaledImgHeight = contentWidth / canvasAspectRatio;
+            let heightLeft = scaledImgHeight;
             let position = 0;
-            
-            pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
-            heightLeft -= pdf.internal.pageSize.getHeight();
-            
+
+            // Add the first page
+            pdf.addImage(imgData, 'PNG', margins.left, margins.top, contentWidth, scaledImgHeight);
+            heightLeft -= contentHeight;
+
+            // Add subsequent pages if the content is longer than one page
             while (heightLeft > 0) {
-                position = heightLeft - imgHeight;
+                position = heightLeft - scaledImgHeight; // This will be a negative value
                 pdf.addPage();
-                pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
-                heightLeft -= pdf.internal.pageSize.getHeight();
+                pdf.addImage(imgData, 'PNG', margins.left, position + margins.top, contentWidth, scaledImgHeight);
+                heightLeft -= contentHeight;
             }
+
             pdf.save(`${fullName.replace(/\s/g, '_')}_CV.pdf`);
         }).catch(err => {
-            // Ensure class is removed even if there's an error
-            cvElement.classList.remove('pdf-export-padding');
             showNotification('Error generating PDF.', 'error');
             console.error(err);
         });
@@ -186,12 +201,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- NOTIFICATIONS ---
     const showNotification = (message, type) => {
-        const notification = document.createElement('div');
-        notification.className = `notification notification-${type}`;
-        notification.style.cssText = `position:fixed; top:20px; right:20px; padding:15px; border-radius:8px; color:white; z-index:1001; background-color:${type === 'info' ? '#3498db' : type === 'error' ? '#e74c3c' : '#27ae60'};`;
-        notification.textContent = message;
-        document.body.appendChild(notification);
-        setTimeout(() => notification.remove(), 3000);
+        // ... (function is unchanged)
     };
 
     // --- EVENT LISTENERS ---
