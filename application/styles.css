@@ -7,7 +7,8 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    /* UPDATED BACKGROUND */
+    background: #222222;
     min-height: 100vh;
     padding: 20px;
 }
@@ -104,9 +105,10 @@ textarea {
 
 /* Buttons */
 .btn {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    /* UPDATED BUTTON BACKGROUND */
+    background: #222222;
     color: white;
-    border: none;
+    border: 2px solid transparent;
     padding: 12px 25px;
     border-radius: 8px;
     cursor: pointer;
@@ -117,14 +119,21 @@ textarea {
     font-size: 14px;
 }
 .btn:hover {
+    /* UPDATED HOVER EFFECT */
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    border-color: white;
 }
 .btn-secondary {
-    background: #6c757d;
+    /* UPDATED SECONDARY BUTTON */
+    background: #222222;
+    border: 2px solid #6c757d;
+}
+.btn-secondary:hover {
+    border-color: white;
 }
 .btn-danger {
     background: #dc3545;
+    border-color: #dc3545;
 }
 .btn-sm {
     padding: 5px 10px;
