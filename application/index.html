@@ -16,32 +16,33 @@
             <div class="form-section">
                 <div class="section-header">
                     <h2>Personal Details</h2>
+                    <p class="section-subtitle">Start with your basic contact information.</p>
                 </div>
                 <div class="form-card">
                     <div class="form-card-body">
                         <div class="form-card-grid-2">
                             <div class="form-group">
                                 <label for="fullName">Full Name</label>
-                                <input type="text" id="fullName" placeholder="Matthew Smith">
+                                <input type="text" id="fullName" placeholder="e.g., Matthew Smith">
                             </div>
                             <div class="form-group">
                                 <label for="jobTitle">Job Title</label>
-                                <input type="text" id="jobTitle" placeholder="Service Designer">
+                                <input type="text" id="jobTitle" placeholder="e.g., Service Designer">
                             </div>
                         </div>
                          <div class="form-card-grid-2">
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="email" id="email" placeholder="matthew@smith.com">
+                                <input type="email" id="email" placeholder="e.g., matthew@email.com">
                             </div>
                             <div class="form-group">
                                 <label for="phone">Phone</label>
-                                <input type="tel" id="phone" placeholder="(123) 456-7890">
+                                <input type="tel" id="phone" placeholder="e.g., (123) 456-7890">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="location">Location</label>
-                            <input type="text" id="location" placeholder="City, Country">
+                            <input type="text" id="location" placeholder="e.g., City, Country">
                         </div>
                     </div>
                 </div>
@@ -50,7 +51,7 @@
             <div class="form-section">
                 <div class="section-header">
                     <h2>Short Bio</h2>
-                    <p class="section-subtitle">Be concise - The harsh reality is that hiring managers only spent an average of 6 seconds on each resume.</p>
+                    <p class="section-subtitle">Be concise - hiring managers only spend around 6 seconds on each resume.</p>
                 </div>
                 <div class="form-card">
                     <div class="form-card-body">
@@ -67,7 +68,7 @@
                 </div>
                 <div id="workExperience"></div>
                 <button class="btn-add-section" id="addWorkExperienceBtn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                     <span>Add Experience</span>
                 </button>
             </div>
@@ -75,10 +76,11 @@
             <div class="form-section">
                 <div class="section-header">
                     <h2>Projects</h2>
+                     <p class="section-subtitle">Showcase your practical skills with relevant projects.</p>
                 </div>
                 <div id="projects"></div>
                 <button class="btn-add-section" id="addProjectBtn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                     <span>Add Project</span>
                 </button>
             </div>
@@ -86,10 +88,11 @@
             <div class="form-section">
                 <div class="section-header">
                     <h2>Education</h2>
+                    <p class="section-subtitle">Include your academic qualifications and institutions.</p>
                 </div>
                 <div id="education"></div>
                 <button class="btn-add-section" id="addEducationBtn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                     <span>Add Education</span>
                 </button>
             </div>
@@ -97,17 +100,28 @@
             <div class="form-section">
                  <div class="section-header">
                     <h2>Skills</h2>
+                    <p class="section-subtitle">List relevant technical and soft skills, separated by commas.</p>
                 </div>
                 <div class="form-card">
                     <div class="form-card-body">
                         <div class="form-group">
                             <label for="skills">Skills</label>
-                            <input type="text" id="skills" placeholder="Enter skills separated by commas...">
+                            <input type="text" id="skills" placeholder="e.g., Project Management, Figma, Public Speaking...">
                         </div>
                     </div>
                 </div>
             </div>
 
+             <div class="form-section">
+                 <div class="section-header">
+                    <h2>Languages</h2>
+                </div>
+                <div id="languages"></div>
+                <button class="btn-add-section" id="addLanguageBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    <span>Add Language</span>
+                </button>
+            </div>
         </div>
 
         <div class="preview-panel">
@@ -123,6 +137,6 @@
     </div>
 
     <script type="text/javascript" src="https://unpkg.com/trix@2.0.0/dist/trix.umd.min.js"></script>
-    <script src="script.js?v=final"></script>
+    <script src="script.js?v=final-ui"></script>
 </body>
 </html>
