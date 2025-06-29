@@ -1,4 +1,4 @@
-# Professional CV Maker
+# ATS Friendly CV Maker
 
 A modern, ATS-friendly CV/Resume builder that helps you create professional resumes with real-time preview and easy customization.
 
