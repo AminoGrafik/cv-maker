@@ -14,7 +14,7 @@ A modern, ATS-friendly CV/Resume builder that helps you create professional resu
 
 ## 🚀 Live Demo
 
-**[Try the CV Maker Here](https://aminografik.github.io/cv-maker/)**
+**[Try the CV Maker Here](https://aminografik.github.io/cv-maker/application)**
 
 
 ## 📋 What You Can Build
