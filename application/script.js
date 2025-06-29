@@ -17,7 +17,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- DATA COLLECTION ---
     const collectData = () => ({
-        personal: { fullName: document.getElementById('fullName').value, jobTitle: document.getElementById('jobTitle').value, email: document.getElementById('email').value, phone: document.getElementById('phone').value, location: document.getElementById('location').value, linkedin: document.getElementById('linkedin').value, },
+        personal: {
+            fullName: document.getElementById('fullName').value,
+            jobTitle: document.getElementById('jobTitle').value,
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            location: document.getElementById('location').value,
+            linkedin: document.getElementById('linkedin').value,
+        },
         summary: document.getElementById('summary').value,
         skills: document.getElementById('skills').value,
         workExperience: Array.from(document.querySelectorAll('#workExperience .dynamic-section')).map(s => ({ title: s.querySelector('.work-title').value, company: s.querySelector('.work-company').value, date: s.querySelector('.work-date').value, description: s.querySelector('.work-description').value, })),
@@ -49,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
     };
 
-    // --- All 'generate...' HELPER FUNCTIONS ---
+    // --- HELPER FUNCTIONS FOR GENERATING CV SECTIONS ---
     const generateHeader = (personal) => {
         const username = personal.linkedin.trim();
         let linkedInHtml = username ? `<a href="https://www.linkedin.com/in/${username}" target="_blank" rel="noopener noreferrer">in/${username}</a>` : '';
@@ -104,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
         generateCV();
     };
     
-    // --- PDF EXPORT (REVERTED TO SIMPLER METHOD) ---
+    // --- PDF EXPORT ---
     const downloadPdf = () => {
         window.print();
     };
