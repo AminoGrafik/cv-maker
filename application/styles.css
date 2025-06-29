@@ -4,12 +4,14 @@
     padding: 0;
     box-sizing: border-box;
 }
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: #222222;
     min-height: 100vh;
     padding: 20px;
 }
+
 /* Layout */
 .container {
     max-width: 1400px;
@@ -19,7 +21,8 @@ body {
     gap: 20px;
     height: calc(100vh - 40px);
 }
-/* Panels */
+
+/* Editor & Preview Panels */
 .editor-panel, .preview-panel {
     background: white;
     border-radius: 15px;
@@ -47,6 +50,7 @@ body {
     overflow-y: auto;
     padding: 25px;
 }
+
 /* Typography */
 h2 {
     color: #333;
@@ -59,7 +63,6 @@ h3 {
     color: #555;
     font-size: 1.1em;
     margin-bottom: 15px;
-    /* NEW: Styles for aligning icons with titles */
     display: flex;
     align-items: center;
     gap: 8px;
@@ -68,6 +71,7 @@ h4 {
     color: #666;
     font-size: 1em;
 }
+
 /* Form Elements */
 .form-group { margin-bottom: 20px; }
 label {
@@ -110,13 +114,32 @@ trix-editor:focus-within {
 }
 
 /* Buttons */
-.btn { /* ... */ }
-.btn:hover { /* ... */ }
-.btn-secondary { /* ... */ }
-.btn-danger { /* ... */ }
-.btn-sm { /* ... */ }
+.btn {
+    background: #222222;
+    color: white;
+    border: 2px solid transparent;
+    padding: 12px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+.btn:hover {
+    transform: translateY(-2px);
+    border-color: white;
+}
+.btn-secondary {
+    background: #222222;
+    border: 2px solid #6c757d;
+}
+.btn-secondary:hover { border-color: white; }
+.btn-danger { background: #dc3545; border-color: #dc3545; }
+.btn-sm { padding: 5px 10px; font-size: 12px; }
 
-/* NEW: Style for the print instruction note */
+/* Print Instruction Note */
 .print-instruction {
     font-size: 12px;
     color: #6c757d;
@@ -138,7 +161,7 @@ trix-editor:focus-within {
     margin-bottom: 15px;
 }
 .section-header h3 {
-    margin-bottom: 0; /* Remove bottom margin for section headers with buttons */
+    margin-bottom: 0; 
 }
 
 /* CV Preview Styles */
@@ -147,7 +170,7 @@ trix-editor:focus-within {
 .cv-name { font-size: 2.2em; font-weight: bold; color: #2c3e50; margin-bottom: 10px; }
 .cv-title { font-size: 1.3em; color: #7f8c8d; margin-bottom: 15px; }
 .cv-contact { font-size: 0.95em; }
-.cv-section { margin-bottom: 25px; page-break-inside: avoid; }
+.cv-section { margin-bottom: 35px; page-break-inside: avoid; }
 .cv-section-title { font-size: 1.2em; font-weight: bold; color: #2c3e50; border-bottom: 1px solid #bdc3c7; padding-bottom: 5px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
 .cv-item { margin-bottom: 15px; page-break-inside: avoid; }
 .cv-item-header { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 5px; }
@@ -194,15 +217,13 @@ trix-editor:focus-within {
 }
 
 /* Trix Editor Toolbar Customizations */
-/* This section hides the Trix buttons we don't need */
-trix-toolbar .trix-button--icon-strike, /* Hides Strikethrough */
-trix-toolbar .trix-button--icon-link, /* Hides Link */
-trix-toolbar .trix-button--icon-heading-1, /* Hides Heading */
-trix-toolbar .trix-button--icon-quote, /* Hides Quote */
-trix-toolbar .trix-button--icon-code, /* Hides Code Block */
-trix-toolbar .trix-button-group--history-tools, /* Hides Undo/Redo */
-trix-toolbar .trix-button-group--file-tools, /* Hides Attach File */
-/* NEW: Hides Indent/Outdent buttons */
+trix-toolbar .trix-button--icon-strike,
+trix-toolbar .trix-button--icon-link,
+trix-toolbar .trix-button--icon-heading-1,
+trix-toolbar .trix-button--icon-quote,
+trix-toolbar .trix-button--icon-code,
+trix-toolbar .trix-button-group--history-tools,
+trix-toolbar .trix-button-group--file-tools,
 trix-toolbar .trix-button--icon-decrease-nesting-level,
 trix-toolbar .trix-button--icon-increase-nesting-level {
     display: none;
