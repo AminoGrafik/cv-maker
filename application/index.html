@@ -15,7 +15,7 @@
 
             <div class="form-section">
                 <div class="section-header">
-                    <h2>Personal Details</h2>
+                    <h2><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>Personal Details</h2>
                 </div>
                 <div class="form-card">
                     <div class="form-card-body">
@@ -49,91 +49,32 @@
 
             <div class="form-section">
                 <div class="section-header">
-                    <h2>PROFESSIONAL SUMMARY</h2>
+                    <h2><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg>PROFESSIONAL SUMMARY</h2>
                     <p class="section-subtitle">Be concise - hiring managers only spend around 6 seconds on each resume.</p>
                 </div>
                 <div class="form-card">
                     <div class="form-card-body">
-                        <input id="summary" type="hidden">
-                        <trix-editor input="summary" class="trix-content"></trix-editor>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-section">
-                <div class="section-header">
-                    <h2>Experience</h2>
-                    <p class="section-subtitle">Include your last 10 years of relevant experience. List your most recent position first.</p>
-                </div>
-                <div id="workExperience"></div>
-                <button class="btn-add-section" id="addWorkExperienceBtn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                    <span>Add Experience</span>
-                </button>
-            </div>
-
-            <div class="form-section">
-                <div class="section-header">
-                    <h2>Projects</h2>
-                     <p class="section-subtitle">Showcase your practical skills with relevant projects.</p>
-                </div>
-                <div id="projects"></div>
-                <button class="btn-add-section" id="addProjectBtn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                    <span>Add Project</span>
-                </button>
-            </div>
-
-            <div class="form-section">
-                <div class="section-header">
-                    <h2>Education</h2>
-                    <p class="section-subtitle">Include your academic qualifications and institutions.</p>
-                </div>
-                <div id="education"></div>
-                <button class="btn-add-section" id="addEducationBtn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                    <span>Add Education</span>
-                </button>
-            </div>
-
-            <div class="form-section">
-                <div class="section-header">
-                    <h2>Certifications</h2>
-                    <p class="section-subtitle">List any professional certifications.</p>
-                </div>
-                <div id="certifications"></div>
-                <button class="btn-add-section" id="addCertificationBtn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                    <span>Add Certification</span>
-                </button>
-            </div>
-            
-            <div class="form-section">
-                 <div class="section-header">
-                    <h2>Skills</h2>
-                    <p class="section-subtitle">List relevant technical and soft skills, separated by commas.</p>
-                </div>
-                <div class="form-card">
-                    <div class="form-card-body">
-                        <div class="form-group">
-                            <label for="skills">Skills</label>
-                            <input type="text" id="skills" placeholder="e.g., Project Management, Figma, Public Speaking...">
+                        <div class="trix-editor-wrapper">
+                            <input id="summary" type="hidden">
+                            <trix-editor input="summary" class="trix-content"></trix-editor>
                         </div>
                     </div>
                 </div>
             </div>
 
-             <div class="form-section">
-                 <div class="section-header">
-                    <h2>Languages</h2>
+            <div class="form-section">
+                <div class="section-header">
+                    <h2><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>Experience</h2>
+                    <p class="section-subtitle">Include your last 10 years of relevant experience. List your most recent position first.</p>
                 </div>
-                <div id="languages"></div>
-                <button class="btn-add-section" id="addLanguageBtn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                    <span>Add Language</span>
+                <div id="workExperience"></div>
+                <button class="btn-add-section" id="addWorkExperienceBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M11 13H5v-2h6V5h2v6h6v2h-6v6h-2z"/></svg>
+                    <span>Add Experience</span>
                 </button>
             </div>
-        </div>
+            
+            </div>
 
         <div class="preview-panel">
             <div id="cvPreviewContainer" class="cv-preview-container">
@@ -147,6 +88,6 @@
     </div>
 
     <script type="text/javascript" src="https://unpkg.com/trix@2.0.0/dist/trix.umd.min.js"></script>
-    <script src="script.js?v=final-ui"></script>
+    <script src="script.js?v=ui-revamp"></script>
 </body>
 </html>
