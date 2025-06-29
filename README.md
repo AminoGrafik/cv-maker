@@ -16,7 +16,6 @@ A modern, ATS-friendly CV/Resume builder that helps you create professional resu
 
 **[Try the CV Maker Here](https://aminografik.github.io/cv-maker/)**
 
-*Replace `yourusername` with your actual GitHub username*
 
 ## 📋 What You Can Build
 
