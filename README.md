@@ -48,7 +48,7 @@ This builder supports all the essential sections for a comprehensive, profession
 ## 📂 File Structure
 
 The project is structured to separate the application from the repository's root files.
-
+```
 cv-maker/
         │
         ├── application/
@@ -60,7 +60,7 @@ cv-maker/
         │── script.js          # All JavaScript functionality
         │
         └── README.md              # This file
-
+```
 
 ## 🔧 Local Development
 
