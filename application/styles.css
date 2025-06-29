@@ -105,6 +105,15 @@ input:focus, textarea:focus, select:focus {
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
+input:invalid {
+    border-color: #dc3545;
+}
+
+input:focus:invalid {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2);
+}
+
 textarea {
     resize: vertical;
     min-height: 80px;
@@ -149,6 +158,12 @@ textarea {
     box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
 }
 
+/* --- NEW --- Smaller button variant */
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
 /* Dynamic Sections */
 .dynamic-section {
     border: 1px solid #e9ecef;
@@ -174,12 +189,41 @@ textarea {
     background: white;
 }
 
+/* --- UPDATED --- CV Header Styles for Photo Layout */
 .cv-header {
-    text-align: center;
     margin-bottom: 30px;
     padding-bottom: 20px;
     border-bottom: 2px solid #333;
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
+
+/* Default state (no photo): center everything */
+.cv-header-info {
+    width: 100%;
+    text-align: center;
+}
+
+/* Hidden by default, shown by JS */
+.cv-photo-container {
+    flex-shrink: 0;
+}
+
+.cv-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #333;
+}
+
+/* When .has-photo class is added by JS, switch to left-aligned layout */
+.cv-header.has-photo .cv-header-info {
+    text-align: left;
+}
+/* --- END OF UPDATED STYLES --- */
+
 
 .cv-name {
     font-size: 2em;
@@ -196,9 +240,9 @@ textarea {
 
 .cv-contact {
     display: flex;
-    justify-content: center;
+    justify-content: inherit; /* Inherit alignment from parent */
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 15px;
     font-size: 0.9em;
 }
 
@@ -315,7 +359,16 @@ textarea {
     .preview-content {
         padding: 15px;
     }
-    
+
+    /* --- NEW --- Responsive CV Header */
+    .cv-header {
+        flex-direction: column;
+    }
+    .cv-header.has-photo .cv-header-info {
+        text-align: center;
+    }
+    /* --- END --- */
+
     .cv-contact {
         flex-direction: column;
         align-items: center;
@@ -392,7 +445,13 @@ textarea {
         font-size: 12pt;
         line-height: 1.4;
     }
-    
+
+    /* --- NEW --- Print styles for photo */
+    .cv-photo {
+        border: 3px solid #333;
+    }
+    /* --- END --- */
+
     .cv-name {
         font-size: 18pt;
     }
