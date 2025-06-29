@@ -101,23 +101,44 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const formatDescription = desc => `<ul>${desc.split('\n').filter(Boolean).map(line => `<li>${line.trim().replace(/^-|^\*|^\•/, '').trim()}</li>`).join('')}</ul>`;
 
-    // --- DYNAMIC SECTION MANAGEMENT ---
+    // --- DYNAMIC SECTION MANAGEMENT (THIS IS THE FIX) ---
     const addSection = (type) => {
         const container = document.getElementById(type);
         const div = document.createElement('div');
         div.className = 'dynamic-section';
-        let count, fields;
+
+        let count, headerText, fields;
+
         if (type === 'workExperience') {
             count = ++workExperienceCount;
-            fields = `<h4>Experience ${count}</h4><input type="text" placeholder="Job Title" class="work-title"><input type="text" placeholder="Company" class="work-company"><input type="text" placeholder="Date (e.g., Jan 2020 - Present)" class="work-date"><textarea placeholder="Achievements..." class="work-description"></textarea>`;
+            headerText = `Experience ${count}`;
+            fields = `<input type="text" placeholder="Job Title" class="work-title">
+                      <input type="text" placeholder="Company" class="work-company">
+                      <input type="text" placeholder="Date (e.g., Jan 2020 - Present)" class="work-date">
+                      <textarea placeholder="Achievements..." class="work-description"></textarea>`;
         } else if (type === 'education') {
             count = ++educationCount;
-            fields = `<h4>Education ${count}</h4><input type="text" placeholder="Degree or Major" class="edu-degree"><input type="text" placeholder="Institution Name" class="edu-institution"><input type="text" placeholder="Graduation Date" class="edu-date">`;
+            headerText = `Education ${count}`;
+            fields = `<input type="text" placeholder="Degree or Major" class="edu-degree">
+                      <input type="text" placeholder="Institution Name" class="edu-institution">
+                      <input type="text" placeholder="Graduation Date" class="edu-date">`;
         } else { // certifications
             count = ++certificationCount;
-            fields = `<h4>Certification ${count}</h4><input type="text" placeholder="Certification Name" class="cert-name"><input type="text" placeholder="Issuing Organization" class="cert-org"><input type="text" placeholder="Date Obtained" class="cert-date">`;
+            headerText = `Certification ${count}`;
+            fields = `<input type="text" placeholder="Certification Name" class="cert-name">
+                      <input type="text" placeholder="Issuing Organization" class="cert-org">
+                      <input type="text" placeholder="Date Obtained" class="cert-date">`;
         }
-        div.innerHTML = `<div class="section-header">${fields}</div><button class="btn btn-danger btn-sm remove-btn">Remove</button>`;
+
+        // This new structure correctly separates the header from the input fields
+        div.innerHTML = `
+            <div class="section-header">
+                <h4>${headerText}</h4>
+                <button class="btn btn-danger btn-sm remove-btn">Remove</button>
+            </div>
+            ${fields}
+        `;
+
         div.querySelector('.remove-btn').onclick = () => { div.remove(); generateCV(); };
         container.appendChild(div);
         div.querySelectorAll('input, textarea').forEach(el => el.addEventListener('input', generateCV));
