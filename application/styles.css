@@ -231,6 +231,11 @@ textarea {
     color: #2c3e50;
 }
 
+/* --- NEW --- Helper class for adding padding during PDF export */
+.cv-preview.pdf-export-padding {
+    padding: 40px;
+}
+
 /* Responsive Styles */
 @media (max-width: 1024px) {
     .container {
