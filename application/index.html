@@ -16,33 +16,32 @@
             <div class="form-section">
                 <div class="section-header">
                     <h2>Personal Details</h2>
-                    <p class="section-subtitle">Start with your basic contact information.</p>
                 </div>
                 <div class="form-card">
                     <div class="form-card-body">
                         <div class="form-card-grid-2">
                             <div class="form-group">
                                 <label for="fullName">Full Name</label>
-                                <input type="text" id="fullName" placeholder="e.g., Matthew Smith">
+                                <input type="text" id="fullName" placeholder="Matthew Smith">
                             </div>
                             <div class="form-group">
                                 <label for="jobTitle">Job Title</label>
-                                <input type="text" id="jobTitle" placeholder="e.g., Service Designer">
+                                <input type="text" id="jobTitle" placeholder="Service Designer">
                             </div>
                         </div>
                          <div class="form-card-grid-2">
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="email" id="email" placeholder="e.g., matthew@email.com">
+                                <input type="email" id="email" placeholder="matthew@email.com">
                             </div>
                             <div class="form-group">
                                 <label for="phone">Phone</label>
-                                <input type="tel" id="phone" placeholder="e.g., (123) 456-7890">
+                                <input type="tel" id="phone" placeholder="(123) 456-7890">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="location">Location</label>
-                            <input type="text" id="location" placeholder="e.g., City, Country">
+                            <input type="text" id="location" placeholder="City, Country">
                         </div>
                     </div>
                 </div>
@@ -50,7 +49,7 @@
 
             <div class="form-section">
                 <div class="section-header">
-                    <h2>Short Bio</h2>
+                    <h2>PROFESSIONAL SUMMARY</h2>
                     <p class="section-subtitle">Be concise - hiring managers only spend around 6 seconds on each resume.</p>
                 </div>
                 <div class="form-card">
@@ -63,7 +62,7 @@
 
             <div class="form-section">
                 <div class="section-header">
-                    <h2>Your Experience</h2>
+                    <h2>Experience</h2>
                     <p class="section-subtitle">Include your last 10 years of relevant experience. List your most recent position first.</p>
                 </div>
                 <div id="workExperience"></div>
@@ -94,6 +93,18 @@
                 <button class="btn-add-section" id="addEducationBtn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                     <span>Add Education</span>
+                </button>
+            </div>
+
+            <div class="form-section">
+                <div class="section-header">
+                    <h2>Certifications</h2>
+                    <p class="section-subtitle">List any professional certifications.</p>
+                </div>
+                <div id="certifications"></div>
+                <button class="btn-add-section" id="addCertificationBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    <span>Add Certification</span>
                 </button>
             </div>
             
@@ -130,7 +141,6 @@
                     </div>
             </div>
             <div class="preview-actions">
-                <button class="btn-secondary" id="editTemplateBtn">Edit Template</button>
                 <button class="btn-primary" id="downloadPdfBtn">Download CV</button>
             </div>
         </div>
