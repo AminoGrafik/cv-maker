@@ -5,15 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Professional CV Maker</title>
     
+    <!-- Trix Editor CSS -->
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.0/dist/trix.css">
     
+    <!-- Main Stylesheet -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
+        <!-- Editor Panel -->
         <div class="editor-panel">
             <h2>CV Builder</h2>
             
+            <!-- Personal Information -->
             <div class="form-group">
                 <h3>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
@@ -33,6 +37,7 @@
                 <input type="text" id="linkedin" placeholder="your-linkedin-username">
             </div>
 
+            <!-- Professional Summary -->
             <div class="form-group">
                 <h3>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg>
@@ -42,28 +47,136 @@
                 <trix-editor input="summary" class="trix-content"></trix-editor>
             </div>
 
+            <!-- Work Experience -->
+            <div class="form-group">
+                <div class="section-header">
+                    <h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-briefcase"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                        <span>Work Experience</span>
+                    </h3>
+                    <button class="btn" id="addWorkExperienceBtn">Add Experience</button>
+                </div>
+                <div id="workExperience"></div>
+            </div>
+
+            <!-- Projects -->
+            <div class="form-group">
+                <div class="section-header">
+                    <h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lightbulb"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                        <span>Projects</span>
+                    </h3>
+                    <button class="btn" id="addProjectBtn">Add Project</button>
+                </div>
+                <div id="projects"></div>
+            </div>
+
+            <!-- Education -->
+            <div class="form-group">
+                <div class="section-header">
+                    <h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-graduation-cap"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                        <span>Education</span>
+                    </h3>
+                    <button class="btn" id="addEducationBtn">Add Education</button>
+                </div>
+                <div id="education"></div>
+            </div>
+            
+            <!-- Awards and Honors -->
+            <div class="form-group">
+                <div class="section-header">
+                    <h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-award"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+                        <span>Awards and Honors</span>
+                    </h3>
+                    <button class="btn" id="addAwardBtn">Add Award</button>
+                </div>
+                <div id="awards"></div>
+            </div>
+
+            <!-- Publications -->
+            <div class="form-group">
+                <div class="section-header">
+                    <h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book-open"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                        <span>Publications</span>
+                    </h3>
+                    <button class="btn" id="addPublicationBtn">Add Publication</button>
+                </div>
+                <div id="publications"></div>
+            </div>
+
+            <!-- Volunteer Experience -->
+            <div class="form-group">
+                <div class="section-header">
+                    <h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart-handshake"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M12 5 9.04 7.96a2.17 2.17 0 0 0 0 3.08v0c.82.82 2.13.82 2.94 0l.06-.06L12 11l2.96-2.96a2.17 2.17 0 0 0 0-3.08v0c-.82-.82-2.13-.82-2.94 0l-.06.06L12 5Z"/></svg>
+                        <span>Volunteer Experience</span>
+                    </h3>
+                    <button class="btn" id="addVolunteerBtn">Add Volunteer</button>
+                </div>
+                <div id="volunteer"></div>
+            </div>
+
+            <!-- Certifications -->
+            <div class="form-group">
+                <div class="section-header">
+                    <h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-badge-check"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.78l1.21 1.22a1 1 0 0 0 1.42 0l1.21-1.22a4 4 0 0 1 4.78 4.78l-1.22 1.21a1 1 0 0 0 0 1.42l1.22 1.21a4 4 0 0 1-4.78 4.78l-1.21-1.22a1 1 0 0 0-1.42 0l-1.21 1.22a4 4 0 0 1-4.78-4.78l1.22-1.21a1 1 0 0 0 0-1.42z"/><path d="m9 12 2 2 4-4"/></svg>
+                        <span>Certifications</span>
+                    </h3>
+                    <button class="btn" id="addCertificationBtn">Add Certification</button>
+                </div>
+                <div id="certifications"></div>
+            </div>
+
+            <!-- Languages -->
+            <div class="form-group">
+                <div class="section-header">
+                    <h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-languages"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg>
+                        <span>Languages</span>
+                    </h3>
+                    <button class="btn" id="addLanguageBtn">Add Language</button>
+                </div>
+                <div id="languages"></div>
+            </div>
+
+            <!-- Skills -->
+            <div class="form-group">
+                <h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
+                        <span>Skills</span>
+                </h3>
+                <textarea id="skills" placeholder="Enter skills separated by commas..."></textarea>
+            </div>
+            
+            <!-- Actions -->
             <div class="form-group">
                 <button class="btn" id="downloadPdfBtn">Download PDF</button>
                 <button class="btn btn-secondary" id="saveDataBtn">Save Data</button>
                 <button class="btn btn-secondary" id="loadDataBtn">Load Data</button>
-                
                 <p class="print-instruction">
                     For a clean export, find "More settings" in your browser's print dialog and uncheck "Headers and footers".
                 </p>
             </div>
         </div>
 
+        <!-- Preview Panel -->
         <div class="preview-panel">
             <div class="preview-header">
                 <h3>CV Preview</h3>
             </div>
             <div class="preview-content">
                 <div id="cvPreview" class="cv-preview">
-                    </div>
+                    <!-- CV content is generated by JS -->
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Libraries -->
     <script type="text/javascript" src="https://unpkg.com/trix@2.0.0/dist/trix.umd.min.js"></script>
     <script src="script.js?v=final"></script>
 </body>
