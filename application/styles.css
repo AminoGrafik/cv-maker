@@ -14,7 +14,7 @@
     box-sizing: border-box;
 }
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background-color: var(--bg-color);
     color: var(--text-primary);
     line-height: 1.5;
@@ -23,49 +23,47 @@ body {
 /* --- Main Layout --- */
 .main-container {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    align-items: flex-start; /* Align items to the top */
     gap: 32px;
     padding: 32px;
-    height: 100vh;
-    max-height: 100vh;
-    overflow: hidden;
 }
 .editor-panel {
-    flex: 1 1 550px; /* Base size of 550px, can grow and shrink */
-    min-width: 400px;
-    overflow-y: auto;
-    padding-right: 24px;
+    flex: 0 0 55%; /* Base width */
+    min-width: 450px;
 }
 .preview-panel {
-    flex: 1 1 450px; /* Base size of 450px, can grow and shrink */
+    flex: 1 1 45%; /* Take remaining space */
+    position: sticky; /* THIS IS THE KEY FIX */
+    top: 32px; /* Stick 32px from the top */
+    height: calc(100vh - 64px); /* Full viewport height minus padding */
+
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #e5e7eb;
-    border-radius: 12px;
-    padding: 32px;
 }
 
-/* --- CV Preview --- */
+/* --- CV Preview Scaling --- */
 .cv-preview-container {
     width: 100%;
-    max-width: 100%;
+    max-width: 500px;
     flex-grow: 1;
-    overflow: hidden;
     display: flex;
     justify-content: center;
+    align-items: flex-start;
+    overflow: hidden;
 }
 .cv-preview {
     background-color: var(--panel-bg);
-    width: 100%;
-    height: 100%;
+    width: 210mm;
+    min-height: 297mm;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
     border: 1px solid var(--border-color);
-    overflow-y: auto; /* Allow scrolling within the preview */
+    transform-origin: top center;
+    transform: scale(0.65);
+    transition: transform 0.3s ease;
     font-family: 'Times New Roman', Times, serif;
     color: #111827;
-    padding: 2cm;
+    padding: 2.5cm 2cm;
 }
 .preview-actions {
     margin-top: 24px;
@@ -145,32 +143,9 @@ trix-toolbar .trix-button-group--file-tools {
 
 /* --- Mobile Friendliness & Print --- */
 @media (max-width: 1024px) {
-    body { overflow-y: auto; height: auto; }
     .main-container { flex-direction: column; height: auto; padding: 16px; }
     .editor-panel { order: 2; padding-right: 0; }
-    .preview-panel { order: 1; }
-    .cv-preview { min-height: 0; height: auto; aspect-ratio: 210 / 297; padding: 1.5cm 1cm; }
+    .preview-panel { order: 1; position: static; height: auto; } /* Revert sticky position on mobile */
+    .cv-preview { transform: scale(1); min-height: 0; height: auto; aspect-ratio: 210 / 297; padding: 1.5cm 1cm; }
     .form-card-grid-2 { grid-template-columns: 1fr; }
-}
-
-@media print {
-    body, .main-container {
-        display: block !important;
-        height: auto !important;
-        padding: 0 !important;
-        margin: 0 !important;
-    }
-    .editor-panel, .preview-panel .preview-actions {
-        display: none !important;
-    }
-    .preview-panel, .cv-preview-container, .cv-preview {
-        width: 100% !important;
-        max-width: 100% !important;
-        height: auto !important;
-        overflow: visible !important;
-        box-shadow: none !important;
-        border: none !important;
-        padding: 0 !important;
-        margin: 0 !important;
-    }
 }
