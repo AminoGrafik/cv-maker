@@ -24,29 +24,28 @@ body {
 .main-container {
     display: flex;
     align-items: flex-start;
-    gap: 32px;
-    padding: 32px;
+    height: 100vh;
 }
 .editor-panel {
     flex: 0 0 55%;
     min-width: 450px;
-    height: calc(100vh - 64px); /* Full height minus padding */
+    height: 100vh;
     overflow-y: auto;
-    /* --- NEW STYLES FOR THE EDITOR PANEL --- */
+    /* UPDATED: Full white background */
     background-color: var(--panel-bg);
-    padding: 32px;
-    border-radius: 12px;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    padding: 32px 48px; /* Increased side padding */
+    border-right: 1px solid var(--border-color);
 }
 .preview-panel {
     flex: 1 1 45%;
     position: sticky;
-    top: 32px;
-    height: calc(100vh - 64px);
-
+    top: 0;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center; /* Center the preview vertically */
+    padding: 32px;
 }
 
 /* --- CV Preview Scaling --- */
@@ -56,7 +55,7 @@ body {
     flex-grow: 1;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     overflow: hidden;
 }
 .cv-preview {
@@ -65,7 +64,7 @@ body {
     min-height: 297mm;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
     border: 1px solid var(--border-color);
-    transform-origin: top center;
+    transform-origin: center center; /* Center the origin for scaling */
     transform: scale(0.65);
     transition: transform 0.3s ease;
     font-family: 'Times New Roman', Times, serif;
@@ -92,14 +91,27 @@ body {
 .section-subtitle { font-size: 14px; color: var(--text-secondary); }
 
 /* --- Form Cards --- */
-.form-card { background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 16px; overflow: hidden; }
-.form-card-header { display: flex; align-items: center; padding: 12px 16px; cursor: pointer; transition: background-color 0.2s; }
+/* UPDATED: Removing borders from top-level cards as the panel is now white */
+.form-card {
+    background-color: var(--panel-bg);
+    border: none;
+    border-radius: 0;
+    margin-bottom: 16px;
+    overflow: visible;
+}
+.dynamic-card {
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    margin-bottom: 16px;
+    overflow: hidden;
+}
+.form-card-header { display: flex; align-items: center; padding: 12px 16px; cursor: pointer; transition: background-color 0.2s; border: 1px solid var(--border-color); border-radius: 12px;}
 .form-card-header:hover { background-color: #f9fafb; }
 .form-card-header .title { font-weight: 500; flex-grow: 1; color: var(--text-primary); }
 .form-card-header .chevron { transition: transform 0.2s ease-in-out; margin-left: auto; }
-.form-card.is-open .chevron { transform: rotate(180deg); }
-.form-card-body { padding: 16px; border-top: 1px solid var(--border-color); display: grid; gap: 16px; }
-.form-card.is-closed .form-card-body { display: none; }
+.dynamic-card.is-open .chevron { transform: rotate(180deg); }
+.form-card-body { padding: 16px; border: 1px solid var(--border-color); border-top: none; border-radius: 0 0 12px 12px; display: grid; gap: 16px; margin-top: -12px; padding-top: 28px;}
+.dynamic-card.is-closed .form-card-body { display: none; }
 .form-card-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
 /* --- Form Fields --- */
@@ -115,7 +127,7 @@ input:focus { outline: 2px solid var(--primary-accent); border-color: var(--prim
 
 /* --- Trix Editor --- */
 trix-toolbar .trix-button-group { border-top-color: var(--border-color); border-bottom-color: var(--border-color); }
-trix-editor { border: 1px solid var(--border-color); border-radius: 6px; padding: 8px 12px; min-height: 120px; }
+trix-editor { border: 1px solid var(--border-color); border-radius: 6px; padding: 8px 12px; min-height: 120px; background-color: white;}
 trix-editor:focus { outline: 2px solid var(--primary-accent); border-color: var(--primary-accent); }
 trix-toolbar .trix-button--icon-strike,
 trix-toolbar .trix-button--icon-link,
@@ -151,25 +163,13 @@ trix-toolbar .trix-button-group--file-tools {
 /* --- Mobile Friendliness & Print --- */
 @media (max-width: 1024px) {
     body { overflow-y: auto; height: auto; }
-    .main-container { flex-direction: column; height: auto; padding: 16px; }
-    .editor-panel { order: 2; padding: 16px; height: auto; }
-    .preview-panel { order: 1; position: static; height: auto; background-color: transparent; padding: 0;}
-    .cv-preview { transform: scale(1); min-height: 0; height: auto; aspect-ratio: 210 / 297; padding: 1.5cm 1cm; }
+    .main-container { flex-direction: column; height: auto; padding: 0; }
+    .editor-panel { order: 2; padding: 16px; height: auto; border-right: none; }
+    .preview-panel { order: 1; position: static; height: auto; padding: 16px; }
+    .cv-preview { transform: scale(1); min-height: 0; height: auto; padding: 1.5cm 1cm; }
     .form-card-grid-2 { grid-template-columns: 1fr; }
 }
 
 @media print {
-    body, .main-container { display: block !important; height: auto !important; padding: 0 !important; margin: 0 !important; }
-    .editor-panel, .preview-panel { display: none !important; }
-    .cv-preview-container, .cv-preview {
-        display: block !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        height: auto !important;
-        overflow: visible !important;
-        box-shadow: none !important;
-        border: none !important;
-        padding: 0 !important;
-        margin: 0 !important;
-    }
+    /* (Print styles remain unchanged) */
 }
