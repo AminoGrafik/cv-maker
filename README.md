@@ -1,164 +1,92 @@
-# ATS Friendly CV Maker
+# ATS-Friendly CV Maker
 
-A modern, ATS-friendly CV/Resume builder that helps you create professional resumes with real-time preview and easy customization.
-
-## 🌟 Features
-
-- **Real-time Preview**: See your CV update instantly as you type
-- **ATS-Friendly**: Clean, structured format that passes Applicant Tracking Systems
-- **Professional Design**: Multiple sections with clean, readable formatting
-- **Export Options**: Print or save as PDF directly from your browser
-- **Data Management**: Save and load your CV data for future editing
-- **Responsive Design**: Works perfectly on desktop, tablet, and mobile devices
-- **Dynamic Sections**: Add multiple work experiences, education entries, and certifications
+A minimalist, open-source CV builder focused on creating clean, professional, and Applicant Tracking System (ATS)-friendly resumes.
 
 ## 🚀 Live Demo
 
-**[Try the CV Maker Here](https://aminografik.github.io/cv-maker/application)**
+**[Try the CV Maker Here](https://aminografik.github.io/cv-maker/application/)**
 
+## 💡 Why This App? The ATS Problem
 
-## 📋 What You Can Build
+In today's job market, most companies use an **Applicant Tracking System (ATS)** to screen resumes before a human ever sees them. These systems are robotic and easily confused by complex layouts, graphics, columns, and photos. A visually creative resume can often be misread, causing a qualified candidate to be rejected automatically.
 
-- **Professional Summary**: Compelling overview of your background
-- **Work Experience**: Multiple job positions with detailed descriptions
-- **Education**: Academic qualifications and institutions
-- **Skills**: Technical and soft skills in an organized layout
-- **Certifications**: Professional certifications and training
-- **Contact Information**: Professional contact details and LinkedIn profile
+This CV Maker solves that problem by focusing on what matters: **clear, structured content.** It generates a resume with a simple, single-column layout that is proven to be parsed correctly by ATS software, ensuring your information gets through to the recruiter.
 
-## 🎯 Perfect For
+## 🌟 Core Features
 
-- Job seekers looking for ATS-friendly resumes
-- Students creating their first professional CV
-- Professionals updating their resumes
-- Career changers highlighting transferable skills
-- Anyone wanting a clean, modern resume design
+-   **ATS-Optimized Output**: The generated PDF uses a clean, single-column format to maximize compatibility with automated screening systems.
+-   **Real-time Preview**: See your CV update instantly as you type.
+-   **Clean PDF Export**: Uses `jsPDF` and `html2canvas` to generate a professional, high-quality PDF with proper margins, free of browser headers and footers.
+-   **Rich Text Editing**: Format your descriptions with **bold**, *italic*, lists, and more. *(Coming Soon)*
+-   **Dynamic Sections**: Add as many entries as you need for your experience, education, and projects.
+-   **Privacy-First**: Your data never leaves your device. All processing is done in your browser.
+-   **100% Free & Open Source**: No ads, no sign-ups, no premium features.
 
-## 💻 How to Use
+## 📄 Core Sections
 
-1. **Fill in Personal Information**: Start with your basic contact details
-2. **Add Professional Summary**: Write a compelling overview of your background
-3. **Add Work Experience**: Click "Add Experience" to include your job history
-4. **Include Education**: Add your academic qualifications
-5. **List Skills**: Enter skills separated by commas
-6. **Add Certifications**: Include any professional certifications
-7. **Preview & Download**: Use the real-time preview and download as PDF
+This builder supports all the essential sections for a comprehensive, professional resume:
+
+-   **Personal Information**
+-   **Professional Summary**
+-   **Work Experience**
+-   **Education**
+-   **Projects** *(Coming Soon)*
+-   **Certifications**
+-   **Skills**
+-   **Languages** *(Coming Soon)*
+-   **Publications** *(Coming Soon)*
+-   **Awards and Honors** *(Coming Soon)*
 
 ## 🛠️ Technologies Used
 
-- **HTML5**: Semantic structure for better ATS compatibility
-- **CSS3**: Modern styling with responsive design
-- **Vanilla JavaScript**: Interactive functionality without dependencies
-- **Print CSS**: Optimized printing and PDF generation
-
-## 📱 Screenshots
-
-### Desktop View
-*Clean, professional interface with side-by-side editing and preview*
-
-### Mobile View
-*Fully responsive design that works on all devices*
-
-## 🔧 Local Development
-
-To run this project locally:
-
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/cv-maker.git
-```
-
-2. Navigate to the project folder:
-```bash
-cd cv-maker
-```
-
-3. Open `index.html` in your web browser or use a local server:
-```bash
-# Using Python (if installed)
-python -m http.server 3000
-
-# Using Node.js (if you have live-server installed)
-npx live-server
-```
+-   **HTML5**: Semantic structure for content clarity.
+-   **CSS3**: Modern styling with a responsive, dark-theme UI.
+-   **Vanilla JavaScript**: All interactive functionality, with no frameworks.
+-   **jsPDF & html2canvas**: For robust, high-quality PDF generation.
+-   **Trix Editor**: For rich text editing capabilities. *(Coming Soon)*
 
 ## 📂 File Structure
 
-```
+The project is structured to separate the application from the repository's root files.
+
 cv-maker/
-├── index.html          # Main HTML file
-├── styles.css          # All CSS styles
-├── script.js           # JavaScript functionality
-└── README.md          # This file
-```
+├── application/
+│   ├── index.html         # The main application file
+│   ├── styles.css         # All application styles
+│   └── script.js          # All JavaScript functionality
+└── README.md              # This file
 
-## 🎨 Customization
 
-### Colors
-- Primary gradient: `#667eea` to `#764ba2`
-- You can easily change colors in the CSS file
+## 🔧 Local Development
 
-### Fonts
-- Editor: Segoe UI (modern, clean)
-- CV Preview: Times New Roman (professional, ATS-friendly)
+To run this project on your local machine:
 
-### Layout
-- Responsive grid system
-- Easy to modify section layouts in CSS
-
-## 💾 Data Management
-
-- **Save Data**: Export your CV data as a JSON file
-- **Load Data**: Import previously saved CV data
-- **Browser Storage**: Data persists during your session
-- **Privacy**: All data is processed locally - nothing is sent to servers
-
-## 🖨️ Export Options
-
-- **Print**: Direct printing with optimized print styles
-- **PDF**: Use your browser's "Print to PDF" function
-- **Professional Format**: Clean, ATS-friendly output
-
-## 🌟 Why This CV Maker?
-
-1. **ATS-Optimized**: Designed to pass Applicant Tracking Systems
-2. **No Sign-up Required**: Start building immediately
-3. **Completely Free**: No hidden costs or premium features
-4. **Privacy-First**: Your data never leaves your device
-5. **Modern Design**: Professional appearance that stands out
-6. **Easy to Use**: Intuitive interface for quick CV creation
+1.  **Clone the repository:**
+    ```bash
+    git clone [https://github.com/aminografik/cv-maker.git](https://github.com/aminografik/cv-maker.git)
+    ```
+2.  **Navigate to the project directory:**
+    ```bash
+    cd cv-maker
+    ```
+3.  **Open the `application/index.html` file** in your web browser.
 
 ## 🤝 Contributing
 
-Contributions are welcome! Feel free to:
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-- Report bugs
-- Suggest new features
-- Submit pull requests
-- Improve documentation
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+
+1.  Fork the Project
+2.  Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3.  Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4.  Push to the Branch (`git push origin feature/AmazingFeature`)
+5.  Open a Pull Request
 
 ## 📄 License
 
-This project is open source and available under the [MIT License](LICENSE).
-
-## 🙋‍♂️ Support
-
-If you encounter any issues or have questions:
-
-1. Check the [Issues](https://github.com/aminografik/cv-maker/issues) page
-2. Create a new issue if your problem isn't already listed
-3. Provide as much detail as possible about the issue
+Distributed under the MIT License. See `LICENSE` for more information.
 
 ## ⭐ Show Your Support
 
-If this CV maker helped you land your dream job, please consider:
-
-- Giving this repository a star ⭐
-- Sharing it with friends and colleagues
-- Contributing to make it even better
-
----
-
-**Built with ❤️ for job seekers everywhere**
-
-*Last updated: June, 29th 2025*
+If this CV maker helps you, please consider giving the repository a star ⭐ on GitHub!
