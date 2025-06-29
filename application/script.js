@@ -14,18 +14,18 @@ document.addEventListener('DOMContentLoaded', function() {
             location: document.getElementById('location').value,
             linkedin: document.getElementById('linkedin').value,
         },
-        summary: document.getElementById('summary').value, // Trix editor content is in the hidden input's value
+        summary: document.getElementById('summary').value,
         skills: document.getElementById('skills').value,
         workExperience: Array.from(document.querySelectorAll('#workExperience .dynamic-section')).map(s => ({
             title: s.querySelector('.work-title').value,
             company: s.querySelector('.work-company').value,
             date: s.querySelector('.work-date').value,
-            description: s.querySelector('.work-description').value, // Trix content
+            description: s.querySelector('.work-description').value,
         })),
         projects: Array.from(document.querySelectorAll('#projects .dynamic-section')).map(s => ({
             name: s.querySelector('.proj-name').value,
             link: s.querySelector('.proj-link').value,
-            description: s.querySelector('.proj-description').value, // Trix content
+            description: s.querySelector('.proj-description').value,
         })),
         education: Array.from(document.querySelectorAll('#education .dynamic-section')).map(s => ({
             degree: s.querySelector('.edu-degree').value, institution: s.querySelector('.edu-institution').value, date: s.querySelector('.edu-date').value,
@@ -145,13 +145,65 @@ document.addEventListener('DOMContentLoaded', function() {
         div.innerHTML = `<div class="section-header"><h4>${headerText}</h4><button class="btn btn-danger btn-sm remove-btn">Remove</button></div>${fields}`;
         div.querySelector('.remove-btn').onclick = () => { div.remove(); generateCV(); };
         container.appendChild(div);
-        div.querySelectorAll('input, trix-editor').forEach(el => el.addEventListener('input', generateCV));
+        div.querySelectorAll('input:not([type=hidden]), trix-editor').forEach(el => el.addEventListener('input', generateCV));
     };
     
-    // --- PDF EXPORT --- (Unchanged)
-    const downloadPdf = () => { /* ... */ };
-    // --- NOTIFICATIONS --- (Unchanged)
-    const showNotification = (message, type) => { /* ... */ };
+    // --- PDF EXPORT (FIXED) ---
+    const downloadPdf = () => {
+        const { jsPDF } = window.jspdf;
+        const cvElement = document.getElementById('cvPreview');
+        const fullName = document.getElementById('fullName').value || 'cv';
+        
+        showNotification('Generating PDF...', 'info');
+
+        // This configuration object contains the fix.
+        // It helps html2canvas render complex elements more reliably.
+        const options = {
+            scale: 2,
+            logging: false,
+            useCORS: true,
+            scrollX: -window.scrollX,
+            scrollY: -window.scrollY,
+            windowWidth: document.documentElement.offsetWidth,
+            windowHeight: document.documentElement.offsetHeight
+        };
+
+        html2canvas(cvElement, options).then(canvas => {
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+            
+            const margins = { top: 15, bottom: 15, left: 15, right: 15 };
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const contentWidth = pdfWidth - margins.left - margins.right;
+            const scaledImgHeight = canvas.height * contentWidth / canvas.width;
+            let heightLeft = scaledImgHeight;
+            let position = 0;
+
+            pdf.addImage(imgData, 'PNG', margins.left, margins.top, contentWidth, scaledImgHeight);
+            heightLeft -= (pdf.internal.pageSize.getHeight() - margins.top - margins.bottom);
+            
+            while (heightLeft > 0) {
+                position = heightLeft - scaledImgHeight;
+                pdf.addPage();
+                pdf.addImage(imgData, 'PNG', margins.left, position + margins.top, contentWidth, scaledImgHeight);
+                heightLeft -= (pdf.internal.pageSize.getHeight() - margins.top - margins.bottom);
+            }
+
+            pdf.save(`${fullName.replace(/\s/g, '_')}_CV.pdf`);
+        }).catch(err => {
+            showNotification('Error generating PDF.', 'error');
+            console.error(err);
+        });
+    };
+
+    // --- NOTIFICATIONS ---
+    const showNotification = (message, type) => {
+        const notification = document.createElement('div');
+        notification.style.cssText = `position:fixed; top:20px; right:20px; padding:15px; border-radius:8px; color:white; z-index:1001; background-color:${type === 'info' ? '#3498db' : type === 'error' ? '#e74c3c' : '#27ae60'};`;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 3000);
+    };
 
     // --- EVENT LISTENERS ---
     document.querySelectorAll('.editor-panel input, .editor-panel textarea, .editor-panel trix-editor').forEach(el => el.addEventListener('input', generateCV));
