@@ -40,82 +40,58 @@
                 <h3>Professional Summary</h3>
                 <textarea id="summary" placeholder="Write a brief summary of your professional background and key strengths..."></textarea>
             </div>
+
             <div class="form-group">
                 <div class="section-header">
                     <h3>Work Experience</h3>
-                    <button class="btn" onclick="addWorkExperience()">Add Experience</button>
                 </div>
-                <div id="workExperience"></div>
+                <div id="workExperienceContainer">
+                    <div id="workExperience"></div>
+                    <button class="btn" id="addWorkExperienceBtn">Add Experience</button>
+                </div>
             </div>
+
             <div class="form-group">
                 <div class="section-header">
                     <h3>Education</h3>
-                    <button class="btn" onclick="addEducation()">Add Education</button>
                 </div>
-                <div id="education"></div>
+                <div id="educationContainer">
+                    <div id="education"></div>
+                    <button class="btn" id="addEducationBtn">Add Education</button>
+                </div>
             </div>
+
             <div class="form-group">
                 <h3>Skills</h3>
                 <textarea id="skills" placeholder="Enter skills separated by commas (e.g., Customer Service, Emergency Procedures, Multi-lingual)"></textarea>
             </div>
+
             <div class="form-group">
                 <div class="section-header">
                     <h3>Certifications</h3>
-                    <button class="btn" onclick="addCertification()">Add Certification</button>
                 </div>
-                <div id="certifications"></div>
+                <div id="certificationsContainer">
+                    <div id="certifications"></div>
+                    <button class="btn" id="addCertificationBtn">Add Certification</button>
+                </div>
             </div>
+
             <div class="form-group">
-                <button class="btn" onclick="generateCV()">Update Preview</button>
-                <button class="btn btn-secondary" onclick="downloadCV()">Download PDF</button>
-                <button class="btn btn-secondary" onclick="saveData()">Save Data</button>
-                <button class="btn btn-secondary" onclick="loadData()">Load Data</button>
+                <button class="btn" id="updatePreviewBtn">Update Preview</button>
+                <button class="btn btn-secondary" id="downloadPdfBtn">Download PDF</button>
+                <button class="btn btn-secondary" id="saveDataBtn">Save Data</button>
+                <button class="btn btn-secondary" id="loadDataBtn">Load Data</button>
             </div>
         </div>
 
         <div class="preview-panel">
             <div class="preview-header">
                 <h3>CV Preview</h3>
-                <button class="btn" onclick="window.print()">Print CV</button>
+                <button class="btn" id="printCvBtn">Print CV</button>
             </div>
             <div class="preview-content">
                 <div id="cvPreview" class="cv-preview">
-                    <div class="cv-header">
-                        <div class="cv-photo-container">
-                             </div>
-                        <div class="cv-header-info">
-                            <div class="cv-name">Your Name</div>
-                            <div class="cv-title">Professional Title</div>
-                            <div class="cv-contact">
-                                <span>email@example.com</span>
-                                <span>•</span>
-                                <span>+1 (555) 123-4567</span>
-                                <span>•</span>
-                                <span>City, State</span>
-                            </div>
-                        </div>
                     </div>
-                    
-                    <div class="cv-section">
-                        <div class="cv-section-title">Professional Summary</div>
-                        <p>Add your professional summary to see it here...</p>
-                    </div>
-                    
-                    <div class="cv-section">
-                        <div class="cv-section-title">Work Experience</div>
-                        <p>Add work experience to see it here...</p>
-                    </div>
-                    
-                    <div class="cv-section">
-                        <div class="cv-section-title">Education</div>
-                        <p>Add education to see it here...</p>
-                    </div>
-                    
-                    <div class="cv-section">
-                        <div class="cv-section-title">Skills</div>
-                        <p>Add skills to see them here...</p>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
