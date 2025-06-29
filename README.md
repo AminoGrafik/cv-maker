@@ -1,4 +1,4 @@
-# ATS-Friendly CV Maker
+# ATS-Friendly CV Builder
 
 A minimalist, open-source CV builder focused on creating clean, professional, and Applicant Tracking System (ATS)-friendly resumes.
 
