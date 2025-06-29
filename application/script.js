@@ -1,305 +1,209 @@
-// Global Variables
-let workExperienceCount = 0;
-let educationCount = 0;
-let certificationCount = 0;
-
-// CV Data Management Class
-class CVManager {
-    constructor() {
-        this.data = {
-            personal: {
-                photo: null // Will hold the image data
-            },
-            workExperience: [],
-            education: [],
-            certifications: [],
-            skills: '',
-            summary: ''
-        };
-    }
-
-    // Collects all data from the form, including the new photo data
-    collectData() {
-        this.data.personal = {
-            photo: document.getElementById('photoUpload').dataset.photoData || null,
-            fullName: document.getElementById('fullName').value || '',
-            jobTitle: document.getElementById('jobTitle').value || '',
-            email: document.getElementById('email').value || '',
-            phone: document.getElementById('phone').value || '',
-            location: document.getElementById('location').value || '',
-            linkedin: document.getElementById('linkedin').value || ''
-        };
-
-        this.data.summary = document.getElementById('summary').value || '';
-        this.data.skills = document.getElementById('skills').value || '';
-
-        // (The rest of the data collection is unchanged)
-        this.data.workExperience = [];
-        document.querySelectorAll('#workExperience .dynamic-section').forEach(section => {
-            this.data.workExperience.push({
-                title: section.querySelector('.work-title').value || '',
-                company: section.querySelector('.work-company').value || '',
-                date: section.querySelector('.work-date').value || '',
-                location: section.querySelector('.work-location').value || '',
-                description: section.querySelector('.work-description').value || ''
-            });
-        });
-        this.data.education = [];
-        document.querySelectorAll('#education .dynamic-section').forEach(section => {
-            this.data.education.push({
-                degree: section.querySelector('.edu-degree').value || '',
-                institution: section.querySelector('.edu-institution').value || '',
-                date: section.querySelector('.edu-date').value || '',
-                location: section.querySelector('.edu-location').value || ''
-            });
-        });
-        this.data.certifications = [];
-        document.querySelectorAll('#certifications .dynamic-section').forEach(section => {
-            this.data.certifications.push({
-                name: section.querySelector('.cert-name').value || '',
-                org: section.querySelector('.cert-org').value || '',
-                date: section.querySelector('.cert-date').value || ''
-            });
-        });
-
-        return this.data;
-    }
-}
-
-// Initialize CV Manager
-const cvManager = new CVManager();
-
-// (Helper functions like createElement are unchanged)
-function createElement(tag, className = '', innerHTML = '') {
-    const element = document.createElement(tag);
-    if (className) element.className = className;
-    if (innerHTML) element.innerHTML = innerHTML;
-    return element;
-}
-
-function addDynamicEventListeners(container, callback) {
-    container.querySelectorAll('input, textarea').forEach(input => {
-        input.addEventListener('input', callback);
-    });
-}
-
-// Dynamic Section Management
-function addWorkExperience() {
-    const container = document.getElementById('workExperience');
-    const div = createElement('div', 'dynamic-section');
-    div.innerHTML = `
-        <div class="section-header">
-            <h4>Experience ${++workExperienceCount}</h4>
-            <button class="btn btn-danger remove-btn btn-sm">Remove</button>
-        </div>
-        <input type="text" placeholder="Job Title" class="work-title">
-        <input type="text" placeholder="Company Name" class="work-company">
-        <input type="text" placeholder="Start - End Date" class="work-date">
-        <input type="text" placeholder="Location" class="work-location">
-        <textarea placeholder="Job description..." class="work-description"></textarea>`;
-    container.appendChild(div);
-    addDynamicEventListeners(div, generateCV);
-    div.querySelector('.remove-btn').addEventListener('click', () => removeSection(div, generateCV));
-}
-function addEducation() {
-    const container = document.getElementById('education');
-    const div = createElement('div', 'dynamic-section');
-    div.innerHTML = `
-        <div class="section-header">
-            <h4>Education ${++educationCount}</h4>
-            <button class="btn btn-danger remove-btn btn-sm">Remove</button>
-        </div>
-        <input type="text" placeholder="Degree" class="edu-degree">
-        <input type="text" placeholder="Institution" class="edu-institution">
-        <input type="text" placeholder="Date" class="edu-date">
-        <input type="text" placeholder="Location" class="edu-location">`;
-    container.appendChild(div);
-    addDynamicEventListeners(div, generateCV);
-    div.querySelector('.remove-btn').addEventListener('click', () => removeSection(div, generateCV));
-}
-function addCertification() {
-    const container = document.getElementById('certifications');
-    const div = createElement('div', 'dynamic-section');
-    div.innerHTML = `
-        <div class="section-header">
-            <h4>Certification ${++certificationCount}</h4>
-            <button class="btn btn-danger remove-btn btn-sm">Remove</button>
-        </div>
-        <input type="text" placeholder="Certification Name" class="cert-name">
-        <input type="text" placeholder="Issuing Organization" class="cert-org">
-        <input type="text" placeholder="Date Obtained" class="cert-date">`;
-    container.appendChild(div);
-    addDynamicEventListeners(div, generateCV);
-    div.querySelector('.remove-btn').addEventListener('click', () => removeSection(div, generateCV));
-}
-function removeSection(section, callback) {
-    section.remove();
-    if (callback) callback();
-}
-
-
-// --- THIS IS THE KEY FUNCTION THAT UPDATES THE PREVIEW ---
-function generateCV() {
-    const data = cvManager.collectData();
-    const preview = document.getElementById('cvPreview');
-    
-    // It starts by generating the header, which now knows how to handle a photo
-    let html = generateHeader(data.personal);
-    
-    if (data.summary) {
-        html += generateSection('Professional Summary', `<p>${data.summary.replace(/\n/g, '<br>')}</p>`);
-    }
-    if (data.workExperience.length > 0) {
-        html += generateWorkExperience(data.workExperience);
-    }
-    if (data.education.length > 0) {
-        html += generateEducation(data.education);
-    }
-    if (data.skills) {
-        html += generateSkills(data.skills);
-    }
-    if (data.certifications.length > 0) {
-        html += generateCertifications(data.certifications);
-    }
-    
-    preview.innerHTML = html;
-}
-
-// --- THIS FUNCTION NOW BUILDS THE HEADER DIFFERENTLY IF A PHOTO EXISTS ---
-function generateHeader(personal) {
-    const contactInfo = [
-        personal.email,
-        personal.phone,
-        personal.location,
-        personal.linkedin ? `<a href="https://${personal.linkedin}" target="_blank">${personal.linkedin}</a>` : ''
-    ].filter(item => item).join(' • ');
-
-    // If personal.photo has data, create an <img> tag for it. Otherwise, create an empty container.
-    const photoHTML = personal.photo 
-        ? `<div class="cv-photo-container"><img src="${personal.photo}" alt="Profile Photo" class="cv-photo"></div>` 
-        : '<div class="cv-photo-container"></div>';
-
-    // Add the .has-photo class to the header if a photo exists, which triggers the CSS changes.
-    const headerClass = personal.photo ? 'cv-header has-photo' : 'cv-header';
-
-    return `
-        <div class="${headerClass}">
-            ${photoHTML}
-            <div class="cv-header-info">
-                <div class="cv-name">${personal.fullName || 'Your Name'}</div>
-                <div class="cv-title">${personal.jobTitle || 'Professional Title'}</div>
-                <div class="cv-contact">${contactInfo || 'Contact Information'}</div>
-            </div>
-        </div>
-    `;
-}
-
-// (The rest of the generate... functions are mostly unchanged)
-function generateSection(title, content) { /* ... */ }
-function generateWorkExperience(experiences) { /* ... */ }
-function generateEducation(education) { /* ... */ }
-function generateSkills(skills) { /* ... */ }
-function generateCertifications(certifications) { /* ... */ }
-function formatDescription(description) { /* ... */ }
-
-// Data Persistence Functions (Save/Load)
-function saveData() { /* ... */ }
-function loadData() { /* ... */ }
-
-// This function now knows how to handle the 'photo' property in a saved file
-function loadDataFromObject(data) {
-    clearAllData();
-    if (data.personal) {
-        Object.keys(data.personal).forEach(key => {
-            if (key === 'photo' && data.personal.photo) {
-                // If photo data exists, store it and show the remove button
-                document.getElementById('photoUpload').dataset.photoData = data.personal.photo;
-                document.getElementById('removePhotoBtn').style.display = 'inline-block';
-            } else {
-                const element = document.getElementById(key);
-                if (element) element.value = data.personal[key] || '';
-            }
-        });
-    }
-    // (The rest of the function is unchanged)
-    document.getElementById('summary').value = data.summary || '';
-    document.getElementById('skills').value = data.skills || '';
-    if (data.workExperience) data.workExperience.forEach(exp => { addWorkExperience(); /* ... set values ... */ });
-    if (data.education) data.education.forEach(edu => { addEducation(); /* ... set values ... */ });
-    if (data.certifications) data.certifications.forEach(cert => { addCertification(); /* ... set values ... */ });
-    
-    generateCV(); // Regenerate the preview with the new data
-}
-
-// This function now also clears the photo
-function clearAllData() {
-    document.getElementById('workExperience').innerHTML = '';
-    document.getElementById('education').innerHTML = '';
-    document.getElementById('certifications').innerHTML = '';
-    workExperienceCount = 0;
-    educationCount = 0;
-    certificationCount = 0;
-
-    const photoInput = document.getElementById('photoUpload');
-    photoInput.value = '';
-    delete photoInput.dataset.photoData;
-    document.getElementById('removePhotoBtn').style.display = 'none';
-}
-
-function downloadCV() { window.print(); }
-
-function showNotification(message, type = 'info') { /* ... */ }
-
-// --- THIS IS THE MOST IMPORTANT PART FOR THE UPLOAD ---
-// It sets up all the button clicks and input changes.
 document.addEventListener('DOMContentLoaded', function() {
-    // Live updates for text fields
-    ['fullName', 'jobTitle', 'email', 'phone', 'location', 'linkedin', 'summary', 'skills'].forEach(id => {
-        document.getElementById(id)?.addEventListener('input', generateCV);
-    });
-
-    // Event listeners for the photo buttons
+    // --- STATE & DOM ELEMENTS ---
+    let workExperienceCount = 0;
+    let educationCount = 0;
+    let certificationCount = 0;
     const photoInput = document.getElementById('photoUpload');
     const removePhotoBtn = document.getElementById('removePhotoBtn');
 
-    // THIS CODE RUNS WHEN YOU SELECT A FILE
-    photoInput.addEventListener('change', function(e) {
+    // --- DATA MANAGEMENT ---
+    const collectData = () => ({
+        personal: {
+            photo: photoInput.dataset.photoData || null,
+            fullName: document.getElementById('fullName').value,
+            jobTitle: document.getElementById('jobTitle').value,
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            location: document.getElementById('location').value,
+            linkedin: document.getElementById('linkedin').value,
+        },
+        summary: document.getElementById('summary').value,
+        skills: document.getElementById('skills').value,
+        workExperience: Array.from(document.querySelectorAll('#workExperience .dynamic-section')).map(s => ({
+            title: s.querySelector('.work-title').value,
+            company: s.querySelector('.work-company').value,
+            date: s.querySelector('.work-date').value,
+            location: s.querySelector('.work-location').value,
+            description: s.querySelector('.work-description').value,
+        })),
+        education: Array.from(document.querySelectorAll('#education .dynamic-section')).map(s => ({
+            degree: s.querySelector('.edu-degree').value,
+            institution: s.querySelector('.edu-institution').value,
+            date: s.querySelector('.edu-date').value,
+            location: s.querySelector('.edu-location').value,
+        })),
+        certifications: Array.from(document.querySelectorAll('#certifications .dynamic-section')).map(s => ({
+            name: s.querySelector('.cert-name').value,
+            org: s.querySelector('.cert-org').value,
+            date: s.querySelector('.cert-date').value,
+        })),
+    });
+
+    // --- CV PREVIEW GENERATION ---
+    const generateCV = () => {
+        const data = collectData();
+        const preview = document.getElementById('cvPreview');
+        preview.innerHTML = `
+            ${generateHeader(data.personal)}
+            ${data.summary ? generateSection('Professional Summary', `<p>${data.summary.replace(/\n/g, '<br>')}</p>`) : ''}
+            ${data.workExperience.length > 0 ? generateWorkExperience(data.workExperience) : ''}
+            ${data.education.length > 0 ? generateEducation(data.education) : ''}
+            ${data.skills ? generateSkills(data.skills) : ''}
+            ${data.certifications.length > 0 ? generateCertifications(data.certifications) : ''}
+        `;
+    };
+
+    const generateHeader = (personal) => {
+        let linkedInUrl = personal.linkedin;
+        if (linkedInUrl && !linkedInUrl.toLowerCase().startsWith('http')) {
+            linkedInUrl = `https://${linkedInUrl}`;
+        }
+        const linkedInHtml = linkedInUrl ? `<a href="${linkedInUrl}" target="_blank">${personal.linkedin}</a>` : '';
+        const contactInfo = [personal.email, personal.phone, personal.location, linkedInHtml].filter(Boolean).join(' • ');
+        const photoHTML = personal.photo ? `<div class="cv-photo-container"><img src="${personal.photo}" class="cv-photo" alt="Profile"></div>` : '';
+        return `
+            <div class="cv-header ${personal.photo ? 'has-photo' : ''}">
+                ${photoHTML}
+                <div class="cv-header-info">
+                    <div class="cv-name">${personal.fullName || 'Your Name'}</div>
+                    <div class="cv-title">${personal.jobTitle || 'Professional Title'}</div>
+                    <div class="cv-contact">${contactInfo}</div>
+                </div>
+            </div>
+        `;
+    };
+
+    const generateSection = (title, content) => `<div class="cv-section"><div class="cv-section-title">${title}</div>${content}</div>`;
+    
+    const generateWorkExperience = exps => generateSection('Work Experience', exps.map(exp => `
+        <div class="cv-item">
+            <div class="cv-item-header">
+                <span class="cv-item-title">${exp.title}</span>
+                <span class="cv-item-date">${exp.date}</span>
+            </div>
+            <div class="cv-item-company">${exp.company}${exp.location ? `, ${exp.location}` : ''}</div>
+            ${exp.description ? `<div class="cv-item-description">${formatDescription(exp.description)}</div>` : ''}
+        </div>`).join(''));
+
+    const generateEducation = edus => generateSection('Education', edus.map(edu => `
+        <div class="cv-item">
+            <div class="cv-item-header">
+                <span class="cv-item-title">${edu.degree}</span>
+                <span class="cv-item-date">${edu.date}</span>
+            </div>
+            <div class="cv-item-company">${edu.institution}${edu.location ? `, ${edu.location}` : ''}</div>
+        </div>`).join(''));
+        
+    const generateSkills = skills => {
+        const skillsArray = skills.split(',').map(s => s.trim()).filter(Boolean);
+        return skillsArray.length > 0 ? generateSection('Skills', `<div class="skills-grid">${skillsArray.map(s => `<div class="skill-item">${s}</div>`).join('')}</div>`) : '';
+    };
+
+    const generateCertifications = certs => generateSection('Certifications', certs.map(cert => `
+        <div class="cv-item">
+            <div class="cv-item-header">
+                <span class="cv-item-title">${cert.name}</span>
+                <span class="cv-item-date">${cert.date}</span>
+            </div>
+            <div class="cv-item-company">${cert.org}</div>
+        </div>`).join(''));
+
+    const formatDescription = desc => `<ul>${desc.split('\n').filter(Boolean).map(line => `<li>${line.trim().replace(/^-|^\*|^\•/, '').trim()}</li>`).join('')}</ul>`;
+
+    // --- DYNAMIC SECTION ADD/REMOVE ---
+    const addSection = (type) => {
+        const container = document.getElementById(type);
+        const div = document.createElement('div');
+        div.className = 'dynamic-section';
+        let html = '';
+        if (type === 'workExperience') {
+            html = `<h4>Experience ${++workExperienceCount}</h4><input type="text" placeholder="Job Title" class="work-title"><input type="text" placeholder="Company" class="work-company"><input type="text" placeholder="Date" class="work-date"><input type="text" placeholder="Location" class="work-location"><textarea placeholder="Description..." class="work-description"></textarea>`;
+        } else if (type === 'education') {
+            html = `<h4>Education ${++educationCount}</h4><input type="text" placeholder="Degree" class="edu-degree"><input type="text" placeholder="Institution" class="edu-institution"><input type="text" placeholder="Date" class="edu-date"><input type="text" placeholder="Location" class="edu-location">`;
+        } else if (type === 'certifications') {
+            html = `<h4>Certification ${++certificationCount}</h4><input type="text" placeholder="Name" class="cert-name"><input type="text" placeholder="Organization" class="cert-org"><input type="text" placeholder="Date" class="cert-date">`;
+        }
+        div.innerHTML = `<div class="section-header">${html}</div><button class="btn btn-danger btn-sm remove-btn">Remove</button>`;
+        div.querySelector('.remove-btn').onclick = () => { div.remove(); generateCV(); };
+        container.appendChild(div);
+        div.querySelectorAll('input, textarea').forEach(el => el.addEventListener('input', generateCV));
+    };
+    
+    // --- PDF EXPORT ---
+    const downloadPdf = () => {
+        const { jsPDF } = window.jspdf;
+        const cvElement = document.getElementById('cvPreview');
+        const fullName = document.getElementById('fullName').value || 'cv';
+        
+        showNotification('Generating ATS-Friendly PDF...', 'info');
+        cvElement.classList.add('export-mode');
+
+        html2canvas(cvElement, { scale: 2, useCORS: true, logging: false }).then(canvas => {
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pageHeight = pdf.internal.pageSize.getHeight();
+            const imgHeight = canvas.height * pdfWidth / canvas.width;
+            let heightLeft = imgHeight;
+            let position = 0;
+            
+            pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
+            heightLeft -= pageHeight;
+            
+            while (heightLeft > 0) {
+                position = heightLeft - imgHeight;
+                pdf.addPage();
+                pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
+                heightLeft -= pageHeight;
+            }
+            pdf.save(`${fullName.replace(/\s/g, '_')}_CV.pdf`);
+        }).catch(err => {
+            showNotification('Error generating PDF.', 'error');
+            console.error(err);
+        }).finally(() => {
+            cvElement.classList.remove('export-mode');
+        });
+    };
+
+    // --- NOTIFICATIONS ---
+    const showNotification = (message, type) => {
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 3000);
+    };
+
+    // --- EVENT LISTENERS ---
+    document.querySelectorAll('.editor-panel input, .editor-panel textarea').forEach(el => el.addEventListener('input', generateCV));
+    
+    photoInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
         if (!file) return;
-
         const reader = new FileReader();
-        reader.onload = function(event) {
-            // 1. Read the file and store its data
+        reader.onload = (event) => {
             photoInput.dataset.photoData = event.target.result;
             removePhotoBtn.style.display = 'inline-block';
-            // 2. Immediately update the CV preview
             generateCV();
         };
         reader.readAsDataURL(file);
     });
 
-    // This code runs when you click "Remove Photo"
-    removePhotoBtn.addEventListener('click', function() {
+    removePhotoBtn.addEventListener('click', () => {
         photoInput.value = '';
         delete photoInput.dataset.photoData;
         removePhotoBtn.style.display = 'none';
         generateCV();
     });
 
-    // Event listeners for all other buttons
-    document.getElementById('addWorkExperienceBtn')?.addEventListener('click', addWorkExperience);
-    document.getElementById('addEducationBtn')?.addEventListener('click', addEducation);
-    document.getElementById('addCertificationBtn')?.addEventListener('click', addCertification);
-    document.getElementById('updatePreviewBtn')?.addEventListener('click', generateCV);
-    document.getElementById('downloadPdfBtn')?.addEventListener('click', downloadCV);
-    document.getElementById('saveDataBtn')?.addEventListener('click', saveData);
-    document.getElementById('loadDataBtn')?.addEventListener('click', loadData);
-    document.getElementById('printCvBtn')?.addEventListener('click', downloadCV);
-
-    // Initial generation of the CV preview
-    generateCV();
+    document.getElementById('addWorkExperienceBtn').addEventListener('click', () => addSection('workExperience'));
+    document.getElementById('addEducationBtn').addEventListener('click', () => addSection('education'));
+    document.getElementById('addCertificationBtn').addEventListener('click', () => addSection('certifications'));
+    document.getElementById('downloadPdfBtn').addEventListener('click', downloadPdf);
+    document.getElementById('printCvBtn').addEventListener('click', () => window.print());
     
-    showNotification('CV Maker ready!', 'success');
-});
+    // (Save/Load functionality would be added here)
 
-window.addEventListener('beforeunload', function(e) { /* ... */ });
+    // Initial call
+    generateCV();
+});
