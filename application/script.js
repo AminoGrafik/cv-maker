@@ -40,9 +40,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 break;
             case 'languages':
                 titleText = "Language";
+                // UPDATED: Replaced text input with a select dropdown for proficiency
                 content = `<div class="form-card-body form-card-grid-2">
                         <div class="form-group"><label>Language</label><input type="text" class="card-title-input lang-name"></div>
-                        <div class="form-group"><label>Proficiency</label><input type="text" class="lang-prof" placeholder="e.g., Native, Fluent"></div></div>`;
+                        <div class="form-group">
+                            <label>Proficiency</label>
+                            <select class="lang-prof">
+                                <option>Native/Bilingual</option>
+                                <option>Professional</option>
+                                <option>Limited</option>
+                                <option>Elementary</option>
+                            </select>
+                        </div>
+                    </div>`;
                 break;
         }
 
@@ -62,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
         
-        card.querySelectorAll('input, trix-editor').forEach(el => el.addEventListener('input', debouncedGenerateCV));
+        card.querySelectorAll('input, select, trix-editor').forEach(el => el.addEventListener('input', debouncedGenerateCV));
         generateCV();
     }
 
@@ -101,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // --- INITIAL SETUP & EVENT LISTENERS ---
-    document.querySelectorAll('.editor-panel input, .editor-panel trix-editor, .editor-panel textarea').forEach(el => el.addEventListener('input', debouncedGenerateCV));
+    document.querySelectorAll('.editor-panel input, .editor-panel trix-editor, .editor-panel textarea, .editor-panel select').forEach(el => el.addEventListener('input', debouncedGenerateCV));
     document.getElementById('addWorkExperienceBtn').addEventListener('click', () => addCard('workExperience'));
     document.getElementById('addEducationBtn').addEventListener('click', () => addCard('education'));
     document.getElementById('addCertificationBtn').addEventListener('click', () => addCard('certifications'));
