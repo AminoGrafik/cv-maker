@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function addCard(type) {
         const container = document.getElementById(type);
         const card = document.createElement('div');
-        card.className = 'form-card is-open';
+        card.className = 'dynamic-card is-open';
         let content = '', uniqueId = Date.now(), titleText = 'Untitled';
 
         const createTrixEditor = (id, inputClass) => `<input class="${inputClass}" id="${id}" type="hidden"><trix-editor input="${id}"></trix-editor>`;
@@ -37,6 +37,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="form-group"><label>Certification Name</label><input type="text" class="card-title-input cert-name"></div>
                         <div class="form-group"><label>Issuing Organization</label><input type="text" class="cert-org"></div>
                         <div class="form-group"><label>Date Obtained</label><input type="text" class="cert-date"></div></div>`;
+                break;
+            case 'languages':
+                titleText = "Language";
+                content = `<div class="form-card-body form-card-grid-2">
+                        <div class="form-group"><label>Language</label><input type="text" class="card-title-input lang-name"></div>
+                        <div class="form-group"><label>Proficiency</label><input type="text" class="lang-prof" placeholder="e.g., Native, Fluent"></div></div>`;
                 break;
         }
 
@@ -62,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- DATA COLLECTION & CV GENERATION ---
     function collectData() {
-        const getCardData = (containerId, fields) => Array.from(document.querySelectorAll(`#${containerId} .form-card`)).map(card => {
+        const getCardData = (containerId, fields) => Array.from(document.querySelectorAll(`#${containerId} .dynamic-card`)).map(card => {
             const entry = {};
             for (const field in fields) entry[field] = card.querySelector(fields[field])?.value || '';
             return entry;
@@ -74,6 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
             experience: getCardData('workExperience', { title: '.work-title', company: '.work-company', startDate: '.work-startDate', endDate: '.work-endDate', description: '.work-description' }),
             education: getCardData('education', { degree: '.edu-degree', institution: '.edu-institution', date: '.edu-date' }),
             certifications: getCardData('certifications', { name: '.cert-name', org: '.cert-org', date: '.cert-date' }),
+            languages: getCardData('languages', { name: '.lang-name', proficiency: '.lang-prof' })
         };
     }
 
@@ -88,8 +95,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const educationHTML = section('Education', data.education.map(edu => `<div class="cv-item"><div class="cv-item-header"><span>${edu.degree}</span><span>${edu.date}</span></div><div class="cv-item-company">${edu.institution}</div></div>`).join(''));
         const certificationsHTML = section('Certifications', data.certifications.map(cert => `<div class="cv-item"><div class="cv-item-header"><span>${cert.name}</span><span>${cert.date}</span></div><div class="cv-item-company">${cert.org}</div></div>`).join(''));
         const skillsHTML = section('Skills', `<div class="skills-grid">${data.skills.split(',').map(s=>s.trim()).filter(Boolean).map(skill => `<div class="skill-item">${skill}</div>`).join('')}</div>`);
+        const languagesHTML = section('Languages', data.languages.length > 0 ? `<div class="skills-grid">${data.languages.map(lang => `<div class="skill-item">${lang.name}${lang.proficiency ? ` (${lang.proficiency})` : ''}</div>`).join('')}</div>` : '');
 
-        preview.innerHTML = [headerHTML, summaryHTML, experienceHTML, educationHTML, certificationsHTML, skillsHTML].filter(Boolean).join('');
+        preview.innerHTML = [headerHTML, summaryHTML, experienceHTML, educationHTML, certificationsHTML, skillsHTML, languagesHTML].filter(Boolean).join('');
     }
 
     // --- INITIAL SETUP & EVENT LISTENERS ---
@@ -97,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('addWorkExperienceBtn').addEventListener('click', () => addCard('workExperience'));
     document.getElementById('addEducationBtn').addEventListener('click', () => addCard('education'));
     document.getElementById('addCertificationBtn').addEventListener('click', () => addCard('certifications'));
-    // Add other buttons for projects, languages etc. when those sections are fully restored.
+    document.getElementById('addLanguageBtn').addEventListener('click', () => addCard('languages'));
     
     document.getElementById('downloadPdfBtn').addEventListener('click', () => window.print());
 
