@@ -40,7 +40,8 @@ document.addEventListener('DOMContentLoaded', async function() {
             const key = el.dataset.i18nPlaceholder;
             if (t[key]) el.placeholder = t[key];
         });
-        generateCV(); // Re-render CV preview with new language
+        // Re-generate CV to update preview titles
+        generateCV();
     }
 
     // --- DYNAMIC CARD CREATION ---
@@ -89,8 +90,24 @@ document.addEventListener('DOMContentLoaded', async function() {
         generateCV();
     }
 
-    // --- DATA COLLECTION & CV GENERATION ---
-    function collectData() { /* ... unchanged ... */ }
+    // --- DATA COLLECTION & CV GENERATION (RESTORED) ---
+    function collectData() {
+        const getCardData = (containerId, fields) => Array.from(document.querySelectorAll(`#${containerId} .dynamic-card`)).map(card => {
+            const entry = {};
+            for (const field in fields) entry[field] = card.querySelector(fields[field])?.value || '';
+            return entry;
+        });
+        return {
+            personal: { fullName: document.getElementById('fullName').value, jobTitle: document.getElementById('jobTitle').value, email: document.getElementById('email').value, phone: document.getElementById('phone').value, location: document.getElementById('location').value },
+            summary: document.getElementById('summary').value,
+            skills: document.getElementById('skills').value,
+            experience: getCardData('workExperience', { title: '.work-title', company: '.work-company', startDate: '.work-startDate', endDate: '.work-endDate', description: '.work-description' }),
+            education: getCardData('education', { degree: '.edu-degree', institution: '.edu-institution', date: '.edu-date' }),
+            certifications: getCardData('certifications', { name: '.cert-name', org: '.cert-org', date: '.cert-date' }),
+            languages: getCardData('languages', { name: '.lang-name', proficiency: '.lang-prof' })
+        };
+    }
+
     function generateCV() {
         const data = collectData();
         const preview = document.getElementById('cvPreview');
@@ -109,7 +126,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     // --- INITIAL SETUP & EVENT LISTENERS ---
-    document.querySelectorAll('.editor-panel input, .editor-panel trix-editor, .editor-panel textarea').forEach(el => el.addEventListener('input', debouncedGenerateCV));
+    document.querySelectorAll('.editor-panel input, .editor-panel trix-editor, .editor-panel textarea, .editor-panel select').forEach(el => el.addEventListener('input', debouncedGenerateCV));
     document.getElementById('addWorkExperienceBtn').addEventListener('click', () => addCard('workExperience'));
     document.getElementById('addEducationBtn').addEventListener('click', () => addCard('education'));
     document.getElementById('addCertificationBtn').addEventListener('click', () => addCard('certifications'));
@@ -118,9 +135,12 @@ document.addEventListener('DOMContentLoaded', async function() {
     document.getElementById('lang-select').addEventListener('change', (e) => setLanguage(e.target.value));
 
     // Initialize the app
-    const savedLang = localStorage.getItem('cvLang') || 'en';
-    document.getElementById('lang-select').value = savedLang;
-    setLanguage(savedLang);
+    async function init() {
+        const savedLang = localStorage.getItem('cvLang') || 'en';
+        document.getElementById('lang-select').value = savedLang;
+        await setLanguage(savedLang);
+        addWorkExperience();
+    }
 
-    addWorkExperience();
+    init();
 });
