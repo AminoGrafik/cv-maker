@@ -1,6 +1,6 @@
-# ATS-Friendly CV Builder
+# ATS-Friendly CV Maker
 
-A minimalist, open-source CV builder focused on creating clean, professional, and Applicant Tracking System (ATS)-friendly resumes.
+A modern, open-source CV builder focused on creating clean, professional, and Applicant Tracking System (ATS)-friendly resumes with a polished user interface and multilingual support.
 
 ## 🚀 Live Demo
 
@@ -15,46 +15,48 @@ This CV Maker solves that problem by focusing on what matters: **clear, structur
 ## 🌟 Core Features
 
 -   **ATS-Optimized Output**: The generated PDF uses a clean, single-column format to maximize compatibility with automated screening systems.
--   **Real-time Preview**: See your CV update instantly as you type.
--   **Clean PDF Export**: Uses `jsPDF` and `html2canvas` to generate a professional, high-quality PDF with proper margins, free of browser headers and footers.
--   **Rich Text Editing**: Format your descriptions with **bold**, *italic*, lists, and more. *(Coming Soon)*
--   **Dynamic Sections**: Add as many entries as you need for your experience, education, and projects.
+-   **Modern UI**: A clean, intuitive, card-based interface for a seamless editing experience.
+-   **Live Preview**: See your CV update in real-time in the sticky preview panel as you type.
+-   **Multilingual Support**: Create CVs in English, French, and German with a simple language switcher. The system is scalable to easily add more languages.
+-   **Rich Text Editing**: Format your descriptions with **bold**, *italic*, and lists using a clean, integrated Trix editor.
+-   **Dynamic Sections**: Add as many entries as you need for your experience, education, certifications, and more.
 -   **Privacy-First**: Your data never leaves your device. All processing is done in your browser.
 -   **100% Free & Open Source**: No ads, no sign-ups, no premium features.
 
-## 📄 Core Sections
+## 📄 Supported Sections
 
 This builder supports all the essential sections for a comprehensive, professional resume:
 
--   **Personal Information**
--   **Professional Summary**
--   **Work Experience**
--   **Education**
--   **Projects** *(Coming Soon)*
--   **Certifications**
--   **Skills**
--   **Languages** *(Coming Soon)*
--   **Publications** *(Coming Soon)*
--   **Awards and Honors** *(Coming Soon)*
+-   Personal Details
+-   Professional Summary
+-   Experience
+-   Education
+-   Certifications
+-   Languages (with proficiency levels)
+-   Skills
 
 ## 🛠️ Technologies Used
 
 -   **HTML5**: Semantic structure for content clarity.
--   **CSS3**: Modern styling with a responsive, dark-theme UI.
+-   **CSS3**: Modern styling with a responsive, dark-theme UI and Flexbox for layout.
 -   **Vanilla JavaScript**: All interactive functionality, with no frameworks.
--   **jsPDF & html2canvas**: For robust, high-quality PDF generation.
--   **Trix Editor**: For rich text editing capabilities. *(Coming Soon)*
+-   **Trix Editor**: For a rich text editing experience.
 
 ## 📂 File Structure
 
-The project is structured to separate the application from the repository's root files.
+The project is structured to separate the application from the repository's root files, with a dedicated folder for language translations.
+
 ```
 cv-maker/
-        ├── application/
-                 ├── index.html         # The main application file
-                 ├── styles.css         # All application styles
-                 │── script.js          # All JavaScript functionality
-        └── README.md          # This file
+├── application/
+│   ├── locales/
+│   │   ├── en.json
+│   │   ├── fr.json
+│   │   └── de.json
+│   ├── index.html
+│   ├── styles.css
+│   └── script.js
+└── README.md
 ```
 
 ## 🔧 Local Development
@@ -69,7 +71,7 @@ To run this project on your local machine:
     ```bash
     cd cv-maker
     ```
-3.  **Open the `application/index.html` file** in your web browser.
+3.  **Open the `application/index.html` file** in your web browser. A local server is recommended for the best experience with fetching translation files.
 
 ## 🤝 Contributing
 
@@ -85,7 +87,7 @@ If you have a suggestion that would make this better, please fork the repo and c
 
 ## 📄 License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License.
 
 ## ⭐ Show Your Support
 
