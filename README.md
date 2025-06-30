@@ -32,7 +32,7 @@ This builder supports all the essential sections for a comprehensive, profession
 -   Experience
 -   Education
 -   Certifications
--   Languages (with proficiency levels)
+-   Languages
 -   Skills
 
 ## 🛠️ Technologies Used
