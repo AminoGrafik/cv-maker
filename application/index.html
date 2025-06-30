@@ -10,33 +10,45 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- App Header with Language Switcher -->
+    <header class="app-header">
+        <div class="logo">CV MAKER</div>
+        <div class="language-switcher">
+            <select id="lang-select">
+                <option value="en">🇬🇧 English</option>
+                <option value="fr">🇫🇷 Français</option>
+                <option value="de">🇩🇪 Deutsch</option>
+            </select>
+        </div>
+    </header>
+
     <div class="main-container">
         <!-- Editor Panel -->
         <div class="editor-panel">
 
             <div class="form-section">
                 <div class="section-header">
-                    <h2><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>Personal Details</h2>
+                    <h2 data-i18n-key="personalDetails"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>Personal Details</h2>
                 </div>
                 <div class="form-card">
                     <div class="form-card-body">
                         <div class="form-card-grid-2">
-                            <div class="form-group"><label for="fullName">Full Name</label><input type="text" id="fullName" placeholder="Matthew Smith"></div>
-                            <div class="form-group"><label for="jobTitle">Job Title</label><input type="text" id="jobTitle" placeholder="Service Designer"></div>
+                            <div class="form-group"><label data-i18n-key="fullName" for="fullName">Full Name</label><input type="text" id="fullName" data-i18n-placeholder="fullNamePlaceholder"></div>
+                            <div class="form-group"><label data-i18n-key="jobTitle" for="jobTitle">Job Title</label><input type="text" id="jobTitle" data-i18n-placeholder="jobTitlePlaceholder"></div>
                         </div>
                          <div class="form-card-grid-2">
-                            <div class="form-group"><label for="email">Email</label><input type="email" id="email" placeholder="matthew@email.com"></div>
-                            <div class="form-group"><label for="phone">Phone</label><input type="tel" id="phone" placeholder="(123) 456-7890"></div>
+                            <div class="form-group"><label data-i18n-key="email" for="email">Email</label><input type="email" id="email" data-i18n-placeholder="emailPlaceholder"></div>
+                            <div class="form-group"><label data-i18n-key="phone" for="phone">Phone</label><input type="tel" id="phone" data-i18n-placeholder="phonePlaceholder"></div>
                         </div>
-                        <div class="form-group"><label for="location">Location</label><input type="text" id="location" placeholder="City, Country"></div>
+                        <div class="form-group"><label data-i18n-key="location" for="location">Location</label><input type="text" id="location" data-i18n-placeholder="locationPlaceholder"></div>
                     </div>
                 </div>
             </div>
 
             <div class="form-section">
                 <div class="section-header">
-                    <h2><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg>PROFESSIONAL SUMMARY</h2>
-                    <p class="section-subtitle">Be concise - hiring managers only spend around 6 seconds on each resume.</p>
+                    <h2 data-i18n-key="professionalSummary"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg>PROFESSIONAL SUMMARY</h2>
+                    <p class="section-subtitle" data-i18n-key="summarySubtitle">Be concise - hiring managers only spend around 6 seconds on each resume.</p>
                 </div>
                 <div class="form-card">
                     <div class="form-card-body">
@@ -48,59 +60,59 @@
 
             <div class="form-section">
                 <div class="section-header">
-                    <h2><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>Experience</h2>
-                    <p class="section-subtitle">List your most recent position first.</p>
+                    <h2 data-i18n-key="experience"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>Experience</h2>
+                    <p class="section-subtitle" data-i18n-key="experienceSubtitle">List your most recent position first.</p>
                 </div>
                 <div id="workExperience"></div>
                 <button class="btn-add-section" id="addWorkExperienceBtn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M11 13H5v-2h6V5h2v6h6v2h-6v6h-2z"/></svg>
-                    <span>Add Experience</span>
+                    <span data-i18n-key="addExperience">Add Experience</span>
                 </button>
             </div>
             
             <div class="form-section">
                 <div class="section-header">
-                    <h2><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>Education</h2>
+                    <h2 data-i18n-key="education"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>Education</h2>
                 </div>
                 <div id="education"></div>
                 <button class="btn-add-section" id="addEducationBtn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M11 13H5v-2h6V5h2v6h6v2h-6v6h-2z"/></svg>
-                    <span>Add Education</span>
+                    <span data-i18n-key="addEducation">Add Education</span>
                 </button>
             </div>
 
             <div class="form-section">
                 <div class="section-header">
-                    <h2><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.78l1.21 1.22a1 1 0 0 0 1.42 0l1.21-1.22a4 4 0 0 1 4.78 4.78l-1.22 1.21a1 1 0 0 0 0 1.42l1.22 1.21a4 4 0 0 1-4.78 4.78l-1.21-1.22a1 1 0 0 0-1.42 0l-1.21 1.22a4 4 0 0 1-4.78-4.78l1.22-1.21a1 1 0 0 0 0-1.42z"/><path d="m9 12 2 2 4-4"/></svg>Certifications</h2>
+                    <h2 data-i18n-key="certifications"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.78l1.21 1.22a1 1 0 0 0 1.42 0l1.21-1.22a4 4 0 0 1 4.78 4.78l-1.22 1.21a1 1 0 0 0 0 1.42l1.22 1.21a4 4 0 0 1-4.78 4.78l-1.21-1.22a1 1 0 0 0-1.42 0l-1.21 1.22a4 4 0 0 1-4.78-4.78l1.22-1.21a1 1 0 0 0 0-1.42z"/><path d="m9 12 2 2 4-4"/></svg>Certifications</h2>
                 </div>
                 <div id="certifications"></div>
                 <button class="btn-add-section" id="addCertificationBtn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M11 13H5v-2h6V5h2v6h6v2h-6v6h-2z"/></svg>
-                    <span>Add Certification</span>
+                    <span data-i18n-key="addCertification">Add Certification</span>
                 </button>
             </div>
 
             <div class="form-section">
                  <div class="section-header">
-                    <h2><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg>Languages</h2>
+                    <h2 data-i18n-key="languages"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg>Languages</h2>
                 </div>
                 <div id="languages"></div>
                 <button class="btn-add-section" id="addLanguageBtn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M11 13H5v-2h6V5h2v6h6v2h-6v6h-2z"/></svg>
-                    <span>Add Language</span>
+                    <span data-i18n-key="addLanguage">Add Language</span>
                 </button>
             </div>
 
             <div class="form-section">
                  <div class="section-header">
-                    <h2><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>Skills</h2>
-                    <p class="section-subtitle">List relevant skills, separated by commas.</p>
+                    <h2 data-i18n-key="skills"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>Skills</h2>
+                    <p class="section-subtitle" data-i18n-key="skillsSubtitle">List relevant skills, separated by commas.</p>
                 </div>
                 <div class="form-card">
                     <div class="form-card-body">
                         <div class="form-group">
-                            <label for="skills">Skills</label>
-                            <input type="text" id="skills" placeholder="e.g., Project Management, Figma, Public Speaking...">
+                            <label for="skills" data-i18n-key="skills">Skills</label>
+                            <input type="text" id="skills" data-i18n-placeholder="skillsPlaceholder">
                         </div>
                     </div>
                 </div>
@@ -115,7 +127,7 @@
                 </div>
             </div>
             <div class="preview-actions">
-                <button class="btn-primary" id="downloadPdfBtn">Download CV</button>
+                <button class="btn-primary" id="downloadPdfBtn" data-i18n-key="downloadCV">Download CV</button>
             </div>
         </div>
     </div>
