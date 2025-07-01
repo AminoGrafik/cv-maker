@@ -1,6 +1,9 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     
-    // --- UTILITIES ---
+    // --- STATE & CORE FUNCTIONS ---
+    let translations = {};
+    let currentLang = 'en';
+
     const debounce = (func, delay) => {
         let timeoutId;
         return (...args) => {
@@ -10,21 +13,42 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     const debouncedGenerateCV = debounce(generateCV, 300);
 
-    // --- TEMPLATE FOR CREATING DYNAMIC CARDS ---
+    async function setLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('cvLang', lang);
+        
+        try {
+            const response = await fetch(`./locales/${lang}.json`);
+            translations = await response.json();
+        } catch (error) {
+            console.error(`Could not load translation file for ${lang}:`, error);
+            const response = await fetch(`./locales/en.json`);
+            translations = await response.json();
+        }
+
+        updateUIWithTranslations();
+    }
+
+    function updateUIWithTranslations() {
+        const t = translations;
+        document.querySelectorAll('[data-i18n-key]').forEach(el => {
+            const key = el.dataset.i18nKey;
+            if (t[key]) el.innerText = t[key];
+        });
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+            const key = el.dataset.i18nPlaceholder;
+            if (t[key]) el.placeholder = t[key];
+        });
+        generateCV();
+    }
+
+    // --- DYNAMIC CARD CREATION ---
     function addCard(type) {
         const container = document.getElementById(type);
-        if (!container) return;
-
         const card = document.createElement('div');
         card.className = 'dynamic-card is-open';
         let content = '', uniqueId = Date.now(), titleText = 'Untitled';
-        const t = { // Using English as a fallback for card creation
-            cardJobTitle: 'Job Title', cardCompany: 'Company', cardStartDate: 'Start Date', cardEndDate: 'End Date', cardDescription: 'Description',
-            cardDegree: 'Degree or Major', cardInstitution: 'Institution', cardDate: 'Date',
-            cardCertName: 'Certification Name', cardCertOrg: 'Issuing Organization', cardDateObtained: 'Date Obtained',
-            cardLanguage: 'Language', cardProficiency: 'Proficiency',
-            prof_native: 'Native/Bilingual', prof_professional: 'Professional', prof_limited: 'Limited', prof_elementary: 'Elementary'
-        };
+        const t = translations;
 
         const createTrixEditor = (id, inputClass) => `<input class="${inputClass}" id="${id}" type="hidden"><trix-editor input="${id}"></trix-editor>`;
 
@@ -41,14 +65,14 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="form-group"><label>${t.cardDate}</label><input type="text" class="edu-date"></div></div>`;
                 break;
             case 'certifications':
-                 titleText = "Certification";
+                 titleText = t.certifications;
                  content = `<div class="form-card-body">
                         <div class="form-group"><label>${t.cardCertName}</label><input type="text" class="card-title-input cert-name"></div>
                         <div class="form-group"><label>${t.cardCertOrg}</label><input type="text" class="cert-org"></div>
                         <div class="form-group"><label>${t.cardDateObtained}</label><input type="text" class="cert-date"></div></div>`;
                 break;
             case 'languages':
-                titleText = "Language";
+                titleText = t.languages;
                 content = `<div class="form-card-body form-card-grid-2">
                         <div class="form-group"><label>${t.cardLanguage}</label><input type="text" class="card-title-input lang-name"></div>
                         <div class="form-group"><label>${t.cardProficiency}</label><select class="lang-prof"><option>${t.prof_native}</option><option>${t.prof_professional}</option><option>${t.prof_limited}</option><option>${t.prof_elementary}</option></select></div></div>`;
@@ -57,20 +81,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         card.innerHTML = `<div class="form-card-header"><div class="title">${titleText}</div><span class="chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div>${content}`;
         container.appendChild(card);
-
-        card.querySelector('.form-card-header').addEventListener('click', (e) => {
-            if (e.target.closest('button')) return;
-            card.classList.toggle('is-open');
-            card.classList.toggle('is-closed');
-        });
-
+        card.querySelector('.form-card-header').addEventListener('click', (e) => { if (!e.target.closest('button')) card.classList.toggle('is-open'); });
         const titleInput = card.querySelector('.card-title-input');
-        if (titleInput) {
-            titleInput.addEventListener('input', () => {
-                card.querySelector('.form-card-header .title').textContent = titleInput.value || 'Untitled';
-            });
-        }
-        
+        if (titleInput) { titleInput.addEventListener('input', () => { card.querySelector('.form-card-header .title').textContent = titleInput.value || 'Untitled'; }); }
         card.querySelectorAll('input, select, trix-editor').forEach(el => el.addEventListener('input', debouncedGenerateCV));
         generateCV();
     }
@@ -96,15 +109,16 @@ document.addEventListener('DOMContentLoaded', function() {
     function generateCV() {
         const data = collectData();
         const preview = document.getElementById('cvPreview');
-        const section = (title, content) => content && content.length > 0 ? `<div class="cv-section"><div class="cv-section-title">${title}</div>${content}</div>` : '';
+        const t = translations;
+        const section = (titleKey, content) => content && content.length > 0 ? `<div class="cv-section"><div class="cv-section-title">${t[titleKey]}</div>${content}</div>` : '';
         
         const headerHTML = `<div class="cv-header"><div class="cv-name">${data.personal.fullName}</div><div class="cv-title">${data.personal.jobTitle}</div><div class="cv-contact">${[data.personal.location, data.personal.phone, data.personal.email].filter(Boolean).join(' • ')}</div></div>`;
-        const summaryHTML = section('PROFESSIONAL SUMMARY', data.summary);
-        const experienceHTML = section('Experience', data.experience.map(exp => `<div class="cv-item"><div class="cv-item-header"><span>${exp.title}</span><span>${exp.startDate} - ${exp.endDate}</span></div><div class="cv-item-company">${exp.company}</div><div class="cv-item-description">${exp.description}</div></div>`).join(''));
-        const educationHTML = section('Education', data.education.map(edu => `<div class="cv-item"><div class="cv-item-header"><span>${edu.degree}</span><span>${edu.date}</span></div><div class="cv-item-company">${edu.institution}</div></div>`).join(''));
-        const certificationsHTML = section('Certifications', data.certifications.map(cert => `<div class="cv-item"><div class="cv-item-header"><span>${cert.name}</span><span>${cert.date}</span></div><div class="cv-item-company">${cert.org}</div></div>`).join(''));
-        const skillsHTML = section('Skills', `<div class="skills-grid">${data.skills.split(',').map(s=>s.trim()).filter(Boolean).map(skill => `<div class="skill-item">${skill}</div>`).join('')}</div>`);
-        const languagesHTML = section('Languages', data.languages.length > 0 ? `<div class="skills-grid">${data.languages.map(lang => `<div class="skill-item">${lang.name}${lang.proficiency ? ` (${lang.proficiency})` : ''}</div>`).join('')}</div>` : '');
+        const summaryHTML = section('professionalSummary', data.summary);
+        const experienceHTML = section('experience', data.experience.map(exp => `<div class="cv-item"><div class="cv-item-header"><span>${exp.title}</span><span>${exp.startDate} - ${exp.endDate}</span></div><div class="cv-item-company">${exp.company}</div><div class="cv-item-description">${exp.description}</div></div>`).join(''));
+        const educationHTML = section('education', data.education.map(edu => `<div class="cv-item"><div class="cv-item-header"><span>${edu.degree}</span><span>${edu.date}</span></div><div class="cv-item-company">${edu.institution}</div></div>`).join(''));
+        const certificationsHTML = section('certifications', data.certifications.map(cert => `<div class="cv-item"><div class="cv-item-header"><span>${cert.name}</span><span>${cert.date}</span></div><div class="cv-item-company">${cert.org}</div></div>`).join(''));
+        const skillsHTML = section('skills', `<div class="skills-grid">${data.skills.split(',').map(s=>s.trim()).filter(Boolean).map(skill => `<div class="skill-item">${skill}</div>`).join('')}</div>`);
+        const languagesHTML = section('languages', data.languages.length > 0 ? `<div class="skills-grid">${data.languages.map(lang => `<div class="skill-item">${lang.name}${lang.proficiency ? ` (${lang.proficiency})` : ''}</div>`).join('')}</div>` : '');
 
         preview.innerHTML = [headerHTML, summaryHTML, experienceHTML, educationHTML, certificationsHTML, skillsHTML, languagesHTML].filter(Boolean).join('');
     }
@@ -115,9 +129,16 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('addEducationBtn').addEventListener('click', () => addCard('education'));
     document.getElementById('addCertificationBtn').addEventListener('click', () => addCard('certifications'));
     document.getElementById('addLanguageBtn').addEventListener('click', () => addCard('languages'));
-    
     document.getElementById('downloadPdfBtn').addEventListener('click', () => window.print());
+    document.getElementById('lang-select').addEventListener('change', (e) => setLanguage(e.target.value));
 
-    addWorkExperience();
-    generateCV();
+    // Initialize the app
+    async function init() {
+        const savedLang = localStorage.getItem('cvLang') || 'en';
+        document.getElementById('lang-select').value = savedLang;
+        await setLanguage(savedLang);
+        addWorkExperience();
+    }
+
+    init();
 });
