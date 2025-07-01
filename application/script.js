@@ -39,6 +39,35 @@ document.addEventListener('DOMContentLoaded', async function() {
             const key = el.dataset.i18nPlaceholder;
             if (t[key]) el.placeholder = t[key];
         });
+        document.querySelectorAll('.dynamic-card').forEach(card => {
+            const type = card.closest('[id]').id;
+            const labels = card.querySelectorAll('label');
+            const t = translations;
+            switch(type) {
+                case 'workExperience':
+                    labels[0].innerText = t.cardJobTitle;
+                    labels[1].innerText = t.cardCompany;
+                    labels[2].innerText = t.cardStartDate;
+                    labels[3].innerText = t.cardEndDate;
+                    labels[4].innerText = t.cardDescription;
+                    break;
+                case 'education':
+                    labels[0].innerText = t.cardDegree;
+                    labels[1].innerText = t.cardInstitution;
+                    labels[2].innerText = t.cardDate;
+                    break;
+                case 'certifications':
+                    labels[0].innerText = t.cardCertName;
+                    labels[1].innerText = t.cardCertOrg;
+                    labels[2].innerText = t.cardDateObtained;
+                    break;
+                case 'languages':
+                    labels[0].innerText = t.cardLanguage;
+                    labels[1].innerText = t.cardProficiency;
+                    card.querySelector('.lang-prof').placeholder = t.cardProficiencyPlaceholder;
+                    break;
+            }
+        });
         generateCV();
     }
 
@@ -75,7 +104,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 titleText = t.languages;
                 content = `<div class="form-card-body form-card-grid-2">
                         <div class="form-group"><label>${t.cardLanguage}</label><input type="text" class="card-title-input lang-name"></div>
-                        <div class="form-group"><label>${t.cardProficiency}</label><select class="lang-prof"><option>${t.prof_native}</option><option>${t.prof_professional}</option><option>${t.prof_limited}</option><option>${t.prof_elementary}</option></select></div></div>`;
+                        <div class="form-group"><label>${t.cardProficiency}</label><input type="text" class="lang-prof" placeholder="${t.cardProficiencyPlaceholder}"></div></div>`;
                 break;
         }
 
