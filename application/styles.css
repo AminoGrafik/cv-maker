@@ -130,7 +130,7 @@ trix-toolbar .trix-button--icon-strike, trix-toolbar .trix-button--icon-link, tr
 .cv-preview .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
 .cv-preview .skill-item { background-color: #f3f4f6; padding: 4px 8px; border-radius: 4px; text-align: center; font-size: 0.9em; }
 
-/* --- Mobile Friendliness --- */
+/* --- Mobile Friendliness & Print --- */
 @media (max-width: 1024px) {
     body { overflow-y: auto; height: auto; }
     .main-container { flex-direction: column; height: auto; padding: 0; }
@@ -141,34 +141,25 @@ trix-toolbar .trix-button--icon-strike, trix-toolbar .trix-button--icon-link, tr
     .form-card-grid-2 { grid-template-columns: 1fr; }
 }
 
-/* --- Print Styles (CORRECTED) --- */
 @media print {
-    /* Hide the app header, editor panel, and preview actions */
-    .app-header, .editor-panel, .preview-actions {
-        display: none !important;
-    }
-    
-    /* Ensure the main container and body don't interfere */
-    body, .main-container {
+    body, .main-container, .app-header { display: none !important; }
+    .preview-panel {
         display: block !important;
+        position: static !important;
         height: auto !important;
         padding: 0 !important;
         margin: 0 !important;
-        background: #fff !important;
     }
-
-    /* Make the preview panel and its contents fill the page */
-    .preview-panel, .cv-preview-container, .cv-preview {
+    .preview-actions { display: none !important; }
+    .cv-preview-container, .cv-preview {
         width: 100% !important;
         max-width: 100% !important;
         height: auto !important;
-        flex: none !important;
-        position: static !important;
-        padding: 0 !important;
-        margin: 0 !important;
         box-shadow: none !important;
         border: none !important;
         transform: none !important;
         overflow: visible !important;
+        padding: 0 !important;
+        margin: 0 !important;
     }
 }
