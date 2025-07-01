@@ -38,8 +38,5 @@
     "cardDateObtained": "Date d'obtention",
     "cardLanguage": "Langue",
     "cardProficiency": "Niveau",
-    "prof_native": "Natif/Bilingue",
-    "prof_professional": "Professionnel",
-    "prof_limited": "Limité",
-    "prof_elementary": "Élémentaire"
+    "cardProficiencyPlaceholder": "ex: Natif, Courant, A1"
 }
