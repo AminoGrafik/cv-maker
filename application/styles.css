@@ -8,7 +8,11 @@
     --primary-accent: #2563eb;
     --primary-accent-hover: #1d4ed8;
 }
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background-color: var(--bg-color);
@@ -16,34 +20,16 @@ body {
     line-height: 1.5;
 }
 
-/* --- App Header --- */
-.app-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: var(--panel-bg);
-    padding: 12px 32px;
-    border-bottom: 1px solid var(--border-color);
-}
-.logo { font-weight: 600; font-size: 18px; letter-spacing: 1px; }
-.language-switcher select {
-    padding: 6px 12px;
-    border-radius: 6px;
-    border: 1px solid var(--border-color);
-    background-color: var(--panel-bg);
-    font-size: 14px;
-}
-
 /* --- Main Layout --- */
 .main-container {
     display: flex;
     align-items: flex-start;
-    height: calc(100vh - 57px);
+    height: 100vh;
 }
 .editor-panel {
     flex: 0 0 55%;
     min-width: 450px;
-    height: 100%;
+    height: 100vh;
     overflow-y: auto;
     background-color: var(--panel-bg);
     padding: 48px;
@@ -53,7 +39,7 @@ body {
     flex: 1 1 45%;
     position: sticky;
     top: 0;
-    height: 100%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -62,7 +48,15 @@ body {
 }
 
 /* --- CV Preview Scaling --- */
-.cv-preview-container { width: 100%; max-width: 500px; flex-grow: 1; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+.cv-preview-container {
+    width: 100%;
+    max-width: 500px;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
 .cv-preview {
     background-color: var(--panel-bg);
     width: 210mm;
@@ -71,44 +65,80 @@ body {
     border: 1px solid var(--border-color);
     transform-origin: center center;
     transform: scale(0.65);
+    transition: transform 0.3s ease;
     font-family: 'Times New Roman', Times, serif;
     color: #111827;
     padding: 2.5cm 2cm;
 }
-.preview-actions { margin-top: 24px; flex-shrink: 0; }
+.preview-actions {
+    margin-top: 24px;
+    flex-shrink: 0;
+}
 
 /* --- Editor Panel Components --- */
-.form-section { margin-bottom: 32px; padding-bottom: 32px; border-bottom: 0.35px solid rgba(68, 68, 68, 0.5); }
-.form-section:last-of-type { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.form-section { 
+    margin-bottom: 32px;
+    padding-bottom: 32px;
+    /* UPDATED: Using a standard 1px border with a light color */
+    border-bottom: 1px solid var(--border-color);
+}
+.form-section:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
 .section-header { margin-bottom: 24px; }
-.section-header h2 { font-size: 20px; font-weight: 600; text-transform: uppercase; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+.section-header h2 {
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
 .section-subtitle { font-size: 14px; color: var(--text-secondary); }
 
-/* --- Form Cards & Fields --- */
-.form-card, .dynamic-card { border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 16px; overflow: hidden; }
-.form-card-header { display: flex; align-items: center; padding: 12px 16px; cursor: pointer; }
+/* --- Form Cards --- */
+.dynamic-card { border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 16px; overflow: hidden; }
+.form-card-header { display: flex; align-items: center; padding: 12px 16px; cursor: pointer; transition: background-color 0.2s; border: 1px solid var(--border-color); border-radius: 12px;}
 .form-card-header:hover { background-color: #f9fafb; }
-.form-card-header .title { font-weight: 500; flex-grow: 1; }
+.form-card-header .title { font-weight: 500; flex-grow: 1; color: var(--text-primary); }
 .form-card-header .chevron { transition: transform 0.2s ease-in-out; margin-left: auto; }
 .dynamic-card.is-open .chevron { transform: rotate(180deg); }
-.form-card-body { padding: 16px; border-top: 1px solid var(--border-color); display: grid; gap: 16px; }
-.dynamic-card .form-card-body { margin-top: -1px; }
+.form-card-body { padding: 16px; border: 1px solid var(--border-color); border-top: none; border-radius: 0 0 12px 12px; display: grid; gap: 16px; margin-top: -12px; padding-top: 28px;}
 .dynamic-card.is-closed .form-card-body { display: none; }
 .form-card-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+/* --- Form Fields --- */
 .form-group label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 6px; }
-input[type="text"], input[type="email"], input[type="tel"], select { width: 100%; padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 14px; }
+input[type="text"], input[type="email"], input[type="tel"], select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 14px;
+}
 input:focus, select:focus { outline: 2px solid var(--primary-accent); border-color: var(--primary-accent); }
 
 /* --- Trix Editor --- */
 trix-toolbar .trix-button-group { border-top-color: var(--border-color); border-bottom-color: var(--border-color); }
 trix-editor { border: 1px solid var(--border-color); border-radius: 6px; padding: 8px 12px; min-height: 120px; background-color: white;}
 trix-editor:focus { outline: 2px solid var(--primary-accent); border-color: var(--primary-accent); }
-trix-toolbar .trix-button--icon-strike, trix-toolbar .trix-button--icon-link, trix-toolbar .trix-button--icon-heading-1, trix-toolbar .trix-button--icon-quote, trix-toolbar .trix-button--icon-code, trix-toolbar .trix-button-group--history-tools, trix-toolbar .trix-button-group--file-tools { display: none; }
+trix-toolbar .trix-button--icon-strike,
+trix-toolbar .trix-button--icon-link,
+trix-toolbar .trix-button--icon-heading-1,
+trix-toolbar .trix-button--icon-quote,
+trix-toolbar .trix-button--icon-code,
+trix-toolbar .trix-button-group--history-tools,
+trix-toolbar .trix-button-group--file-tools {
+    display: none;
+}
 
 /* --- Buttons --- */
 .btn-add-section { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; color: var(--primary-accent); background: none; border: none; cursor: pointer; padding: 8px; border-radius: 6px; }
 .btn-add-section:hover { background-color: #e0e7ff; }
-.btn-primary { padding: 10px 20px; border: 1px solid; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; background-color: var(--primary-accent); border-color: var(--primary-accent); color: white; }
+.btn-primary { padding: 10px 20px; border: 1px solid; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; background-color: var(--primary-accent); border-color: var(--primary-accent); color: white; transition: background-color 0.2s; }
 .btn-primary:hover { background-color: var(--primary-accent-hover); }
 
 /* --- Final ATS-Friendly CV Preview Styles --- */
@@ -130,7 +160,6 @@ trix-toolbar .trix-button--icon-strike, trix-toolbar .trix-button--icon-link, tr
 @media (max-width: 1024px) {
     body { overflow-y: auto; height: auto; }
     .main-container { flex-direction: column; height: auto; padding: 0; }
-    .app-header { padding: 12px 16px; }
     .editor-panel { order: 2; padding: 16px; height: auto; border-right: none; }
     .preview-panel { order: 1; position: static; height: auto; padding: 16px; background-color: var(--bg-color);}
     .cv-preview { transform: scale(1); min-height: 0; height: auto; padding: 1.5cm 1cm; }
@@ -138,24 +167,19 @@ trix-toolbar .trix-button--icon-strike, trix-toolbar .trix-button--icon-link, tr
 }
 
 @media print {
-    body, .main-container, .app-header { display: none !important; }
-    .preview-panel {
-        display: block !important;
-        position: static !important;
-        height: auto !important;
-        padding: 0 !important;
-        margin: 0 !important;
-    }
-    .preview-actions { display: none !important; }
-    .cv-preview-container, .cv-preview {
+    body, .main-container { display: block !important; height: auto !important; padding: 0 !important; margin: 0 !important; background: #fff !important; }
+    .editor-panel, .preview-actions { display: none !important; }
+    .preview-panel, .cv-preview-container, .cv-preview {
         width: 100% !important;
         max-width: 100% !important;
         height: auto !important;
+        flex: none !important;
+        position: static !important;
+        padding: 0 !important;
+        margin: 0 !important;
         box-shadow: none !important;
         border: none !important;
         transform: none !important;
         overflow: visible !important;
-        padding: 0 !important;
-        margin: 0 !important;
     }
 }
