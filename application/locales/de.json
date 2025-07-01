@@ -38,8 +38,5 @@
     "cardDateObtained": "Erhalten am",
     "cardLanguage": "Sprache",
     "cardProficiency": "Niveau",
-    "prof_native": "Muttersprache/Zweisprachig",
-    "prof_professional": "Professionell",
-    "prof_limited": "Begrenzt",
-    "prof_elementary": "Grundkenntnisse"
+    "cardProficiencyPlaceholder": "z.B. Muttersprache, Fließend, A1"
 }
