@@ -139,17 +139,23 @@ trix-toolbar .trix-button--icon-strike, trix-toolbar .trix-button--icon-link, tr
 
 @media print {
     body, .main-container, .app-header { display: none !important; }
-    .preview-panel, .cv-preview-container, .cv-preview {
+    .preview-panel {
+        display: block !important;
+        position: static !important;
+        height: auto !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    .preview-actions { display: none !important; }
+    .cv-preview-container, .cv-preview {
         width: 100% !important;
         max-width: 100% !important;
         height: auto !important;
-        flex: none !important;
-        position: static !important;
-        padding: 0 !important;
-        margin: 0 !important;
         box-shadow: none !important;
         border: none !important;
         transform: none !important;
         overflow: visible !important;
+        padding: 0 !important;
+        margin: 0 !important;
     }
 }
