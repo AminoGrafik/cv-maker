@@ -31,7 +31,6 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     function updateUIWithTranslations() {
         const t = translations;
-        // THIS IS THE FIX: It now targets the 'span' inside the element
         document.querySelectorAll('[data-i18n-key]').forEach(el => {
             const key = el.dataset.i18nKey;
             const target = el.tagName === 'H2' ? el.querySelector('span') : el;
@@ -43,7 +42,6 @@ document.addEventListener('DOMContentLoaded', async function() {
             const key = el.dataset.i18nPlaceholder;
             if (t[key]) el.placeholder = t[key];
         });
-        // (The rest of the function is the same)
         generateCV();
     }
 
@@ -94,8 +92,39 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     // --- DATA COLLECTION & CV GENERATION ---
-    function collectData() { /* ... unchanged ... */ }
-    function generateCV() { /* ... unchanged ... */ }
+    function collectData() {
+        const getCardData = (containerId, fields) => Array.from(document.querySelectorAll(`#${containerId} .dynamic-card`)).map(card => {
+            const entry = {};
+            for (const field in fields) entry[field] = card.querySelector(fields[field])?.value || '';
+            return entry;
+        });
+        return {
+            personal: { fullName: document.getElementById('fullName').value, jobTitle: document.getElementById('jobTitle').value, email: document.getElementById('email').value, phone: document.getElementById('phone').value, location: document.getElementById('location').value },
+            summary: document.getElementById('summary').value,
+            skills: document.getElementById('skills').value,
+            experience: getCardData('workExperience', { title: '.work-title', company: '.work-company', startDate: '.work-startDate', endDate: '.work-endDate', description: '.work-description' }),
+            education: getCardData('education', { degree: '.edu-degree', institution: '.edu-institution', date: '.edu-date' }),
+            certifications: getCardData('certifications', { name: '.cert-name', org: '.cert-org', date: '.cert-date' }),
+            languages: getCardData('languages', { name: '.lang-name', proficiency: '.lang-prof' })
+        };
+    }
+
+    function generateCV() {
+        const data = collectData();
+        const preview = document.getElementById('cvPreview');
+        const t = translations;
+        const section = (titleKey, content) => content && content.length > 0 ? `<div class="cv-section"><div class="cv-section-title">${t[titleKey]}</div>${content}</div>` : '';
+        
+        const headerHTML = `<div class="cv-header"><div class="cv-name">${data.personal.fullName}</div><div class="cv-title">${data.personal.jobTitle}</div><div class="cv-contact">${[data.personal.location, data.personal.phone, data.personal.email].filter(Boolean).join(' • ')}</div></div>`;
+        const summaryHTML = section('professionalSummary', data.summary);
+        const experienceHTML = section('experience', data.experience.map(exp => `<div class="cv-item"><div class="cv-item-header"><span>${exp.title}</span><span>${exp.startDate} - ${exp.endDate}</span></div><div class="cv-item-company">${exp.company}</div><div class="cv-item-description">${exp.description}</div></div>`).join(''));
+        const educationHTML = section('education', data.education.map(edu => `<div class="cv-item"><div class="cv-item-header"><span>${edu.degree}</span><span>${edu.date}</span></div><div class="cv-item-company">${edu.institution}</div></div>`).join(''));
+        const certificationsHTML = section('certifications', data.certifications.map(cert => `<div class="cv-item"><div class="cv-item-header"><span>${cert.name}</span><span>${cert.date}</span></div><div class="cv-item-company">${cert.org}</div></div>`).join(''));
+        const skillsHTML = section('skills', `<div class="skills-grid">${data.skills.split(',').map(s=>s.trim()).filter(Boolean).map(skill => `<div class="skill-item">${skill}</div>`).join('')}</div>`);
+        const languagesHTML = section('languages', data.languages.length > 0 ? `<div class="skills-grid">${data.languages.map(lang => `<div class="skill-item">${lang.name}${lang.proficiency ? ` (${lang.proficiency})` : ''}</div>`).join('')}</div>` : '');
+
+        preview.innerHTML = [headerHTML, summaryHTML, experienceHTML, educationHTML, certificationsHTML, skillsHTML, languagesHTML].filter(Boolean).join('');
+    }
 
     // --- INITIAL SETUP & EVENT LISTENERS ---
     document.querySelectorAll('.editor-panel input, .editor-panel trix-editor, .editor-panel textarea, .editor-panel select').forEach(el => el.addEventListener('input', debouncedGenerateCV));
