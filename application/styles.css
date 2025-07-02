@@ -82,7 +82,7 @@ body {
 .preview-actions { margin-top: 24px; flex-shrink: 0; }
 
 /* --- Editor Panel Components --- */
-.form-section { margin-bottom: 32px; padding-bottom: 32px; border-bottom: 0.35px solid rgba(68, 68, 68, 0.5); }
+.form-section { margin-bottom: 32px; padding-bottom: 32px; border-bottom: 1px solid var(--border-color); }
 .form-section:last-of-type { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
 .section-header { margin-bottom: 24px; }
 .section-header h2 { font-size: 20px; font-weight: 600; text-transform: uppercase; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
