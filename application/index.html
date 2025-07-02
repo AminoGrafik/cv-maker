@@ -1,147 +1,138 @@
-document.addEventListener('DOMContentLoaded', async function() {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional CV Maker</title>
     
-    // --- STATE & CORE FUNCTIONS ---
-    let translations = {};
-    let currentLang = 'en';
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.0/dist/trix.css">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- App Header with Language Switcher -->
+    <header class="app-header">
+        <div class="logo">CV MAKER</div>
+        <div class="language-switcher">
+            <select id="lang-select">
+                <option value="en">🇬🇧 English</option>
+                <option value="fr">🇫🇷 Français</option>
+                <option value="de">🇩🇪 Deutsch</option>
+            </select>
+        </div>
+    </header>
 
-    const debounce = (func, delay) => {
-        let timeoutId;
-        return (...args) => {
-            clearTimeout(timeoutId);
-            timeoutId = setTimeout(() => { func.apply(this, args); }, delay);
-        };
-    };
-    const debouncedGenerateCV = debounce(generateCV, 300);
+    <div class="main-container">
+        <!-- Editor Panel -->
+        <div class="editor-panel">
 
-    async function setLanguage(lang) {
-        currentLang = lang;
-        localStorage.setItem('cvLang', lang);
-        
-        try {
-            const response = await fetch(`./locales/${lang}.json`);
-            translations = await response.json();
-        } catch (error) {
-            console.error(`Could not load translation file for ${lang}:`, error);
-            const response = await fetch(`./locales/en.json`);
-            translations = await response.json();
-        }
+            <div class="form-section">
+                <div class="section-header">
+                    <h2><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg><span data-i18n-key="personalDetails">Personal Details</span></h2>
+                </div>
+                <div class="form-card">
+                    <div class="form-card-body">
+                        <div class="form-card-grid-2">
+                            <div class="form-group"><label data-i18n-key="fullName" for="fullName">Full Name</label><input type="text" id="fullName" data-i18n-placeholder="fullNamePlaceholder"></div>
+                            <div class="form-group"><label data-i18n-key="jobTitle" for="jobTitle">Job Title</label><input type="text" id="jobTitle" data-i18n-placeholder="jobTitlePlaceholder"></div>
+                        </div>
+                         <div class="form-card-grid-2">
+                            <div class="form-group"><label data-i18n-key="email" for="email">Email</label><input type="email" id="email" data-i18n-placeholder="emailPlaceholder"></div>
+                            <div class="form-group"><label data-i18n-key="phone" for="phone">Phone</label><input type="tel" id="phone" data-i18n-placeholder="phonePlaceholder"></div>
+                        </div>
+                        <div class="form-group"><label data-i18n-key="location" for="location">Location</label><input type="text" id="location" data-i18n-placeholder="locationPlaceholder"></div>
+                    </div>
+                </div>
+            </div>
 
-        updateUIWithTranslations();
-    }
+            <div class="form-section">
+                <div class="section-header">
+                    <h2><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg><span data-i18n-key="professionalSummary">PROFESSIONAL SUMMARY</span></h2>
+                    <p class="section-subtitle" data-i18n-key="summarySubtitle">Be concise - hiring managers only spend around 6 seconds on each resume.</p>
+                </div>
+                <div class="form-card">
+                    <div class="form-card-body">
+                        <input id="summary" type="hidden">
+                        <trix-editor input="summary" class="trix-content"></trix-editor>
+                    </div>
+                </div>
+            </div>
 
-    function updateUIWithTranslations() {
-        const t = translations;
-        document.querySelectorAll('[data-i18n-key]').forEach(el => {
-            const key = el.dataset.i18nKey;
-            const target = el.tagName === 'H2' ? el.querySelector('span') : el;
-            if (target && t[key]) {
-                target.innerText = t[key];
-            }
-        });
-        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-            const key = el.dataset.i18nPlaceholder;
-            if (t[key]) el.placeholder = t[key];
-        });
-        generateCV();
-    }
+            <div class="form-section">
+                <div class="section-header">
+                    <h2><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg><span data-i18n-key="experience">Experience</span></h2>
+                    <p class="section-subtitle" data-i18n-key="experienceSubtitle">List your most recent position first.</p>
+                </div>
+                <div id="workExperience"></div>
+                <button class="btn-add-section" id="addWorkExperienceBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M11 13H5v-2h6V5h2v6h6v2h-6v6h-2z"/></svg>
+                    <span data-i18n-key="addExperience">Add Experience</span>
+                </button>
+            </div>
+            
+            <div class="form-section">
+                <div class="section-header">
+                    <h2><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg><span data-i18n-key="education">Education</span></h2>
+                </div>
+                <div id="education"></div>
+                <button class="btn-add-section" id="addEducationBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M11 13H5v-2h6V5h2v6h6v2h-6v6h-2z"/></svg>
+                    <span data-i18n-key="addEducation">Add Education</span>
+                </button>
+            </div>
 
-    // --- DYNAMIC CARD CREATION ---
-    function addCard(type) {
-        const container = document.getElementById(type);
-        const card = document.createElement('div');
-        card.className = 'dynamic-card is-open';
-        let content = '', uniqueId = Date.now(), titleText = 'Untitled';
-        const t = translations;
+            <div class="form-section">
+                <div class="section-header">
+                    <h2><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.78l1.21 1.22a1 1 0 0 0 1.42 0l1.21-1.22a4 4 0 0 1 4.78 4.78l-1.22 1.21a1 1 0 0 0 0 1.42l1.22 1.21a4 4 0 0 1-4.78 4.78l-1.21-1.22a1 1 0 0 0-1.42 0l-1.21 1.22a4 4 0 0 1-4.78-4.78l1.22-1.21a1 1 0 0 0 0-1.42z"/><path d="m9 12 2 2 4-4"/></svg><span data-i18n-key="certifications">Certifications</span></h2>
+                </div>
+                <div id="certifications"></div>
+                <button class="btn-add-section" id="addCertificationBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M11 13H5v-2h6V5h2v6h6v2h-6v6h-2z"/></svg>
+                    <span data-i18n-key="addCertification">Add Certification</span>
+                </button>
+            </div>
 
-        const createTrixEditor = (id, inputClass) => `<input class="${inputClass}" id="${id}" type="hidden"><trix-editor input="${id}"></trix-editor>`;
+            <div class="form-section">
+                 <div class="section-header">
+                    <h2><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg><span data-i18n-key="languages">Languages</span></h2>
+                </div>
+                <div id="languages"></div>
+                <button class="btn-add-section" id="addLanguageBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M11 13H5v-2h6V5h2v6h6v2h-6v6h-2z"/></svg>
+                    <span data-i18n-key="addLanguage">Add Language</span>
+                </button>
+            </div>
 
-        switch(type) {
-            case 'workExperience':
-                content = `<div class="form-card-body">
-                        <div class="form-card-grid-2"><div class="form-group"><label>${t.cardJobTitle}</label><input type="text" class="card-title-input work-title"></div><div class="form-group"><label>${t.cardCompany}</label><input type="text" class="work-company"></div></div>
-                        <div class="form-card-grid-2"><div class="form-group"><label>${t.cardStartDate}</label><input type="text" class="work-startDate"></div><div class="form-group"><label>${t.cardEndDate}</label><input type="text" class="work-endDate"></div></div>
-                        <div class="form-group"><label>${t.cardDescription}</label>${createTrixEditor(`work-desc-${uniqueId}`, 'work-description')}</div></div>`;
-                break;
-            case 'education':
-                 content = `<div class="form-card-body">
-                        <div class="form-card-grid-2"><div class="form-group"><label>${t.cardDegree}</label><input type="text" class="card-title-input edu-degree"></div><div class="form-group"><label>${t.cardInstitution}</label><input type="text" class="edu-institution"></div></div>
-                        <div class="form-group"><label>${t.cardDate}</label><input type="text" class="edu-date"></div></div>`;
-                break;
-            case 'certifications':
-                 titleText = t.certifications || "Certification";
-                 content = `<div class="form-card-body">
-                        <div class="form-group"><label>${t.cardCertName}</label><input type="text" class="card-title-input cert-name"></div>
-                        <div class="form-group"><label>${t.cardCertOrg}</label><input type="text" class="cert-org"></div>
-                        <div class="form-group"><label>${t.cardDateObtained}</label><input type="text" class="cert-date"></div></div>`;
-                break;
-            case 'languages':
-                titleText = t.languages || "Language";
-                content = `<div class="form-card-body form-card-grid-2">
-                        <div class="form-group"><label>${t.cardLanguage}</label><input type="text" class="card-title-input lang-name"></div>
-                        <div class="form-group"><label>${t.cardProficiency}</label><input type="text" class="lang-prof" placeholder="${t.cardProficiencyPlaceholder}"></div></div>`;
-                break;
-        }
+            <div class="form-section">
+                 <div class="section-header">
+                    <h2><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg><span data-i18n-key="skills">Skills</span></h2>
+                    <p class="section-subtitle" data-i18n-key="skillsSubtitle">List relevant skills, separated by commas.</p>
+                </div>
+                <div class="form-card">
+                    <div class="form-card-body">
+                        <div class="form-group">
+                            <label for="skills" data-i18n-key="skills">Skills</label>
+                            <input type="text" id="skills" data-i18n-placeholder="skillsPlaceholder">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        card.innerHTML = `<div class="form-card-header"><div class="title">${titleText}</div><span class="chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div>${content}`;
-        container.appendChild(card);
-        card.querySelector('.form-card-header').addEventListener('click', (e) => { if (!e.target.closest('button')) card.classList.toggle('is-open'); });
-        const titleInput = card.querySelector('.card-title-input');
-        if (titleInput) { titleInput.addEventListener('input', () => { card.querySelector('.form-card-header .title').textContent = titleInput.value || 'Untitled'; }); }
-        card.querySelectorAll('input, select, trix-editor').forEach(el => el.addEventListener('input', debouncedGenerateCV));
-        generateCV();
-    }
+        <!-- Preview Panel -->
+        <div class="preview-panel">
+            <div id="cvPreviewContainer" class="cv-preview-container">
+                <div id="cvPreview" class="cv-preview">
+                    <!-- CV content is generated by JS -->
+                </div>
+            </div>
+            <div class="preview-actions">
+                <button class="btn-primary" id="downloadPdfBtn" data-i18n-key="downloadCV">Download CV</button>
+            </div>
+        </div>
+    </div>
 
-    // --- DATA COLLECTION & CV GENERATION ---
-    function collectData() {
-        const getCardData = (containerId, fields) => Array.from(document.querySelectorAll(`#${containerId} .dynamic-card`)).map(card => {
-            const entry = {};
-            for (const field in fields) entry[field] = card.querySelector(fields[field])?.value || '';
-            return entry;
-        });
-        return {
-            personal: { fullName: document.getElementById('fullName').value, jobTitle: document.getElementById('jobTitle').value, email: document.getElementById('email').value, phone: document.getElementById('phone').value, location: document.getElementById('location').value },
-            summary: document.getElementById('summary').value,
-            skills: document.getElementById('skills').value,
-            experience: getCardData('workExperience', { title: '.work-title', company: '.work-company', startDate: '.work-startDate', endDate: '.work-endDate', description: '.work-description' }),
-            education: getCardData('education', { degree: '.edu-degree', institution: '.edu-institution', date: '.edu-date' }),
-            certifications: getCardData('certifications', { name: '.cert-name', org: '.cert-org', date: '.cert-date' }),
-            languages: getCardData('languages', { name: '.lang-name', proficiency: '.lang-prof' })
-        };
-    }
-
-    function generateCV() {
-        const data = collectData();
-        const preview = document.getElementById('cvPreview');
-        const t = translations;
-        const section = (titleKey, content) => content && content.length > 0 ? `<div class="cv-section"><div class="cv-section-title">${t[titleKey]}</div>${content}</div>` : '';
-        
-        const headerHTML = `<div class="cv-header"><div class="cv-name">${data.personal.fullName}</div><div class="cv-title">${data.personal.jobTitle}</div><div class="cv-contact">${[data.personal.location, data.personal.phone, data.personal.email].filter(Boolean).join(' • ')}</div></div>`;
-        const summaryHTML = section('professionalSummary', data.summary);
-        const experienceHTML = section('experience', data.experience.map(exp => `<div class="cv-item"><div class="cv-item-header"><span>${exp.title}</span><span>${exp.startDate} - ${exp.endDate}</span></div><div class="cv-item-company">${exp.company}</div><div class="cv-item-description">${exp.description}</div></div>`).join(''));
-        const educationHTML = section('education', data.education.map(edu => `<div class="cv-item"><div class="cv-item-header"><span>${edu.degree}</span><span>${edu.date}</span></div><div class="cv-item-company">${edu.institution}</div></div>`).join(''));
-        const certificationsHTML = section('certifications', data.certifications.map(cert => `<div class="cv-item"><div class="cv-item-header"><span>${cert.name}</span><span>${cert.date}</span></div><div class="cv-item-company">${cert.org}</div></div>`).join(''));
-        const skillsHTML = section('skills', `<div class="skills-grid">${data.skills.split(',').map(s=>s.trim()).filter(Boolean).map(skill => `<div class="skill-item">${skill}</div>`).join('')}</div>`);
-        const languagesHTML = section('languages', data.languages.length > 0 ? `<div class="skills-grid">${data.languages.map(lang => `<div class="skill-item">${lang.name}${lang.proficiency ? ` (${lang.proficiency})` : ''}</div>`).join('')}</div>` : '');
-
-        preview.innerHTML = [headerHTML, summaryHTML, experienceHTML, educationHTML, certificationsHTML, skillsHTML, languagesHTML].filter(Boolean).join('');
-    }
-
-    // --- INITIAL SETUP & EVENT LISTENERS ---
-    document.querySelectorAll('.editor-panel input, .editor-panel trix-editor, .editor-panel textarea, .editor-panel select').forEach(el => el.addEventListener('input', debouncedGenerateCV));
-    document.getElementById('addWorkExperienceBtn').addEventListener('click', () => addCard('workExperience'));
-    document.getElementById('addEducationBtn').addEventListener('click', () => addCard('education'));
-    document.getElementById('addCertificationBtn').addEventListener('click', () => addCard('certifications'));
-    document.getElementById('addLanguageBtn').addEventListener('click', () => addCard('languages'));
-    document.getElementById('downloadPdfBtn').addEventListener('click', () => window.print());
-    document.getElementById('lang-select').addEventListener('change', (e) => setLanguage(e.target.value));
-
-    // Initialize the app
-    async function init() {
-        const savedLang = localStorage.getItem('cvLang') || 'en';
-        document.getElementById('lang-select').value = savedLang;
-        await setLanguage(savedLang);
-        addWorkExperience();
-    }
-
-    init();
-});
+    <script type="text/javascript" src="https://unpkg.com/trix@2.0.0/dist/trix.umd.min.js"></script>
+    <script src="script.js?v=final-complete"></script>
+</body>
+</html>
