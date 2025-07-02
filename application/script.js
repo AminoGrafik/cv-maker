@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         
         try {
             const response = await fetch(`./locales/${lang}.json`);
+            if (!response.ok) throw new Error('Network response was not ok');
             translations = await response.json();
         } catch (error) {
             console.error(`Could not load translation file for ${lang}:`, error);
@@ -82,8 +83,11 @@ document.addEventListener('DOMContentLoaded', async function() {
                 break;
         }
 
-        card.innerHTML = `<div class="form-card-header"><div class="title">${titleText}</div><span class="chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div>${content}`;
+        const removeBtn = `<button class="btn-remove-card" aria-label="Remove"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>`;
+        card.innerHTML = `<div class="form-card-header"><div class="title">${titleText}</div>${removeBtn}<span class="chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div>${content}`;
         container.appendChild(card);
+        
+        card.querySelector('.btn-remove-card').addEventListener('click', () => { card.remove(); generateCV(); });
         card.querySelector('.form-card-header').addEventListener('click', (e) => { if (!e.target.closest('button')) card.classList.toggle('is-open'); });
         const titleInput = card.querySelector('.card-title-input');
         if (titleInput) { titleInput.addEventListener('input', () => { card.querySelector('.form-card-header .title').textContent = titleInput.value || 'Untitled'; }); }
