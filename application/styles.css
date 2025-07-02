@@ -90,7 +90,7 @@ body {
 
 /* --- Form Cards & Fields --- */
 .form-card, .dynamic-card { border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 16px; overflow: hidden; }
-.form-card-header { display: flex; align-items: center; padding: 12px 16px; cursor: pointer; }
+.form-card-header { position: relative; display: flex; align-items: center; padding: 12px 16px; cursor: pointer; }
 .form-card-header:hover { background-color: #f9fafb; }
 .form-card-header .title { font-weight: 500; flex-grow: 1; }
 .form-card-header .chevron { transition: transform 0.2s ease-in-out; margin-left: auto; }
@@ -114,6 +114,8 @@ trix-toolbar .trix-button--icon-strike, trix-toolbar .trix-button--icon-link, tr
 .btn-add-section:hover { background-color: #e0e7ff; }
 .btn-primary { padding: 10px 20px; border: 1px solid; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; background-color: var(--primary-accent); border-color: var(--primary-accent); color: white; }
 .btn-primary:hover { background-color: var(--primary-accent-hover); }
+.btn-remove-card { position: absolute; top: 8px; right: 40px; background: none; border: none; cursor: pointer; color: var(--text-secondary); padding: 4px; border-radius: 50%; }
+.btn-remove-card:hover { background-color: #fee2e2; color: #ef4444; }
 
 /* --- Final ATS-Friendly CV Preview Styles --- */
 .cv-preview .cv-header { text-align: center; margin-bottom: 1cm; padding-bottom: 0.5cm; border-bottom: 1px solid #333; }
