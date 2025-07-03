@@ -85,6 +85,8 @@ body {
     font-family: 'Times New Roman', Times, serif;
     color: #111827;
     padding: 2cm; /* Standard CV padding */
+    /* UPDATED: Set a base font size for the preview */
+    font-size: 11pt; 
 }
 .preview-actions {
     margin-top: 24px;
@@ -127,20 +129,20 @@ trix-toolbar .trix-button--icon-strike, trix-toolbar .trix-button--icon-link, tr
 .btn-remove-card { position: absolute; top: 8px; right: 40px; background: none; border: none; cursor: pointer; color: var(--text-secondary); padding: 4px; border-radius: 50%; }
 .btn-remove-card:hover { background-color: #fee2e2; color: #ef4444; }
 
-/* --- Final ATS-Friendly CV Preview Styles --- */
-.cv-preview .cv-header { text-align: center; margin-bottom: 1cm; padding-bottom: 0.5cm; border-bottom: 1px solid #333; }
+/* --- Final ATS-Friendly CV Preview Styles (UPDATED FONT SIZES) --- */
+.cv-preview .cv-header { text-align: center; margin-bottom: 0.8cm; padding-bottom: 0.4cm; border-bottom: 1px solid #333; }
 .cv-preview .cv-name { font-size: 1.8em; font-weight: bold; }
-.cv-preview .cv-title { font-size: 1.1em; color: var(--text-secondary); margin-bottom: 8px; }
+.cv-preview .cv-title { font-size: 1.1em; color: var(--text-secondary); margin-bottom: 6px; }
 .cv-preview .cv-contact { font-size: 0.9em; }
-.cv-preview .cv-section { margin-bottom: 0.8cm; }
-.cv-preview .cv-section-title { font-size: 1.1em; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #ccc; padding-bottom: 2px; margin-bottom: 0.5cm; }
-.cv-preview .cv-item { margin-bottom: 0.6cm; }
-.cv-preview .cv-item-header { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 2px; }
-.cv-preview .cv-item-company { font-weight: 500; color: #333; margin-bottom: 4px; }
-.cv-preview .cv-item-description { color: #333; font-size: 1em; }
+.cv-preview .cv-section { margin-bottom: 0.7cm; }
+.cv-preview .cv-section-title { font-size: 1em; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #ccc; padding-bottom: 2px; margin-bottom: 0.4cm; }
+.cv-preview .cv-item { margin-bottom: 0.5cm; }
+.cv-preview .cv-item-header { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 1px; font-size: 1em; }
+.cv-preview .cv-item-company { font-weight: 500; color: #333; margin-bottom: 3px; font-size: 0.95em; }
+.cv-preview .cv-item-description { color: #333; font-size: 0.95em; }
 .cv-preview .cv-item-description ul, .cv-preview .cv-item-description ol { margin-left: 5mm; padding-left: 5mm; }
-.cv-preview .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
-.cv-preview .skill-item { background-color: #f3f4f6; padding: 4px 8px; border-radius: 4px; text-align: center; font-size: 0.9em; }
+.cv-preview .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; }
+.cv-preview .skill-item { background-color: #f3f4f6; padding: 4px 8px; border-radius: 4px; text-align: center; font-size: 0.85em; }
 
 /* --- Mobile Friendliness & Print --- */
 @media (max-width: 1024px) {
