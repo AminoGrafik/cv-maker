@@ -85,7 +85,8 @@ body {
     font-family: 'Times New Roman', Times, serif;
     color: #111827;
     padding: 2cm; 
-    font-size: 9pt; 
+    /* UPDATED: Increased base font size */
+    font-size: 9.5pt; 
     line-height: 1.4;
 }
 .preview-actions {
@@ -144,7 +145,7 @@ trix-toolbar .trix-button--icon-strike, trix-toolbar .trix-button--icon-link, tr
 .cv-preview .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; }
 .cv-preview .skill-item { background-color: #f3f4f6; padding: 4px 8px; border-radius: 4px; text-align: center; font-size: 0.85em; }
 
-/* --- Mobile Friendliness --- */
+/* --- Mobile Friendliness & Print --- */
 @media (max-width: 1024px) {
     body { overflow-y: auto; height: auto; }
     .main-container { flex-direction: column; height: auto; padding: 0; }
@@ -155,25 +156,16 @@ trix-toolbar .trix-button--icon-strike, trix-toolbar .trix-button--icon-link, tr
     .form-card-grid-2 { grid-template-columns: 1fr; }
 }
 
-/* --- CORRECTED PRINT STYLES --- */
 @media print {
-    body {
-        background: white !important;
-    }
-    .app-header, .editor-panel, .preview-actions {
-        display: none !important;
-    }
-    .main-container {
-        display: block !important;
-        height: auto !important;
-        padding: 0 !important;
-    }
+    body, .main-container, .app-header { display: none !important; }
     .preview-panel {
         display: block !important;
         position: static !important;
         height: auto !important;
         padding: 0 !important;
+        margin: 0 !important;
     }
+    .preview-actions { display: none !important; }
     .cv-preview-container, .cv-preview {
         width: 100% !important;
         max-width: 100% !important;
