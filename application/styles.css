@@ -84,9 +84,8 @@ body {
     overflow-y: auto; /* Make the preview itself scrollable */
     font-family: 'Times New Roman', Times, serif;
     color: #111827;
-    /* UPDATED: Reduced padding and base font size */
     padding: 2cm; 
-    font-size: 9pt; /* Reduced base font size */
+    font-size: 9pt; 
     line-height: 1.4;
 }
 .preview-actions {
@@ -130,7 +129,7 @@ trix-toolbar .trix-button--icon-strike, trix-toolbar .trix-button--icon-link, tr
 .btn-remove-card { position: absolute; top: 8px; right: 40px; background: none; border: none; cursor: pointer; color: var(--text-secondary); padding: 4px; border-radius: 50%; }
 .btn-remove-card:hover { background-color: #fee2e2; color: #ef4444; }
 
-/* --- Final ATS-Friendly CV Preview Styles (UPDATED FONT SIZES) --- */
+/* --- Final ATS-Friendly CV Preview Styles --- */
 .cv-preview .cv-header { text-align: center; margin-bottom: 0.8cm; padding-bottom: 0.4cm; border-bottom: 1px solid #333; }
 .cv-preview .cv-name { font-size: 2em; font-weight: bold; }
 .cv-preview .cv-title { font-size: 1.15em; color: var(--text-secondary); margin-bottom: 6px; }
@@ -158,11 +157,24 @@ trix-toolbar .trix-button--icon-strike, trix-toolbar .trix-button--icon-link, tr
 
 /* --- CORRECTED PRINT STYLES --- */
 @media print {
-    body, .main-container, .app-header, .preview-panel, .preview-actions {
+    body {
+        background: white !important;
+    }
+    .app-header, .editor-panel, .preview-actions {
         display: none !important;
     }
-    .cv-preview-container, .cv-preview {
+    .main-container {
         display: block !important;
+        height: auto !important;
+        padding: 0 !important;
+    }
+    .preview-panel {
+        display: block !important;
+        position: static !important;
+        height: auto !important;
+        padding: 0 !important;
+    }
+    .cv-preview-container, .cv-preview {
         width: 100% !important;
         max-width: 100% !important;
         height: auto !important;
