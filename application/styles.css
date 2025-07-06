@@ -84,13 +84,9 @@ body {
 /* --- Editor Panel Components --- */
 .form-section { margin-bottom: 32px; padding-bottom: 32px; border-bottom: 1px solid var(--border-color); }
 .form-section:last-of-type { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-.section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-.section-header h2 { font-size: 20px; font-weight: 600; text-transform: uppercase; margin-bottom: 0; display: flex; align-items: center; gap: 8px; }
-.reorder-controls { display: flex; gap: 4px; }
-.btn-reorder { background: none; border: 1px solid transparent; border-radius: 50%; width: 28px; height: 28px; cursor: pointer; color: var(--text-secondary); }
-.btn-reorder:hover { background-color: #f3f4f6; color: var(--text-primary); }
-
-.section-subtitle { font-size: 14px; color: var(--text-secondary); margin-top: -16px; margin-bottom: 24px; }
+.section-header { margin-bottom: 24px; }
+.section-header h2 { font-size: 20px; font-weight: 600; text-transform: uppercase; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+.section-subtitle { font-size: 14px; color: var(--text-secondary); }
 
 /* --- Form Cards & Fields --- */
 .form-card, .dynamic-card { border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 16px; overflow: hidden; }
@@ -148,20 +144,24 @@ trix-toolbar .trix-button--icon-strike, trix-toolbar .trix-button--icon-link, tr
 }
 
 @media print {
-    body, .app-header, .editor-panel, .preview-actions {
-        display: none !important;
-    }
-    .main-container, .preview-panel, .cv-preview-container, .cv-preview {
+    body, .main-container, .app-header { display: none !important; }
+    .preview-panel {
         display: block !important;
-        width: 100% !important;
-        height: auto !important;
         position: static !important;
+        height: auto !important;
         padding: 0 !important;
         margin: 0 !important;
+    }
+    .preview-actions { display: none !important; }
+    .cv-preview-container, .cv-preview {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
         box-shadow: none !important;
         border: none !important;
         transform: none !important;
         overflow: visible !important;
-        background: #fff !important;
+        padding: 0 !important;
+        margin: 0 !important;
     }
 }
