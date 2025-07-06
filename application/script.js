@@ -68,6 +68,12 @@ document.addEventListener('DOMContentLoaded', async function() {
                         <div class="form-card-grid-2"><div class="form-group"><label>${t.cardDegree}</label><input type="text" class="card-title-input edu-degree"></div><div class="form-group"><label>${t.cardInstitution}</label><input type="text" class="edu-institution"></div></div>
                         <div class="form-group"><label>${t.cardDate}</label><input type="text" class="edu-date"></div></div>`;
                 break;
+            case 'awards':
+                 titleText = t.awards || "Award";
+                 content = `<div class="form-card-body">
+                        <div class="form-group"><label>${t.cardAwardName}</label><input type="text" class="card-title-input award-name"></div>
+                        <div class="form-group"><label>${t.cardDateObtained}</label><input type="text" class="award-date"></div></div>`;
+                break;
             case 'certifications':
                  titleText = t.certifications || "Certification";
                  content = `<div class="form-card-body">
@@ -108,6 +114,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             skills: document.getElementById('skills').value,
             experience: getCardData('workExperience', { title: '.work-title', company: '.work-company', startDate: '.work-startDate', endDate: '.work-endDate', description: '.work-description' }),
             education: getCardData('education', { degree: '.edu-degree', institution: '.edu-institution', date: '.edu-date' }),
+            awards: getCardData('awards', { name: '.award-name', date: '.award-date' }),
             certifications: getCardData('certifications', { name: '.cert-name', org: '.cert-org', date: '.cert-date' }),
             languages: getCardData('languages', { name: '.lang-name', proficiency: '.lang-prof' })
         };
@@ -119,25 +126,57 @@ document.addEventListener('DOMContentLoaded', async function() {
         const t = translations;
         const section = (titleKey, content) => content && content.length > 0 ? `<div class="cv-section"><div class="cv-section-title">${t[titleKey]}</div>${content}</div>` : '';
         
+        const sectionsInOrder = Array.from(document.querySelectorAll('#editor-panel .form-section[data-section-key]')).map(el => el.dataset.sectionKey);
+        
+        const sectionHTML = {
+            summary: section('professionalSummary', data.summary),
+            experience: section('experience', data.experience.map(exp => `<div class="cv-item"><div class="cv-item-header"><span>${exp.title}</span><span>${exp.startDate} - ${exp.endDate}</span></div><div class="cv-item-company">${exp.company}</div><div class="cv-item-description">${exp.description}</div></div>`).join('')),
+            education: section('education', data.education.map(edu => `<div class="cv-item"><div class="cv-item-header"><span>${edu.degree}</span><span>${edu.date}</span></div><div class="cv-item-company">${edu.institution}</div></div>`).join('')),
+            awards: section('awards', data.awards.map(awd => `<div class="cv-item"><div class="cv-item-header"><span>${awd.name}</span><span>${awd.date}</span></div></div>`).join('')),
+            certifications: section('certifications', data.certifications.map(cert => `<div class="cv-item"><div class="cv-item-header"><span>${cert.name}</span><span>${cert.date}</span></div><div class="cv-item-company">${cert.org}</div></div>`).join('')),
+            skills: section('skills', `<div class="skills-grid">${data.skills.split(',').map(s=>s.trim()).filter(Boolean).map(skill => `<div class="skill-item">${skill}</div>`).join('')}</div>`),
+            languages: section('languages', data.languages.length > 0 ? `<div class="skills-grid">${data.languages.map(lang => `<div class="skill-item">${lang.name}${lang.proficiency ? ` (${lang.proficiency})` : ''}</div>`).join('')}</div>` : '')
+        };
+        
         const headerHTML = `<div class="cv-header"><div class="cv-name">${data.personal.fullName}</div><div class="cv-title">${data.personal.jobTitle}</div><div class="cv-contact">${[data.personal.location, data.personal.phone, data.personal.email].filter(Boolean).join(' • ')}</div></div>`;
-        const summaryHTML = section('professionalSummary', data.summary);
-        const experienceHTML = section('experience', data.experience.map(exp => `<div class="cv-item"><div class="cv-item-header"><span>${exp.title}</span><span>${exp.startDate} - ${exp.endDate}</span></div><div class="cv-item-company">${exp.company}</div><div class="cv-item-description">${exp.description}</div></div>`).join(''));
-        const educationHTML = section('education', data.education.map(edu => `<div class="cv-item"><div class="cv-item-header"><span>${edu.degree}</span><span>${edu.date}</span></div><div class="cv-item-company">${edu.institution}</div></div>`).join(''));
-        const certificationsHTML = section('certifications', data.certifications.map(cert => `<div class="cv-item"><div class="cv-item-header"><span>${cert.name}</span><span>${cert.date}</span></div><div class="cv-item-company">${cert.org}</div></div>`).join(''));
-        const skillsHTML = section('skills', `<div class="skills-grid">${data.skills.split(',').map(s=>s.trim()).filter(Boolean).map(skill => `<div class="skill-item">${skill}</div>`).join('')}</div>`);
-        const languagesHTML = section('languages', data.languages.length > 0 ? `<div class="skills-grid">${data.languages.map(lang => `<div class="skill-item">${lang.name}${lang.proficiency ? ` (${lang.proficiency})` : ''}</div>`).join('')}</div>` : '');
 
-        preview.innerHTML = [headerHTML, summaryHTML, experienceHTML, educationHTML, certificationsHTML, skillsHTML, languagesHTML].filter(Boolean).join('');
+        preview.innerHTML = headerHTML + sectionsInOrder.map(key => sectionHTML[key]).filter(Boolean).join('');
+    }
+
+    // --- SECTION REORDERING ---
+    function moveSection(button, direction) {
+        const section = button.closest('.form-section');
+        if (direction === 'up') {
+            const prevSection = section.previousElementSibling;
+            if (prevSection && prevSection.matches('.form-section')) {
+                prevSection.before(section);
+            }
+        } else {
+            const nextSection = section.nextElementSibling;
+            if (nextSection && nextSection.matches('.form-section')) {
+                nextSection.after(section);
+            }
+        }
+        generateCV();
     }
 
     // --- INITIAL SETUP & EVENT LISTENERS ---
     document.querySelectorAll('.editor-panel input, .editor-panel trix-editor, .editor-panel textarea, .editor-panel select').forEach(el => el.addEventListener('input', debouncedGenerateCV));
     document.getElementById('addWorkExperienceBtn').addEventListener('click', () => addCard('workExperience'));
     document.getElementById('addEducationBtn').addEventListener('click', () => addCard('education'));
+    document.getElementById('addAwardBtn').addEventListener('click', () => addCard('awards'));
     document.getElementById('addCertificationBtn').addEventListener('click', () => addCard('certifications'));
     document.getElementById('addLanguageBtn').addEventListener('click', () => addCard('languages'));
     document.getElementById('downloadPdfBtn').addEventListener('click', () => window.print());
     document.getElementById('lang-select').addEventListener('change', (e) => setLanguage(e.target.value));
+    
+    document.getElementById('editor-panel').addEventListener('click', (e) => {
+        if (e.target.matches('.btn-reorder.up')) {
+            moveSection(e.target, 'up');
+        } else if (e.target.matches('.btn-reorder.down')) {
+            moveSection(e.target, 'down');
+        }
+    });
 
     // Initialize the app
     async function init() {
