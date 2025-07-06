@@ -61,45 +61,36 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start; /* Align to top */
+    justify-content: center;
     padding: 32px;
 }
 
-/* --- CV Preview --- */
-.cv-preview-container {
-    width: 100%;
-    max-width: 500px; /* Control the max width of the preview */
-    height: 100%;
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    padding-top: 2rem;
-}
+/* --- CV Preview Scaling --- */
+.cv-preview-container { width: 100%; max-width: 500px; flex-grow: 1; display: flex; justify-content: center; align-items: center; overflow: hidden; }
 .cv-preview {
     background-color: var(--panel-bg);
-    width: 100%;
-    height: 100%;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    width: 210mm;
+    min-height: 297mm;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
     border: 1px solid var(--border-color);
-    overflow-y: auto; /* Make the preview itself scrollable */
+    transform-origin: center center;
+    transform: scale(0.65);
     font-family: 'Times New Roman', Times, serif;
     color: #111827;
-    padding: 2cm; 
-    /* UPDATED: Increased base font size */
-    font-size: 9.5pt; 
-    line-height: 1.4;
+    padding: 2.5cm 2cm;
 }
-.preview-actions {
-    margin-top: 24px;
-    flex-shrink: 0;
-}
+.preview-actions { margin-top: 24px; flex-shrink: 0; }
 
 /* --- Editor Panel Components --- */
 .form-section { margin-bottom: 32px; padding-bottom: 32px; border-bottom: 1px solid var(--border-color); }
 .form-section:last-of-type { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-.section-header { margin-bottom: 24px; }
-.section-header h2 { font-size: 20px; font-weight: 600; text-transform: uppercase; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
-.section-subtitle { font-size: 14px; color: var(--text-secondary); }
+.section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+.section-header h2 { font-size: 20px; font-weight: 600; text-transform: uppercase; margin-bottom: 0; display: flex; align-items: center; gap: 8px; }
+.reorder-controls { display: flex; gap: 4px; }
+.btn-reorder { background: none; border: 1px solid transparent; border-radius: 50%; width: 28px; height: 28px; cursor: pointer; color: var(--text-secondary); }
+.btn-reorder:hover { background-color: #f3f4f6; color: var(--text-primary); }
+
+.section-subtitle { font-size: 14px; color: var(--text-secondary); margin-top: -16px; margin-bottom: 24px; }
 
 /* --- Form Cards & Fields --- */
 .form-card, .dynamic-card { border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 16px; overflow: hidden; }
@@ -131,19 +122,19 @@ trix-toolbar .trix-button--icon-strike, trix-toolbar .trix-button--icon-link, tr
 .btn-remove-card:hover { background-color: #fee2e2; color: #ef4444; }
 
 /* --- Final ATS-Friendly CV Preview Styles --- */
-.cv-preview .cv-header { text-align: center; margin-bottom: 0.8cm; padding-bottom: 0.4cm; border-bottom: 1px solid #333; }
-.cv-preview .cv-name { font-size: 2em; font-weight: bold; }
-.cv-preview .cv-title { font-size: 1.15em; color: var(--text-secondary); margin-bottom: 6px; }
+.cv-preview .cv-header { text-align: center; margin-bottom: 1cm; padding-bottom: 0.5cm; border-bottom: 1px solid #333; }
+.cv-preview .cv-name { font-size: 1.8em; font-weight: bold; }
+.cv-preview .cv-title { font-size: 1.1em; color: var(--text-secondary); margin-bottom: 8px; }
 .cv-preview .cv-contact { font-size: 0.9em; }
-.cv-preview .cv-section { margin-bottom: 0.7cm; }
-.cv-preview .cv-section-title { font-size: 1em; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #ccc; padding-bottom: 2px; margin-bottom: 0.4cm; }
-.cv-preview .cv-item { margin-bottom: 0.5cm; }
-.cv-preview .cv-item-header { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 1px; font-size: 1em; }
-.cv-preview .cv-item-company { font-weight: 500; color: #333; margin-bottom: 3px; font-size: 0.95em; }
-.cv-preview .cv-item-description { color: #333; font-size: 0.95em; }
+.cv-preview .cv-section { margin-bottom: 0.8cm; }
+.cv-preview .cv-section-title { font-size: 1.1em; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #ccc; padding-bottom: 2px; margin-bottom: 0.5cm; }
+.cv-preview .cv-item { margin-bottom: 0.6cm; }
+.cv-preview .cv-item-header { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 2px; }
+.cv-preview .cv-item-company { font-weight: 500; color: #333; margin-bottom: 4px; }
+.cv-preview .cv-item-description { color: #333; font-size: 1em; }
 .cv-preview .cv-item-description ul, .cv-preview .cv-item-description ol { margin-left: 5mm; padding-left: 5mm; }
-.cv-preview .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; }
-.cv-preview .skill-item { background-color: #f3f4f6; padding: 4px 8px; border-radius: 4px; text-align: center; font-size: 0.85em; }
+.cv-preview .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+.cv-preview .skill-item { background-color: #f3f4f6; padding: 4px 8px; border-radius: 4px; text-align: center; font-size: 0.9em; }
 
 /* --- Mobile Friendliness & Print --- */
 @media (max-width: 1024px) {
@@ -152,29 +143,25 @@ trix-toolbar .trix-button--icon-strike, trix-toolbar .trix-button--icon-link, tr
     .app-header { padding: 12px 16px; }
     .editor-panel { order: 2; padding: 16px; height: auto; border-right: none; }
     .preview-panel { order: 1; position: static; height: auto; padding: 16px; background-color: var(--bg-color);}
-    .cv-preview { transform: none; min-height: 0; height: auto; aspect-ratio: 210 / 297; padding: 1.5cm 1cm; }
+    .cv-preview { transform: scale(1); min-height: 0; height: auto; padding: 1.5cm 1cm; }
     .form-card-grid-2 { grid-template-columns: 1fr; }
 }
 
 @media print {
-    body, .main-container, .app-header { display: none !important; }
-    .preview-panel {
+    body, .app-header, .editor-panel, .preview-actions {
+        display: none !important;
+    }
+    .main-container, .preview-panel, .cv-preview-container, .cv-preview {
         display: block !important;
-        position: static !important;
+        width: 100% !important;
         height: auto !important;
+        position: static !important;
         padding: 0 !important;
         margin: 0 !important;
-    }
-    .preview-actions { display: none !important; }
-    .cv-preview-container, .cv-preview {
-        width: 100% !important;
-        max-width: 100% !important;
-        height: auto !important;
         box-shadow: none !important;
         border: none !important;
         transform: none !important;
         overflow: visible !important;
-        padding: 0 !important;
-        margin: 0 !important;
+        background: #fff !important;
     }
 }
