@@ -79,7 +79,7 @@ body {
     color: #111827;
     padding: 2.5cm 2cm;
 }
-.preview-actions { margin-top: 24px; flex-shrink: 0; }
+.preview-actions { margin-top: 24px; flex-shrink: 0; display: flex; gap: 16px; }
 
 /* --- Editor Panel Components --- */
 .form-section { margin-bottom: 32px; padding-bottom: 32px; border-bottom: 1px solid var(--border-color); }
@@ -115,8 +115,11 @@ trix-toolbar .trix-button--icon-strike, trix-toolbar .trix-button--icon-link, tr
 /* --- Buttons --- */
 .btn-add-section { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; color: var(--primary-accent); background: none; border: none; cursor: pointer; padding: 8px; border-radius: 6px; }
 .btn-add-section:hover { background-color: #e0e7ff; }
-.btn-primary { padding: 10px 20px; border: 1px solid; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; background-color: var(--primary-accent); border-color: var(--primary-accent); color: white; }
+.btn-primary, .btn-secondary { padding: 10px 20px; border: 1px solid; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: background-color 0.2s, color 0.2s; }
+.btn-primary { background-color: var(--primary-accent); border-color: var(--primary-accent); color: white; }
 .btn-primary:hover { background-color: var(--primary-accent-hover); }
+.btn-secondary { background-color: var(--panel-bg); border-color: var(--border-color); color: var(--text-primary); }
+.btn-secondary:hover { background-color: #f9fafb; }
 .btn-remove-card { position: absolute; top: 8px; right: 40px; background: none; border: none; cursor: pointer; color: var(--text-secondary); padding: 4px; border-radius: 50%; }
 .btn-remove-card:hover { background-color: #fee2e2; color: #ef4444; }
 
