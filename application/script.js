@@ -159,6 +159,44 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
         generateCV();
     }
+    
+    // --- EXPORT FUNCTIONS ---
+    const downloadPng = () => {
+        const cvElement = document.getElementById('cvPreview');
+        const fullName = document.getElementById('fullName').value || 'cv';
+        
+        showNotification('Generating PNG...', 'info');
+
+        const options = {
+            scale: 3,
+            useCORS: true,
+            logging: false,
+            backgroundColor: '#ffffff'
+        };
+
+        html2canvas(cvElement, options).then(canvas => {
+            const link = document.createElement('a');
+            link.download = `${fullName.replace(/\s/g, '_')}_CV.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }).catch(err => {
+            showNotification('Error generating PNG.', 'error');
+            console.error(err);
+        });
+    };
+
+    const downloadPdf = () => {
+        window.print();
+    };
+
+    // --- NOTIFICATIONS ---
+    const showNotification = (message, type) => {
+        const notification = document.createElement('div');
+        notification.style.cssText = `position:fixed; top:20px; right:20px; padding:15px; border-radius:8px; color:white; z-index:1001; background-color:${type === 'info' ? '#3498db' : type === 'error' ? '#e74c3c' : '#27ae60'};`;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 3000);
+    };
 
     // --- INITIAL SETUP & EVENT LISTENERS ---
     document.querySelectorAll('.editor-panel input, .editor-panel trix-editor, .editor-panel textarea, .editor-panel select').forEach(el => el.addEventListener('input', debouncedGenerateCV));
@@ -167,7 +205,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     document.getElementById('addAwardBtn').addEventListener('click', () => addCard('awards'));
     document.getElementById('addCertificationBtn').addEventListener('click', () => addCard('certifications'));
     document.getElementById('addLanguageBtn').addEventListener('click', () => addCard('languages'));
-    document.getElementById('downloadPdfBtn').addEventListener('click', () => window.print());
+    document.getElementById('downloadPdfBtn').addEventListener('click', downloadPdf);
+    document.getElementById('downloadPngBtn').addEventListener('click', downloadPng);
     document.getElementById('lang-select').addEventListener('change', (e) => setLanguage(e.target.value));
     
     document.getElementById('editor-panel').addEventListener('click', (e) => {
